@@ -148,7 +148,7 @@ Author URI: www.myeffecto.com
 					var ifrm = null;
 					window.onload=function(){
 						ifrm = document.getElementById("effectoFrame");
-						   ifrm.setAttribute("src", "http://www.myeffecto.com/loginForPlugin?callback=configureplug&postName='.$postName.'");
+						   ifrm.setAttribute("src", "http://www.myeffecto1.appspot.com/loginForPlugin?callback=configureplug&postName='.$postName.'");
 						   ifrm.setAttribute("frameborder","0");
 						   ifrm.setAttribute("allowtransparency","true");
 
@@ -157,7 +157,7 @@ Author URI: www.myeffecto.com
 						   window.addEventListener("message", receiveMessage, false);
 					};
 				</script>
-				<iframe id="effectoFrame" src ="http://www.myeffecto.com/loginForPlugin?callback=configureplug&postName='.$postName.'" width="100%" height="465">';
+				<iframe id="effectoFrame" src ="http://www.myeffecto1.appspot.com/loginForPlugin?callback=configureplug&postName='.$postName.'" width="100%" height="465">';
 	}
 
 	function echoUserScript() {
@@ -167,7 +167,7 @@ Author URI: www.myeffecto.com
 					var ifrm= null;
 					window.onload=function(){
 						ifrm = document.getElementById("effectoFrame");
-						   ifrm.setAttribute("src", "http://www.myeffecto.com/loginForPlugin?callback=configureplug&postName='.$postName.'");
+						   ifrm.setAttribute("src", "http://www.myeffecto1.appspot.com/loginForPlugin?callback=configureplug&postName='.$postName.'");
 						   ifrm.setAttribute("frameborder","0");
 						   ifrm.setAttribute("allowtransparency","true");
 
@@ -176,7 +176,7 @@ Author URI: www.myeffecto.com
 						   window.addEventListener("message", receiveMessage, false);
 					};
 				</script>
-				<iframe id="effectoFrame" src ="http://www.myeffecto.com/loginForPlugin?callback=configureplug&postName='.$postName.'" width="100%" height="465"/>';
+				<iframe id="effectoFrame" src ="http://www.myeffecto1.appspot.com/loginForPlugin?callback=configureplug&postName='.$postName.'" width="100%" height="465"/>';
 	}
 
 	/* Simple string replace function */
@@ -220,7 +220,7 @@ Author URI: www.myeffecto.com
 
 <script type="text/javascript">
 	function save() {
-		ifrm.contentWindow.postMessage("Save","http://www.myeffecto.com");
+		ifrm.contentWindow.postMessage("Save","http://www.myeffecto1.appspot.com");
 	}
 
 	function receiveMessage(event) {
@@ -254,7 +254,7 @@ Author URI: www.myeffecto.com
 
 	function afterLoginSuccess() {
 		jQuery('#effectoFrame').parent().prepend(jQuery('<input type="button" id="generate" onclick="save()" value="Generate Plugin" class="button-primary"/>'));
-		ifrm.setAttribute("src", "http://www.myeffecto.com/configureplug");
+		ifrm.setAttribute("src", "http://www.myeffecto1.appspot.com/configureplug");
 	}
 
 	function addKey(key)
