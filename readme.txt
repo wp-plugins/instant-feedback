@@ -37,12 +37,7 @@ Ans: Refresh the page once.
 
 == Screenshots ==
 
-1.MyEffecto Plugin
-/home/deep/Desktop/plugins uploads/screenshotsofwpphotos/Screenshot1.png
-2.MyEffecto plugin config.
-/home/deep/Desktop/plugins uploads/screenshotsofwpphotos/Screenshot3.png
-3.Plugin for a blog
-/home/deep/Desktop/plugins uploads/screenshotsofwpphotos/ScreenShot2.png
+
 
 == Changelog ==
 
