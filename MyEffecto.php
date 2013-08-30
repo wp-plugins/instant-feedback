@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: My Effecto
-Plugin URI: localhost:8888
+Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog
 Author: Kuchnaya Technolabs
 Version: 1.0
-Author URI: localhost:8888
+Author URI: www.myeffecto.com
 */
 	require('DBFunctions.php');
 	require('PostConfiguration.php');
@@ -148,7 +148,7 @@ Author URI: localhost:8888
 					var ifrm = null;
 					window.onload=function(){
 						ifrm = document.getElementById("effectoFrame");
-						   ifrm.setAttribute("src", "http://localhost:8888/loginForPlugin?callback=configureplug&postName='.$postName.'");
+						   ifrm.setAttribute("src", "http://www.myeffecto.com/loginForPlugin?callback=configureplug&postName='.$postName.'");
 						   ifrm.setAttribute("frameborder","0");
 						   ifrm.setAttribute("allowtransparency","true");
 
@@ -157,7 +157,7 @@ Author URI: localhost:8888
 						   window.addEventListener("message", receiveMessage, false);
 					};
 				</script>
-				<iframe id="effectoFrame" src ="http://localhost:8888/loginForPlugin?callback=configureplug&postName='.$postName.'" width="100%" height="465">';
+				<iframe id="effectoFrame" src ="http://www.myeffecto.com/loginForPlugin?callback=configureplug&postName='.$postName.'" width="100%" height="465">';
 	}
 
 	function echoUserScript() {
@@ -167,7 +167,7 @@ Author URI: localhost:8888
 					var ifrm= null;
 					window.onload=function(){
 						ifrm = document.getElementById("effectoFrame");
-						   ifrm.setAttribute("src", "http://localhost:8888/loginForPlugin?callback=configureplug&postName='.$postName.'");
+						   ifrm.setAttribute("src", "http://www.myeffecto.com/loginForPlugin?callback=configureplug&postName='.$postName.'");
 						   ifrm.setAttribute("frameborder","0");
 						   ifrm.setAttribute("allowtransparency","true");
 
@@ -176,7 +176,7 @@ Author URI: localhost:8888
 						   window.addEventListener("message", receiveMessage, false);
 					};
 				</script>
-				<iframe id="effectoFrame" src ="http://localhost:8888/loginForPlugin?callback=configureplug&postName='.$postName.'" width="100%" height="465"/>';
+				<iframe id="effectoFrame" src ="http://www.myeffecto.com/loginForPlugin?callback=configureplug&postName='.$postName.'" width="100%" height="465"/>';
 	}
 
 	/* Simple string replace function */
@@ -191,11 +191,10 @@ Author URI: localhost:8888
 		$apiEmbedArray = getEmbedCodeByPostID($postId);
 		if ($apiEmbedArray == null) {
 			$apiEmbedArray = getEmbedCodeByPostID(0);
-			$postId = 0;
 		}
 
 		if (strpos($_SERVER['REQUEST_URI'],'?p=') !== false) {
-			$apiEmbedArray = str_replace("var postID=''","var postID='".$postId."'", $apiEmbedArray);
+			$apiEmbedArray = str_replace("var effectoPostId=''","var effectoPostId='".$postId."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPreview=''","var effectoPreview='false'", $apiEmbedArray);
 			$text =  $text.$apiEmbedArray;
 			return $text;
@@ -221,7 +220,7 @@ Author URI: localhost:8888
 
 <script type="text/javascript">
 	function save() {
-		ifrm.contentWindow.postMessage("Save","http://localhost:8888");
+		ifrm.contentWindow.postMessage("Save","http://www.myeffecto.com");
 	}
 
 	function receiveMessage(event) {
@@ -255,7 +254,7 @@ Author URI: localhost:8888
 
 	function afterLoginSuccess() {
 		jQuery('#effectoFrame').parent().prepend(jQuery('<input type="button" id="generate" onclick="save()" value="Generate Plugin" class="button-primary"/>'));
-		ifrm.setAttribute("src", "http://localhost:8888/configureplug");
+		ifrm.setAttribute("src", "http://www.myeffecto.com/configureplug");
 	}
 
 	function addKey(key)
