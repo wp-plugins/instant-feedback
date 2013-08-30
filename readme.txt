@@ -37,12 +37,7 @@ Ans: You will get the tab under the editor of post to select the set.
 Ans: Refresh the page once.   
 
 == Screenshots ==
-1.Configure plugin
-/assets/configurationPage.png
-2.Per Post Plugin
-/assets/perPostConfig.png
-3.New Post
-/assets/newPost.png
+
 
 
 == Changelog ==
