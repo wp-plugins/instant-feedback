@@ -17,6 +17,7 @@ This plugin is based on the site [MyEffecto](http://www.myeffecto.com)
 This site provides the Emotional Feedback System.
 Here on this site we provide a set of emoticons.
 This set can be used for as feedback for the blog.
+
 In this plugin we provide the same emoticons set which you can used for wordpress blogs to get the feedback for your blog.
 Inorder to get the feedback report please login to www.myeffecto.com and get the feedback reports.
 
@@ -36,7 +37,12 @@ Ans: You will get the tab under the editor of post to select the set.
 Ans: Refresh the page once.   
 
 == Screenshots ==
-
+1.Configure plugin
+/assets/configurationPage.png
+2.Per Post Plugin
+/assets/perPostConfig.png
+3.New Post
+/assets/newPost.png
 
 
 == Changelog ==
