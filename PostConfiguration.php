@@ -49,7 +49,7 @@
 		} else {
 		//<strong> '.$getPostTitle.' </strong>
 			$postCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $postCode);
-			$postCode = str_replace("var postID=''","var postID='".$getPostID."'", $postCode);
+			$postCode = str_replace("var effectoPostId=''","var effectoPostId='".$getPostID."'", $postCode);
 			echo '<h2>
 					<center>Your current emotion set for this post is </center>
 				</h2> '.$postCode;
@@ -63,7 +63,11 @@
 
 	function allSetCode($allPostCode, $getPostTitle) {
 		$allPostCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $allPostCode);
-		$allPostCode = str_replace("var postID=''","var postID='0'", $allPostCode);
+		$getPostID = get_the_ID();
+		if (!isset($getPostID)) {
+			$getPostID = 0;
+		}
+		$allPostCode = str_replace("var effectoPostId=''","var effectoPostId='".$getPostID."'", $allPostCode);
 		echo '<h2>
 				<center>
 					Your default emotion set is 
