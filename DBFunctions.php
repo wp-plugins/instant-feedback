@@ -5,6 +5,7 @@
 
 	/* Create Effecto Table */
 	function createEffectoTable() {
+		global $table_name;
 		$sql = "CREATE TABLE $table_name (
 			id mediumint(9) NOT NULL AUTO_INCREMENT,
 			userID mediumint(9) NOT NULL,
