@@ -28,6 +28,7 @@ Inorder to get the feedback report please login to www.myeffecto.com and get the
 3. From the Menu Section, select the set of emoticons to use for your blog and all post.(this plugin will be set for whole blog)
 4. To set the emoticons set for a post,
 you will get the tab under the editor of post to select the set.
+
 MyEffecto Link is present in settings tab.     
 
 == Frequently asked questions ==
