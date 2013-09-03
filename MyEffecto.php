@@ -2,7 +2,8 @@
 /*
 Plugin Name: My Effecto
 Plugin URI: www.myeffecto.com
-Description: Getting customized and interactive feedback for your blog.
+Description: Getting customized and interactive feedback for your blog
+Author: Kuchnaya Technolabs
 Version: 1.0
 Author URI: www.myeffecto.com
 */
@@ -190,11 +191,10 @@ Author URI: www.myeffecto.com
 		$apiEmbedArray = getEmbedCodeByPostID($postId);
 		if ($apiEmbedArray == null) {
 			$apiEmbedArray = getEmbedCodeByPostID(0);
-			$postId = 0;
 		}
 
 		if (strpos($_SERVER['REQUEST_URI'],'?p=') !== false) {
-			$apiEmbedArray = str_replace("var postID=''","var postID='".$postId."'", $apiEmbedArray);
+			$apiEmbedArray = str_replace("var effectoPostId=''","var effectoPostId='".$postId."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPreview=''","var effectoPreview='false'", $apiEmbedArray);
 			$text =  $text.$apiEmbedArray;
 			return $text;
@@ -254,11 +254,7 @@ Author URI: www.myeffecto.com
 
 	function afterLoginSuccess() {
 		jQuery('#effectoFrame').parent().prepend(jQuery('<input type="button" id="generate" onclick="save()" value="Generate Plugin" class="button-primary"/>'));
-<<<<<<< .mine
-		ifrm.setAttribute("src", "http://localhost:8888/configureplug");
-=======
 		ifrm.setAttribute("src", "http://www.myeffecto.com/configureplug");
->>>>>>> .r765624
 	}
 
 	function addKey(key)
