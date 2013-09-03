@@ -3,7 +3,6 @@
 Plugin Name: My Effecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog
-Author: Kuchnaya Technolabs
 Version: 1.0
 Author URI: www.myeffecto.com
 */
