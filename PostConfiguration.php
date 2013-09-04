@@ -14,7 +14,7 @@
 		$getPostID = get_the_ID();
 		$getPostTitle = get_the_title();
 
-		$getPostTitle = substr($getPostTitle, 0, 11);
+		$getPostTitle = substr($getPostTitle, 0, 10);
 
 		$postCode = getEmbedCodeByPostID($getPostID);
 
@@ -30,10 +30,13 @@
 					</h1>'; */
 					$allPostCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $allPostCode);
 					$getPostID = get_the_ID();
-					if (!isset($getPostID)) {
+					$getPostTitle = get_the_title();
+					if (!isset($getPostID) && !isset($getPostTitle)) {
 						$getPostID = 0;
+						$getPostTitle = "preview";
 					}
 					$allPostCode = str_replace("var effectoPostId=''","var effectoPostId='".$getPostID."'", $allPostCode);
+					$allPostCode = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $allPostCode);
 					echo '<h2>
 						<center>
 							Your default emotion set is 
@@ -61,8 +64,11 @@
 		//<strong> '.$getPostTitle.' </strong>
 			$postCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $postCode);
 			$postCode = str_replace("var effectoPostId=''","var effectoPostId='".$getPostID."'", $postCode);
+			$postCode = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $postCode);
 			
 			$shortname = substr($postCode, stripos($postCode, 'effecto_uniquename'), strpos($postCode, ";") - stripos($postCode, 'effecto_uniquename'));
+			
+			$currentPost = "current";
 			echo '<h2>
 					<center>Your current emotion set for this post is </center>
 				</h2> '.$postCode;
@@ -76,11 +82,9 @@
 
 	function allSetCode($allPostCode, $getPostTitle) {
 		$allPostCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $allPostCode);
-		$getPostID = get_the_ID();
-		if (!isset($getPostID)) {
-			$getPostID = 0;
-		}
-		$allPostCode = str_replace("var effectoPostId=''","var effectoPostId='".$getPostID."'", $allPostCode);
+		
+		$allPostCode = str_replace("var effectoPostId=''","var effectoPostId='0'", $allPostCode);
+		$allPostCode = str_replace("var effectoPagetitle = ''","var effectoPagetitle='preview'", $allPostCode);
 		$shortname = substr($allPostCode, stripos($allPostCode, 'effecto_uniquename'), strpos($allPostCode, ";") - stripos($allPostCode, 'effecto_uniquename'));
 		echo '<h2>
 				<center>
@@ -97,7 +101,7 @@
 ?>
 <script type="text/javascript">
 	function deleteItem() {
-		if (confirm("Changing your default set will erase your current emotion set data. Do you want to continue?")) {
+		if (confirm("Changing your set will erase your current emotion set data. Do you want to continue?")) {
 			<?php 
 				$codeToChange = getEmbedCodeByPostID(0);
 				$shortname = substr($codeToChange, stripos($codeToChange, 'effecto_uniquename'), strpos($codeToChange, ";") - stripos($codeToChange, 'effecto_uniquename'));
