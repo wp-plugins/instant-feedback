@@ -21,6 +21,9 @@ Author URI: www.myeffecto.com
 	}
 
 	wp_enqueue_script("jquery");
+	wp_enqueue_script("jquery-ui-dialog");
+	wp_enqueue_style("sdfsdfsf", "http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css");
+
 	$shortname = $_GET['shortname'];
 	function myeffecto_admin() {
 		 $user_id = get_current_user_id();
@@ -89,6 +92,7 @@ Author URI: www.myeffecto.com
 			}
 		 } else {
 	?>
+
 		<div class="wrap" style="overflow-x : hidden;">
 			<h2>MyEffecto Admin</h2>
 	<?php
@@ -222,7 +226,7 @@ Author URI: www.myeffecto.com
 <script type="text/javascript">
 	<?php global $shortname; ?>
 	var shortname = "<?php echo $shortname; ?>";
-
+	
 	function save(shortname) {
 		if (shortname == null || shortname === "" || shortname === "undefined") {
 			ifrm.contentWindow.postMessage("Save","http://www.myeffecto.com");
@@ -271,6 +275,7 @@ Author URI: www.myeffecto.com
 		ifrm.setAttribute("src", "http://www.myeffecto.com/configureplug");
 	}
 
+	
 	function addKey(key)
 	{
 		//var a = document.getElementById("kk").value;
@@ -292,17 +297,3 @@ Author URI: www.myeffecto.com
 	}
 
 </script>
-<?php
- function pluginUninstall() {
-
-        global $wpdb;
-        $table = $wpdb->prefix."effecto";
-
-        //Delete any options thats stored also?
-	//delete_option('wp_yourplugin_version');
-
-	$wpdb->query("DROP TABLE IF EXISTS $table");
-}
-
-register_deactivation_hook( __FILE__, 'pluginUninstall' );
-?>
