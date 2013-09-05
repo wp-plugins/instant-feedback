@@ -1,5 +1,5 @@
 <?php
-
+	
 	add_action( 'add_meta_boxes', 'effectoBox' );  
 	function effectoBox() {  
 		add_meta_box( 'my-meta-box-id', 'MyEffecto Configuration', 'showEffectoBox', 'post', 'normal', 'high' );  
@@ -39,6 +39,7 @@
 					$allPostCode = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $allPostCode);
 					echo '<h2>
 						<center>
+							(PREVIEW-ONLY) <br>
 							Your default emotion set is 
 						</center>
 					</h2> '.$allPostCode;
@@ -70,11 +71,11 @@
 			
 			$currentPost = "current";
 			echo '<h2>
-					<center>Your current emotion set for this post is </center>
+					<center>(PREVIEW-ONLY) <br>Your current emotion set for this post is </center>
 				</h2> '.$postCode;
 			echo '<h2>
 					<center>
-						<a href="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postID='.$getPostID.'&postName='.$getPostTitle.'&pluginType=postEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" onclick="return deleteItem()">Change emotion set of this post</a>
+						<a class="effectoConfig" href="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postID='.$getPostID.'&postName='.$getPostTitle.'&pluginType=postEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'">Change emotion set of this post</a>
 					<center>
 				</h2>';
 		}
@@ -88,19 +89,25 @@
 		$shortname = substr($allPostCode, stripos($allPostCode, 'effecto_uniquename'), strpos($allPostCode, ";") - stripos($allPostCode, 'effecto_uniquename'));
 		echo '<h2>
 				<center>
+					(PREVIEW-ONLY) <br>
 					Your default emotion set is 
 				</center>
 			</h2> '.$allPostCode;
 		echo '<h2>
 				<center>
-					<a href="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" onclick="return deleteItem()" title="Default emotion set appears on all posts.">Change your default emotion set </a>
+					<a class="effectoConfig" href="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Default emotion set appears on all posts.">Change your default emotion set </a>
 				</center>
 			</h2>';
 	}
 
 ?>
+
+	<div id="effecto-confirm" title="Delete emotion Set?" style="display : none;">
+		<p><span class="" style="float: left; margin: 0 7px 20px 0;">Changing your set will erase your current emotion set data. <br/><br/> Do you want to continue?</span></p>
+	</div>
+
 <script type="text/javascript">
-	function deleteItem() {
+	/* function deleteItem() {
 		if (confirm("Changing your set will erase your current emotion set data. Do you want to continue?")) {
 			<?php 
 				$codeToChange = getEmbedCodeByPostID(0);
@@ -109,5 +116,27 @@
 			return true;
 		}
 		return false;
-	}
+	} */
+
+	window.onload=function() {
+		jQuery(".effectoConfig").click(function(e) {
+			e.preventDefault();
+			var targetUrl = jQuery(this).attr("href");
+			jQuery( "#effecto-confirm" ).dialog({
+				resizable: true,
+				height:220,
+				modal: false,
+				buttons: {
+					Ok: function() {
+					   window.location.href = targetUrl;
+					  //return true;
+					},
+					Cancel: function() {
+					  jQuery( this ).dialog( "close" );
+					}
+				}
+			});
+			return false;
+		});
+	};
 </script>
