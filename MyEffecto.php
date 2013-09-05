@@ -144,7 +144,7 @@ Author URI: www.myeffecto.com
 					var ifrm = null;
 					window.onload=function(){
 						ifrm = document.getElementById("effectoFrame");
-						   ifrm.setAttribute("src", "http://localhost:8888/login?callback=configureplug&postName='.$postName.'");
+						   ifrm.setAttribute("src", "http://www.myeffecto.com/login?callback=configureplug&postName='.$postName.'");
 						   ifrm.setAttribute("frameborder","0");
 						   ifrm.setAttribute("allowtransparency","true");
 
@@ -153,7 +153,7 @@ Author URI: www.myeffecto.com
 						   window.addEventListener("message", receiveMessage, false);
 					};
 				</script>
-				<iframe id="effectoFrame" src ="http://localhost:8888/login?callback=configureplug&postName='.$postName.'" width="100%" height="465">';
+				<iframe id="effectoFrame" src ="http://www.myeffecto.com/login?callback=configureplug&postName='.$postName.'" width="100%" height="465">';
 	}
 
 	function echoUserScript() {
@@ -163,7 +163,7 @@ Author URI: www.myeffecto.com
 					var ifrm= null;
 					window.onload=function(){
 						ifrm = document.getElementById("effectoFrame");
-						   ifrm.setAttribute("src", "http://localhost:8888/login?callback=configureplug&postName='.$postName.'");
+						   ifrm.setAttribute("src", "http://www.myeffecto.com/login?callback=configureplug&postName='.$postName.'");
 						   ifrm.setAttribute("frameborder","0");
 						   ifrm.setAttribute("allowtransparency","true");
 
@@ -172,7 +172,7 @@ Author URI: www.myeffecto.com
 						   window.addEventListener("message", receiveMessage, false);
 					};
 				</script>
-				<iframe id="effectoFrame" src ="http://localhost:8888/login?callback=configureplug&postName='.$postName.'" width="100%" height="465"/>';
+				<iframe id="effectoFrame" src ="http://www.myeffecto.com/login?callback=configureplug&postName='.$postName.'" width="100%" height="465"/>';
 	}
 
 	/* Simple string replace function */
@@ -225,9 +225,9 @@ Author URI: www.myeffecto.com
 
 	function save(shortname) {
 		if (shortname == null || shortname === "" || shortname === "undefined") {
-			ifrm.contentWindow.postMessage("Save","http://localhost:8888");
+			ifrm.contentWindow.postMessage("Save","http://www.myeffecto.com");
 		} else {
-			ifrm.contentWindow.postMessage("Save#~#delete#~#"+shortname,"http://localhost:8888");
+			ifrm.contentWindow.postMessage("Save#~#delete#~#"+shortname,"http://www.myeffecto.com");
 			shortname = "";
 		}
 	}
@@ -268,7 +268,7 @@ Author URI: www.myeffecto.com
 
 	function afterLoginSuccess() {
 		jQuery('#effectoFrame').parent().prepend(jQuery('<input type="button" id="generate" onclick="save(null, null)" value="Generate Plugin" class="button-primary"/>'));
-		ifrm.setAttribute("src", "http://localhost:8888/configureplug");
+		ifrm.setAttribute("src", "http://www.myeffecto.com/configureplug");
 	}
 
 	function addKey(key)
@@ -292,3 +292,17 @@ Author URI: www.myeffecto.com
 	}
 
 </script>
+<?php
+ function pluginUninstall() {
+
+        global $wpdb;
+        $table = $wpdb->prefix."effecto";
+
+        //Delete any options thats stored also?
+	//delete_option('wp_yourplugin_version');
+
+	$wpdb->query("DROP TABLE IF EXISTS $table");
+}
+
+register_deactivation_hook( __FILE__, 'pluginUninstall' );
+?>
