@@ -25,6 +25,7 @@ Author URI: www.myeffecto.com
 	wp_enqueue_style("sdfsdfsf", "http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css");
 
 	$shortname = $_GET['shortname'];
+	$globalPostID = $_GET['postID'];
 	function myeffecto_admin() {
 		 $user_id = get_current_user_id();
 		 $data=$_POST['dataToSend'];
@@ -92,7 +93,18 @@ Author URI: www.myeffecto.com
 			}
 		 } else {
 	?>
-
+<!-- <style type="text/css">
+		body {
+			background:url(http://loadinggif.com/images/image-selection/36.gif) no-repeat center center;
+			height: 100px;
+			width: 100px;
+			position: fixed;
+			left: 50%;
+			top: 50%;
+			margin: -25px 0 0 -25px;
+			z-index: 1000;
+		}
+</style>-->
 		<div class="wrap" style="overflow-x : hidden;">
 			<h2>MyEffecto Admin</h2>
 	<?php
@@ -144,36 +156,38 @@ Author URI: www.myeffecto.com
 	function echoFirstUserScript() {
 		global $postName;
 		echo '
+	
 			 <script type="text/javascript">
-					var ifrm = null;
-					window.onload=function(){
-						ifrm = document.getElementById("effectoFrame");
-						   ifrm.setAttribute("src", "http://www.myeffecto.com/login?callback=configureplug&postName='.$postName.'");
-						   ifrm.setAttribute("frameborder","0");
-						   ifrm.setAttribute("allowtransparency","true");
+				var ifrm = null;
+				window.onload=function(){
+					ifrm = document.getElementById("effectoFrame");
+					ifrm.setAttribute("src", "http://www.myeffecto.com/login?callback=configureplug&postName='.$postName.'");
+					ifrm.setAttribute("frameborder","0");
+					ifrm.setAttribute("allowtransparency","true");
 
-						   ifrm.style.width = "100%";
-						   ifrm.style.height = "465";
-						   window.addEventListener("message", receiveMessage, false);
-					};
-				</script>
-				<iframe id="effectoFrame" src ="http://www.myeffecto.com/login?callback=configureplug&postName='.$postName.'" width="100%" height="465">';
+					ifrm.style.width = "100%";
+					ifrm.style.height = "465";
+					window.addEventListener("message", receiveMessage, false);
+				};
+			</script>
+			<iframe id="effectoFrame" src ="http://www.myeffecto.com/login?callback=configureplug&postName='.$postName.'" width="100%" height="465">';
 	}
 
 	function echoUserScript() {
 		global $postName;
-		echo '
+		echo '	
+				
 				<script type="text/javascript">
 					var ifrm= null;
 					window.onload=function(){
 						ifrm = document.getElementById("effectoFrame");
-						   ifrm.setAttribute("src", "http://www.myeffecto.com/login?callback=configureplug&postName='.$postName.'");
-						   ifrm.setAttribute("frameborder","0");
-						   ifrm.setAttribute("allowtransparency","true");
+						ifrm.setAttribute("src", "http://www.myeffecto.com/login?callback=configureplug&postName='.$postName.'");
+						ifrm.setAttribute("frameborder","0");
+						ifrm.setAttribute("allowtransparency","true");
 
-						   ifrm.style.width = "100%";
-						   ifrm.style.height = "465";
-						   window.addEventListener("message", receiveMessage, false);
+						ifrm.style.width = "100%";
+						ifrm.style.height = "465";
+						window.addEventListener("message", receiveMessage, false);
 					};
 				</script>
 				<iframe id="effectoFrame" src ="http://www.myeffecto.com/login?callback=configureplug&postName='.$postName.'" width="100%" height="465"/>';
@@ -226,13 +240,16 @@ Author URI: www.myeffecto.com
 <script type="text/javascript">
 	<?php global $shortname; ?>
 	var shortname = "<?php echo $shortname; ?>";
+	var effecto_identifier = "<?php echo $globalPostID; ?>";
 	
 	function save(shortname) {
+		alert(shortname);
 		if (shortname == null || shortname === "" || shortname === "undefined") {
 			ifrm.contentWindow.postMessage("Save","http://www.myeffecto.com");
 		} else {
-			ifrm.contentWindow.postMessage("Save#~#delete#~#"+shortname,"http://www.myeffecto.com");
+			ifrm.contentWindow.postMessage("Save#~#delete#~#"+shortname+"#~#"+effecto_identifier,"http://www.myeffecto.com");
 			shortname = "";
+			effecto_identifier = "";
 		}
 	}
 
@@ -248,6 +265,7 @@ Author URI: www.myeffecto.com
 			alert("Error occured");
 		} else if (msg[0] == "pluginLoggedIn") {
 			showButtonCode(shortname);
+			//jQuery('body').fadeOut(2000);
 		} /*else if(msg[0] == "apiKey") {
 			addKey(msg[1]);
 		}*/

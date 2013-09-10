@@ -56,9 +56,10 @@
 						</center>
 					</h2>';
 			}
+			$shortname = substr($allPostCode, stripos($allPostCode, 'effecto_uniquename'), strpos($allPostCode, ";") - stripos($allPostCode, 'effecto_uniquename'));
 			echo '<h2>
 					<center>
-						<a href="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postID='.$getPostID.'&postName='.$getPostTitle.'&pluginType=postAdd&postURL='.$_SERVER['REQUEST_URI'].'">Add emotion set to this post</a>
+						<a class="effectoConfig" href="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postID='.$getPostID.'&postName='.$getPostTitle.'&shortname='.$shortname.'&pluginType=postAdd&postURL='.$_SERVER['REQUEST_URI'].'">Add emotion set to this post</a>
 					</center>
 				</h2>';
 		} else {
@@ -102,7 +103,7 @@
 
 ?>
 
-	<div id="effecto-confirm" title="Delete emotion Set?" style="display : none;">
+	<div id="effecto-confirm" title="Change emotion Set?" style="display : none;">
 		<p><span class="" style="float: left; margin: 0 7px 20px 0;">Changing your set will erase your current emotion set data. <br/><br/> Do you want to continue?</span></p>
 	</div>
 
@@ -123,7 +124,7 @@
 			e.preventDefault();
 			var targetUrl = jQuery(this).attr("href");
 			jQuery( "#effecto-confirm" ).dialog({
-				resizable: true,
+				resizable: false,
 				height:220,
 				modal: false,
 				buttons: {
