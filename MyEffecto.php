@@ -243,7 +243,6 @@ Author URI: www.myeffecto.com
 	var effecto_identifier = "<?php echo $globalPostID; ?>";
 	
 	function save(shortname) {
-		alert(shortname);
 		if (shortname == null || shortname === "" || shortname === "undefined") {
 			ifrm.contentWindow.postMessage("Save","http://www.myeffecto.com");
 		} else {
