@@ -236,6 +236,19 @@ Author URI: www.myeffecto.com
 <?php
 		}
 	}
+	function pluginUninstall() {
+
+        global $wpdb;
+        $table = $wpdb->prefix."effecto";
+
+        //Delete any options thats stored also?
+		//delete_option('wp_yourplugin_version');
+
+		$wpdb->query("DROP TABLE IF EXISTS $table");
+		}
+	register_uninstall_hook( __FILE__, 'pluginUninstall' );
+
+
 ?>
 
 <script type="text/javascript">
@@ -317,3 +330,4 @@ Author URI: www.myeffecto.com
 	}
 
 </script>
+
