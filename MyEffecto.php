@@ -203,6 +203,7 @@ Author URI: www.myeffecto.com
 	function echoEndUserPlugin($text) {
 		$postId = get_the_ID();
 		$getPostTitle = get_the_title();
+		$wpSite = get_site_url();
 		$getPostTitle = substr($getPostTitle, 0, 10);
 		$apiEmbedArray = getEmbedCodeByPostID($postId);
 		if ($apiEmbedArray == null) {
@@ -213,6 +214,7 @@ Author URI: www.myeffecto.com
 			$apiEmbedArray = str_replace("var effectoPostId=''","var effectoPostId='".$postId."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPreview=''","var effectoPreview='false'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $apiEmbedArray);
+			$apiEmbedArray = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$postId."'", $apiEmbedArray);
 
 			// $last = substr($apiEmbedArray, stripos($apiEmbedArray, 'effecto_uniquename'), strpos($apiEmbedArray, ";") - stripos($apiEmbedArray, 'effecto_uniquename'));
 
@@ -220,7 +222,6 @@ Author URI: www.myeffecto.com
 		} else {
 			return $text;
 		}
-
 	}
 
 	function addAlert($pluginStatus) { 
@@ -279,16 +280,18 @@ Author URI: www.myeffecto.com
 
 	function showButtonCode(shortname) {
 		jQuery('#generate').remove();
+		if (jQuery('#effectoFrame').find('a').length == 0) {
+			jQuery('#effectoFrame').before(jQuery('<center><h3><a href="http://www.myeffecto.com/dashboard-overview" target="_blank">Visit Dashboard</a></h3></center>'));
+		}
 		if (shortname === null) {
 			jQuery('#effectoFrame').after(jQuery('<center><h3><input type="button" id="generate" onclick="save("")" value="Apply Emotion Set" style="font-size : 22px; padding-top : 7px; padding-bottom : 30px;" class="button-primary" /></h3></center>'));
 		} else {
 			jQuery('#effectoFrame').after(jQuery('<center><h3><input type="button" id="generate" onclick="save(' + shortname + ')" value="Apply Emotion Set" style="font-size : 22px; padding-top : 7px; padding-bottom : 30px;" class="button-primary" /></h3></center>'));
 		}
-		
 	}
 
 	function afterLoginSuccess() {
-		jQuery('#effectoFrame').parent().prepend(jQuery('<input type="button" id="generate" onclick="save(null, null)" value="Generate Plugin" class="button-primary"/>'));
+		jQuery('#effectoFrame').parent().prepend(jQuery('<input type="button" id="generate" onclick="save("")" value="Generate Plugin" class="button-primary"/>'));
 		ifrm.setAttribute("src", "http://www.myeffecto.com/configureplug");
 	}
 
