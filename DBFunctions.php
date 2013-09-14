@@ -12,7 +12,7 @@
 			apiKey VARCHAR(60) NOT NULL,
 			postID mediumint(9) NOT NULL,
 			embedCode TEXT,
-			UNIQUE KEY id (id)
+			PRIMARY KEY id (id)
 		);";
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $sql );
