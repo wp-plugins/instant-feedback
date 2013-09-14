@@ -13,6 +13,7 @@
 		}
 		$getPostID = get_the_ID();
 		$getPostTitle = get_the_title();
+		$wpSite = get_site_url();
 
 		$getPostTitle = substr($getPostTitle, 0, 10);
 
@@ -31,15 +32,18 @@
 					$allPostCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $allPostCode);
 					$getPostID = get_the_ID();
 					$getPostTitle = get_the_title();
+					$getPostTitle = substr($getPostTitle, 0, 10);
 					if (!isset($getPostID) && !isset($getPostTitle)) {
 						$getPostID = 0;
 						$getPostTitle = "preview";
 					}
 					$allPostCode = str_replace("var effectoPostId=''","var effectoPostId='".$getPostID."'", $allPostCode);
 					$allPostCode = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $allPostCode);
+					$allPostCode = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$getPostID."'", $allPostCode);
+					
 					echo '<h2>
 						<center>
-							(PREVIEW-ONLY) <br>
+							(PREVIEW-ONLY)<br />
 							Your default emotion set is 
 						</center>
 					</h2> '.$allPostCode;
@@ -67,6 +71,7 @@
 			$postCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $postCode);
 			$postCode = str_replace("var effectoPostId=''","var effectoPostId='".$getPostID."'", $postCode);
 			$postCode = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $postCode);
+			$postCode = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$getPostID."'", $postCode);
 			
 			$shortname = substr($postCode, stripos($postCode, 'effecto_uniquename'), strpos($postCode, ";") - stripos($postCode, 'effecto_uniquename'));
 			
@@ -87,6 +92,7 @@
 		
 		$allPostCode = str_replace("var effectoPostId=''","var effectoPostId='0'", $allPostCode);
 		$allPostCode = str_replace("var effectoPagetitle = ''","var effectoPagetitle='preview'", $allPostCode);
+		$allPostCode = str_replace("var effectoPageurl = ''","var effectoPageurl=''", $allPostCode);
 		$shortname = substr($allPostCode, stripos($allPostCode, 'effecto_uniquename'), strpos($allPostCode, ";") - stripos($allPostCode, 'effecto_uniquename'));
 		echo '<h2>
 				<center>
