@@ -96,6 +96,7 @@
 		$shortname = substr($allPostCode, stripos($allPostCode, 'effecto_uniquename'), strpos($allPostCode, ";") - stripos($allPostCode, 'effecto_uniquename'));
 		echo '<h2>
 				<center>
+					<a href="http://www.myeffecto.com/dashboard-overview" target="_blank">Visit Dashboard</a> <br /><br />
 					(PREVIEW-ONLY) <br>
 					Your default emotion set is 
 				</center>

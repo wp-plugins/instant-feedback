@@ -236,19 +236,15 @@ Author URI: www.myeffecto.com
 <?php
 		}
 	}
+	
 	function pluginUninstall() {
 
         global $wpdb;
         $table = $wpdb->prefix."effecto";
 
-        //Delete any options thats stored also?
-		//delete_option('wp_yourplugin_version');
-
 		$wpdb->query("DROP TABLE IF EXISTS $table");
-		}
+	}
 	register_uninstall_hook( __FILE__, 'pluginUninstall' );
-
-
 ?>
 
 <script type="text/javascript">
@@ -293,9 +289,6 @@ Author URI: www.myeffecto.com
 
 	function showButtonCode(shortname) {
 		jQuery('#generate').remove();
-		if (jQuery('#effectoFrame').find('a').length == 0) {
-			jQuery('#effectoFrame').before(jQuery('<center><h3><a href="http://www.myeffecto.com/dashboard-overview" target="_blank">Visit Dashboard</a></h3></center>'));
-		}
 		if (shortname === null) {
 			jQuery('#effectoFrame').after(jQuery('<center><h3><input type="button" id="generate" onclick="save("")" value="Apply Emotion Set" style="font-size : 22px; padding-top : 7px; padding-bottom : 30px;" class="button-primary" /></h3></center>'));
 		} else {
@@ -330,4 +323,3 @@ Author URI: www.myeffecto.com
 	}
 
 </script>
-
