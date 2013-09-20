@@ -93,18 +93,24 @@ Author URI: www.myeffecto.com
 			}
 		 } else {
 	?>
-<!-- <style type="text/css">
-		body {
-			background:url(http://loadinggif.com/images/image-selection/36.gif) no-repeat center center;
-			height: 100px;
-			width: 100px;
-			position: fixed;
-			left: 50%;
-			top: 50%;
-			margin: -25px 0 0 -25px;
+<?php
+	$image=plugins_url( 'loading.gif' , __FILE__ );
+	//echo $image;
+	?>
+ <style type="text/css">
+		#load {
+			background: url(" <?php echo $image;?> ") no-repeat scroll center center #FFF;
+			bottom: 0;
+			left: 0;
+			position: absolute;
+			opacity: 0.63;
+			right: 0;
+			top: 0;
+			width: 100%;
 			z-index: 1000;
 		}
-</style>-->
+</style>
+
 		<div class="wrap" style="overflow-x : hidden;">
 			<h2>MyEffecto Admin</h2>
 	<?php
@@ -170,6 +176,7 @@ Author URI: www.myeffecto.com
 					window.addEventListener("message", receiveMessage, false);
 				};
 			</script>
+			<div id="load" style="display:none;"></div>
 			<iframe id="effectoFrame" src ="http://www.myeffecto.com/login?callback=configureplug&postName='.$postName.'" width="100%" height="465">';
 	}
 
@@ -190,6 +197,7 @@ Author URI: www.myeffecto.com
 						window.addEventListener("message", receiveMessage, false);
 					};
 				</script>
+				<div id="load" style="display:none;"></div>
 				<iframe id="effectoFrame" src ="http://www.myeffecto.com/login?callback=configureplug&postName='.$postName.'" width="100%" height="465"/>';
 	}
 
@@ -253,6 +261,7 @@ Author URI: www.myeffecto.com
 	var effecto_identifier = "<?php echo $globalPostID; ?>";
 	
 	function save(shortname) {
+		jQuery('#load').show();
 		if (shortname == null || shortname === "" || shortname === "undefined") {
 			ifrm.contentWindow.postMessage("Save","http://www.myeffecto.com");
 		} else {
