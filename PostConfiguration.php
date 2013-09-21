@@ -85,6 +85,37 @@
 					<center>
 				</h2>';
 		}
+		showEffModal();
+	}
+
+	function showEffModal() {
+		echo '<div id="effecto-confirm" title="Change emotion Set?" style="display : none;">
+				<p><span class="" style="float: left; margin: 0 7px 20px 0;">Changing your set will erase your current emotion set data. <br/><br/> Do you want to continue?</span></p>
+			</div>
+
+			<script type="text/javascript">
+				window.onload=function() {
+					jQuery(".effectoConfig").click(function(e) {
+						e.preventDefault();
+						var targetUrl = jQuery(this).attr("href");
+						jQuery( "#effecto-confirm" ).dialog({
+							resizable: false,
+							height:220,
+							modal: false,
+							buttons: {
+								Ok: function() {
+								   window.location.href = targetUrl;
+								  //return true;
+								},
+								Cancel: function() {
+								  jQuery( this ).dialog( "close" );
+								}
+							}
+						});
+						return false;
+					});
+				};
+			</script>';
 	}
 
 	function allSetCode($allPostCode, $getPostTitle) {
@@ -106,45 +137,6 @@
 					<a class="effectoConfig" href="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Default emotion set appears on all posts.">Change your default emotion set </a>
 				</center>
 			</h2>';
+			showEffModal();
 	}
-
 ?>
-
-	<div id="effecto-confirm" title="Change emotion Set?" style="display : none;">
-		<p><span class="" style="float: left; margin: 0 7px 20px 0;">Changing your set will erase your current emotion set data. <br/><br/> Do you want to continue?</span></p>
-	</div>
-
-<script type="text/javascript">
-	/* function deleteItem() {
-		if (confirm("Changing your set will erase your current emotion set data. Do you want to continue?")) {
-			<?php 
-				$codeToChange = getEmbedCodeByPostID(0);
-				$shortname = substr($codeToChange, stripos($codeToChange, 'effecto_uniquename'), strpos($codeToChange, ";") - stripos($codeToChange, 'effecto_uniquename'));
-			?>
-			return true;
-		}
-		return false;
-	} */
-
-	window.onload=function() {
-		jQuery(".effectoConfig").click(function(e) {
-			e.preventDefault();
-			var targetUrl = jQuery(this).attr("href");
-			jQuery( "#effecto-confirm" ).dialog({
-				resizable: false,
-				height:220,
-				modal: false,
-				buttons: {
-					Ok: function() {
-					   window.location.href = targetUrl;
-					  //return true;
-					},
-					Cancel: function() {
-					  jQuery( this ).dialog( "close" );
-					}
-				}
-			});
-			return false;
-		});
-	};
-</script>
