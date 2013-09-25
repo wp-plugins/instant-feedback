@@ -40,6 +40,7 @@ Ans: Refresh the page once.
 
 == Screenshots ==
 
+1.Myeffecto plugin
 
 
 == Changelog ==
