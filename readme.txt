@@ -40,11 +40,7 @@ Ans: Refresh the page once.
 
 == Screenshots ==
 
-1.Myeffecto plugin.
 
-2.Configuration page.
-
-3.Post Configuration. 
 
 == Changelog ==
 
