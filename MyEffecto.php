@@ -151,21 +151,21 @@ function myeffecto_admin() {
 	<?php
 		}
 	}
-	
+
 	function configurationScript($shortname, $globalPostID) {
 		echo '<script>
 				var shortname = "'.$shortname.'";
 				var effecto_identifier = "'.$globalPostID.'";
 
 				function save(shortname) {
-					jQuery(\'#load\').show();
-					/* if (shortname == null || shortname === "" || shortname === "undefined") {
+					
+					if (shortname == null || shortname === "" || shortname === "undefined") {
 						ifrm.contentWindow.postMessage("Save","http://www.myeffecto.com");
 					} else {
 						ifrm.contentWindow.postMessage("Save#~#delete#~#"+shortname+"#~#"+effecto_identifier,"http://www.myeffecto.com");
 						shortname = "";
 						effecto_identifier = "";
-					} */
+					}
 				}
 
 				function receiveMessage(event) {
@@ -174,12 +174,15 @@ function myeffecto_admin() {
 
 					if (msg[0] == "save") {
 						postIframeCode(msg[1]);
+						jQuery(\'#load\').show();
 					} else if(msg[0] == "loggedIn") {
 						afterLoginSuccess();
 					} else if (msg[0] == "error") {
 						alert("Error occured");
 					} else if (msg[0] == "pluginLoggedIn") {
 						showButtonCode(shortname);
+					} else if (msg[0] == "validated") {
+						jQuery(\'#load\').show();
 					} /*else if(msg[0] == "apiKey") {
 						addKey(msg[1]);
 					}*/
