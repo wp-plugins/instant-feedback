@@ -12,14 +12,25 @@
 			addAlert($pluginStatus);
 		}
 		$getPostID = get_the_ID();
+
+		if (!isset($getPostID)) {
+			$getPostID = $_GET['post_id'];
+		}
+		
 		$getPostTitle = get_the_title();
 		$wpSite = get_site_url();
 
 		$getPostTitle = substr($getPostTitle, 0, 10);
 
 		$postCode = getEmbedCodeByPostID($getPostID);
+		
 
+
+		$postUrl=$_SERVER['REQUEST_URI'];
+		$postUrl = str_replace('post-new.php','post.php', $postUrl);
 		/* Check if there is plugin for current post. */
+		
+		
 		if (!isset($postCode)) {
 
 			/* If not found, check for AllPost code. */
@@ -56,14 +67,15 @@
 
 					<h2>
 						<center>
-							<a href="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postName='.$getPostTitle.'&pluginType=defaultAdd&postURL='.$_SERVER['REQUEST_URI'].'">Add a default emotion set </a> <br /> OR 
+							<a href="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postName='.$getPostTitle.'&pluginType=defaultAdd&postURL='.$_SERVER['REQUEST_URI'].'?post_id='.$getPostID.'">Add a default emotion set </a> <br /> OR 
 						</center>
 					</h2>';
 			}
 			$shortname = substr($allPostCode, stripos($allPostCode, 'effecto_uniquename'), strpos($allPostCode, ";") - stripos($allPostCode, 'effecto_uniquename'));
+			
 			echo '<h2>
 					<center>
-						<a class="effectoConfig" href="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postID='.$getPostID.'&postName='.$getPostTitle.'&shortname='.$shortname.'&pluginType=postAdd&postURL='.$_SERVER['REQUEST_URI'].'">Add emotion set to this post</a>
+						<a class="effectoConfig" style="cursor:pointer;" effectohref="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postID='.$getPostID.'&postName='.$getPostTitle.'&shortname='.$shortname.'&pluginType=postAdd&postURL='.$postUrl.'?post='.$getPostID.'">Add emotion set to this post</a>
 					</center>
 				</h2>';
 		} else {
@@ -72,7 +84,7 @@
 			$postCode = str_replace("var effectoPostId=''","var effectoPostId='".$getPostID."'", $postCode);
 			$postCode = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $postCode);
 			$postCode = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$getPostID."'", $postCode);
-			
+
 			$shortname = substr($postCode, stripos($postCode, 'effecto_uniquename'), strpos($postCode, ";") - stripos($postCode, 'effecto_uniquename'));
 			
 			$currentPost = "current";
@@ -81,7 +93,7 @@
 				</h2> '.$postCode;
 			echo '<h2>
 					<center>
-						<a class="effectoConfig" href="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postID='.$getPostID.'&postName='.$getPostTitle.'&pluginType=postEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'">Change emotion set of this post</a>
+						<a class="effectoConfig" style="cursor:pointer;" effectohref="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postID='.$getPostID.'&postName='.$getPostTitle.'&pluginType=postEdit&postURL='.$_SERVER['REQUEST_URI'].'?post_id='.$getPostID.'&shortname='.$shortname.'">Change emotion set of this post</a>
 					<center>
 				</h2>';
 		}
@@ -97,7 +109,7 @@
 				window.onload=function() {
 					jQuery(".effectoConfig").click(function(e) {
 						e.preventDefault();
-						var targetUrl = jQuery(this).attr("href");
+						var targetUrl = jQuery(this).attr("effectohref");
 						jQuery( "#effecto-confirm" ).dialog({
 							resizable: false,
 							height:220,
@@ -134,7 +146,7 @@
 			</h2> '.$allPostCode;
 		echo '<h2>
 				<center>
-					<a class="effectoConfig" href="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Default emotion set appears on all posts.">Change your default emotion set </a>
+					<a class="effectoConfig" effectohref="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Default emotion set appears on all posts.">Change your default emotion set </a>
 				</center>
 			</h2>';
 			showEffModal();

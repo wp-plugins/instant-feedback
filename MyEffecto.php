@@ -28,6 +28,7 @@ $shortname = $_GET['shortname'];
 $globalPostID = $_GET['postID'];
 
 function myeffecto_admin() {
+
 	 $user_id = get_current_user_id();
 	 $data=$_POST['dataToSend'];
 
@@ -41,8 +42,10 @@ function myeffecto_admin() {
 <?php
 	if(isset($data)) {
 		$isCodeExist = getEmbedCodeByPostID($postID);
+	
 		if ($isCodeExist == null) {
 			if (!isset($postID)) {
+			
 				$defaultEdit = $_GET['pluginType'];
 				if (isset($defaultEdit) && $defaultEdit == "defaultEdit") {
 					updateEmbedCode($data, 0);
