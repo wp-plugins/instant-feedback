@@ -66,7 +66,7 @@
 	function getEmbedCodeByPostID($postID) {
 		global $wpdb;
 		global $table_name;
-
+          
 		return $wpdb->get_var("SELECT embedCode FROM $table_name WHERE postID=".$postID);
 	}
 ?>
