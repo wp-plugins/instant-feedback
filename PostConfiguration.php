@@ -48,7 +48,7 @@
 						$getPostID = 0;
 						$getPostTitle = "preview";
 					}
-					$allPostCode = str_replace("var effectoPostId=''","var effectoPostId='".$getPostID."'", $allPostCode);
+					$allPostCode = str_replace("var effectoPostId=''","var effectoPostId='0'", $allPostCode);
 					$allPostCode = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $allPostCode);
 					$allPostCode = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$getPostID."'", $allPostCode);
 					
@@ -67,7 +67,7 @@
 
 					<h2>
 						<center>
-							<a href="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postName='.$getPostTitle.'&pluginType=defaultAdd&postURL='.$_SERVER['REQUEST_URI'].'?post_id='.$getPostID.'">Add a default emotion set </a> <br /> OR 
+							<a style="cursor:pointer;" href="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postName='.$getPostTitle.'&pluginType=defaultAdd&postURL='.$_SERVER['REQUEST_URI'].'?post_id='.$getPostID.'">Add a default emotion set </a> <br /> OR 
 						</center>
 					</h2>';
 			}
@@ -81,7 +81,7 @@
 		} else {
 		//<strong> '.$getPostTitle.' </strong>
 			$postCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $postCode);
-			$postCode = str_replace("var effectoPostId=''","var effectoPostId='".$getPostID."'", $postCode);
+			$postCode = str_replace("var effectoPostId=''","var effectoPostId='0'", $postCode);
 			$postCode = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $postCode);
 			$postCode = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$getPostID."'", $postCode);
 
@@ -146,7 +146,7 @@
 			</h2> '.$allPostCode;
 		echo '<h2>
 				<center>
-					<a class="effectoConfig" effectohref="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Default emotion set appears on all posts.">Change your default emotion set </a>
+					<a class="effectoConfig" style="cursor:pointer;" effectohref="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Default emotion set appears on all posts.">Change your default emotion set </a>
 				</center>
 			</h2>';
 			showEffModal();
