@@ -81,7 +81,7 @@
 		} else {
 		//<strong> '.$getPostTitle.' </strong>
 			$postCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $postCode);
-			$postCode = str_replace("var effectoPostId=''","var effectoPostId='0'", $postCode);
+			$postCode = str_replace("var effectoPostId=''","var effectoPostId='".$getPostID."'", $postCode);
 			$postCode = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $postCode);
 			$postCode = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$getPostID."'", $postCode);
 
