@@ -263,7 +263,7 @@ function myeffecto_admin() {
 		if ($apiEmbedArray == null) {
 			$apiEmbedArray = getEmbedCodeByPostID(0);
 		}
-		if (strpos($_SERVER['REQUEST_URI'],'?p=') !== false) {
+		if (!is_front_page()) {
 			$apiEmbedArray = str_replace("var effectoPostId=''","var effectoPostId='".$postId."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPreview=''","var effectoPreview='false'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $apiEmbedArray);
