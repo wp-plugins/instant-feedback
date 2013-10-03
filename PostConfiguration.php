@@ -20,21 +20,29 @@
 		$getPostTitle = get_the_title();
 		$wpSite = get_site_url();
 
-		$getPostTitle = substr($getPostTitle, 0, 10);
+		//$getPostTitle = substr($getPostTitle, 0, 10);
 
-		$postCode = getEmbedCodeByPostID($getPostID);
-		
-
+		$postCode = null;
 
 		$postUrl=$_SERVER['REQUEST_URI'];
 		$postUrl = str_replace('post-new.php','post.php', $postUrl);
-		/* Check if there is plugin for current post. */
-		
-		
-		if (!isset($postCode)) {
 
+		$eff_details = getPluginDetails($getPostID);
+		foreach($eff_details as $detail) {
+			$postCode = $detail -> embedCode;
+			$shortname = $detail -> shortname;
+		}
+		/* Check if there is plugin for current post. */
+		if (!isset($postCode)) {
 			/* If not found, check for AllPost code. */
-			$allPostCode = getEmbedCodeByPostID(0);
+			//$allPostCode = getEmbedCodeByPostID(0);
+
+			$shortname = null;
+			$eff_details = getPluginDetails(0);
+			foreach($eff_details as $detail) {
+				$allPostCode = $detail -> embedCode;
+				$shortname = $detail -> shortname;
+			}
 			if (isset($allPostCode)) {
 				/* allSetCode($allPostCode, $getPostTitle);
 				echo '<h1>
@@ -43,7 +51,7 @@
 					$allPostCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $allPostCode);
 					$getPostID = get_the_ID();
 					$getPostTitle = get_the_title();
-					$getPostTitle = substr($getPostTitle, 0, 10);
+					//$getPostTitle = substr($getPostTitle, 0, 10);
 					if (!isset($getPostID) && !isset($getPostTitle)) {
 						$getPostID = 0;
 						$getPostTitle = "preview";
@@ -51,7 +59,7 @@
 					$allPostCode = str_replace("var effectoPostId=''","var effectoPostId='0'", $allPostCode);
 					$allPostCode = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $allPostCode);
 					$allPostCode = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$getPostID."'", $allPostCode);
-					
+
 					echo '<h2>
 						<center>
 							(PREVIEW-ONLY)<br />
@@ -71,8 +79,6 @@
 						</center>
 					</h2>';
 			}
-			$shortname = substr($allPostCode, stripos($allPostCode, 'effecto_uniquename'), strpos($allPostCode, ";") - stripos($allPostCode, 'effecto_uniquename'));
-			
 			echo '<h2>
 					<center>
 						<a class="effectoConfig" style="cursor:pointer;" effectohref="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postID='.$getPostID.'&postName='.$getPostTitle.'&shortname='.$shortname.'&pluginType=postAdd&postURL='.$postUrl.'?post='.$getPostID.'">Add emotion set to this post</a>
@@ -85,8 +91,6 @@
 			$postCode = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $postCode);
 			$postCode = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$getPostID."'", $postCode);
 
-			$shortname = substr($postCode, stripos($postCode, 'effecto_uniquename'), strpos($postCode, ";") - stripos($postCode, 'effecto_uniquename'));
-			
 			$currentPost = "current";
 			echo '<h2>
 					<center>(PREVIEW-ONLY) <br>Your current emotion set for this post is </center>
@@ -136,7 +140,12 @@
 		$allPostCode = str_replace("var effectoPostId=''","var effectoPostId='0'", $allPostCode);
 		$allPostCode = str_replace("var effectoPagetitle = ''","var effectoPagetitle='preview'", $allPostCode);
 		$allPostCode = str_replace("var effectoPageurl = ''","var effectoPageurl=''", $allPostCode);
-		$shortname = substr($allPostCode, stripos($allPostCode, 'effecto_uniquename'), strpos($allPostCode, ";") - stripos($allPostCode, 'effecto_uniquename'));
+
+		$shortname = "";
+		$eff_details = getPluginDetails(0);
+		foreach($eff_details as $detail) {
+			$shortname = $detail -> shortname;
+		}
 		echo '<h2>
 				<center>
 					<a href="http://www.myeffecto.com/dashboard-overview" target="_blank">Visit Dashboard</a> <br /><br />
