@@ -20,7 +20,7 @@
 		$getPostTitle = get_the_title();
 		$wpSite = get_site_url();
 
-		//$getPostTitle = substr($getPostTitle, 0, 10);
+		$getPostTitle = substr($getPostTitle, 0, 10);
 
 		$postCode = null;
 
@@ -51,7 +51,7 @@
 					$allPostCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $allPostCode);
 					$getPostID = get_the_ID();
 					$getPostTitle = get_the_title();
-					//$getPostTitle = substr($getPostTitle, 0, 10);
+					$getPostTitle = substr($getPostTitle, 0, 10);
 					if (!isset($getPostID) && !isset($getPostTitle)) {
 						$getPostID = 0;
 						$getPostTitle = "preview";
