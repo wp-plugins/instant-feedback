@@ -10,6 +10,7 @@
 			id mediumint(9) NOT NULL AUTO_INCREMENT,
 			userID mediumint(9) NOT NULL,
 			apiKey VARCHAR(60) NOT NULL,
+			shortname VARCHAR(60) NOT NULL,
 			postID mediumint(9) NOT NULL,
 			embedCode TEXT,
 			PRIMARY KEY id (id)
@@ -19,7 +20,7 @@
 	}
 
 	/* Save plugin data in db */
-	function insertInDb($user_id, $apiKey, $code, $postID) {
+	function insertInDb($user_id, $apiKey, $code, $postID, $eff_shortname) {
 		$code = stripcslashes($code);
 
 		global $wpdb;
@@ -30,20 +31,22 @@
 							'userID' => $user_id, 
 							'apiKey' => $apiKey, 
 							'embedCode' => $code, 
-							'postID' => $postID
+							'postID' => $postID,
+							'shortname' => $eff_shortname, 
 						),
 						array(
 							'%d', 
 							'%s', 
 							'%s', 
-							'%d'
+							'%d',
+							'%s', 
 						)
 					);
 
 	}
 
 	/* Update effecto table */
-	function updateEmbedCode($data, $postID) {
+	function updateEmbedCode($data, $postID, $eff_shortname) {
 		$data = stripcslashes($data);
 
 		global $wpdb;
@@ -53,10 +56,12 @@
 			$table_name,
 			array(
 				'embedCode' => $data,
+				'shortname' => $eff_shortname,
 			),
 			array( 'postID' => $postID ),
 			array( 
 				'%s',	// value1
+				'%s',	// value2
 			), 
 			array( '%d' )
 		);
@@ -66,7 +71,13 @@
 	function getEmbedCodeByPostID($postID) {
 		global $wpdb;
 		global $table_name;
-          
+
 		return $wpdb->get_var("SELECT embedCode FROM $table_name WHERE postID=".$postID);
+	}
+	
+	function getPluginDetails($postID) {
+		global $wpdb;
+		global $table_name;
+		return $wpdb->get_results( "SELECT embedCode, shortname FROM $table_name WHERE postID=".$postID);
 	}
 ?>
