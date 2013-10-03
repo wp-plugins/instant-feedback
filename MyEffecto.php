@@ -28,27 +28,31 @@ $shortname = $_GET['shortname'];
 $globalPostID = $_GET['postID'];
 
 function myeffecto_admin() {
-
 	 $user_id = get_current_user_id();
 	 $data=$_POST['dataToSend'];
+	 $eff_shortname = $_POST['eff_shortname'];
 
 	 $postID = $_GET['postID'];
 	 $postName = $_GET['postName'];
 	 $postURL = $_GET['postURL'];
 	 $shortname = $_GET['shortname'];
-	 
-?><form id="submitForm" action="" method="post" style="display:none;"><input name="isToInsert" value="true" id="isToInsert" type="hidden"/><input name="dataToSend" id="dataToSend" type="hidden"/><input type='submit'/></form>
-  <form id="reloadForm" action="" method="post" style="display:none;"><input type='submit'/></form>
+?> 
+	<form id="submitForm" action="" method="post" style="display:none;">
+		<input name="isToInsert" value="true" id="isToInsert" type="hidden"/>
+		<input name="dataToSend" id="dataToSend" type="hidden"/>
+		<input name="eff_shortname" id="eff_shortname" type="hidden"/>
+		<input type='submit'/>
+	</form>
+	<form id="reloadForm" action="" method="post" style="display:none;"><input type='submit'/></form>
 <?php
 	if(isset($data)) {
 		$isCodeExist = getEmbedCodeByPostID($postID);
-	
 		if ($isCodeExist == null) {
 			if (!isset($postID)) {
 			
 				$defaultEdit = $_GET['pluginType'];
 				if (isset($defaultEdit) && $defaultEdit == "defaultEdit") {
-					updateEmbedCode($data, 0);
+					updateEmbedCode($data, 0, $eff_shortname);
 				?>
 						<script type="text/javascript">
 					   <!--
@@ -57,7 +61,7 @@ function myeffecto_admin() {
 					   </script>
 				<?php
 					} else {
-					insertInDb($user_id, null, $data, null);
+					insertInDb($user_id, null, $data, null, $eff_shortname);
 					if (isset($postURL)) {
 						?>
 							<script type="text/javascript">
@@ -71,7 +75,7 @@ function myeffecto_admin() {
 					}
 				}
 			} else {
-				insertInDb($user_id, null, $data, $postID);
+				insertInDb($user_id, null, $data, $postID, $eff_shortname);
 				?>
 					<script type="text/javascript">
 				   <!--
@@ -83,7 +87,7 @@ function myeffecto_admin() {
 		} else {
 			$addType = $_GET['pluginType'];
 			if ($addType == "postEdit") {
-				updateEmbedCode($data, $postID);
+				updateEmbedCode($data, $postID, $eff_shortname);
 				?>
 					<script type="text/javascript">
 						window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
@@ -193,18 +197,26 @@ function myeffecto_admin() {
 
 				function postIframeCode(rcvdMsg) {
 					var dataToSend = { "insert":"true", "data" : rcvdMsg};
-
-					jQuery("#dataToSend").val(rcvdMsg);
+					var test = JSON.parse(rcvdMsg);
+					jQuery("#dataToSend").val(test.embedCode);
+					jQuery("#eff_shortname").val(test.shortName);
 					jQuery(\'#submitForm\').submit();
 				}
 
 				function showButtonCode(shortname) {
 					jQuery(\'#generate\').remove();
+					
 					if (shortname === null) {
-						jQuery(\'#effectoFrame\').after(jQuery(\'<center><h3><input type="button" id="generate" onclick="save("")" value="Apply Emotion Set" style="font-size : 22px; padding-top : 7px; padding-bottom : 30px;" class="button-primary" /></h3></center>\'));
+					    shortname="";
+						jQuery(\'#effectoFrame\').after(jQuery(\'<center><h3><input type="button" id="generate"  value="Apply Emotion Set" style="font-size : 22px; padding-top : 7px; padding-bottom : 30px;" class="button-primary" /></h3></center>\'));
 					} else {
-						jQuery(\'#effectoFrame\').after(jQuery(\'<center><h3><input type="button" id="generate" onclick="save(\' + shortname + \')" value="Apply Emotion Set" style="font-size : 22px; padding-top : 7px; padding-bottom : 30px;" class="button-primary" /></h3></center>\'));
+						jQuery(\'#effectoFrame\').after(jQuery(\'<center><h3><input type="button" id="generate" value="Apply Emotion Set" style="font-size : 22px; padding-top : 7px; padding-bottom : 30px;" class="button-primary" /></h3></center>\'));
 					}
+					
+					jQuery("#generate").click(function(){
+							save(shortname);
+						
+					});
 				}
 
 				function afterLoginSuccess() {
@@ -263,7 +275,9 @@ function myeffecto_admin() {
 		if ($apiEmbedArray == null) {
 			$apiEmbedArray = getEmbedCodeByPostID(0);
 		}
-		if (!is_front_page()) {
+		
+		if (is_single()) 
+		{
 			$apiEmbedArray = str_replace("var effectoPostId=''","var effectoPostId='".$postId."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPreview=''","var effectoPreview='false'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $apiEmbedArray);
@@ -297,7 +311,6 @@ function myeffecto_admin() {
 	}
 	
 	function pluginUninstall() {
-
         global $wpdb;
         $table = $wpdb->prefix."effecto";
 
