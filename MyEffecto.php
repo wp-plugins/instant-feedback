@@ -2,8 +2,8 @@
 /*
 Plugin Name: My Effecto
 Plugin URI: www.myeffecto.com
-Description: Getting customized and interactive feedback for your blog
-Version: 1.0
+Description: Getting customized and interactive feedback for your blog.
+Version: 1.0.1
 Author URI: www.myeffecto.com
 */
 error_reporting(0);
@@ -264,18 +264,18 @@ function myeffecto_admin() {
 			<div id="load" style="display:none;"></div>
 			<iframe id="effectoFrame" src ="http://www.myeffecto.com/login?callback=configureplug" width="100%" height="465"/>';
 	}
-	
+
 	/* Show plugin in posts. */
 	function echoEndUserPlugin($text) {
 		$postId = get_the_ID();
 		$getPostTitle = get_the_title();
 		$wpSite = get_site_url();
-		$getPostTitle = substr($getPostTitle, 0, 10);
+		//$getPostTitle = substr($getPostTitle, 0, 10);
 		$apiEmbedArray = getEmbedCodeByPostID($postId);
 		if ($apiEmbedArray == null) {
 			$apiEmbedArray = getEmbedCodeByPostID(0);
 		}
-		
+
 		if (is_single()) 
 		{
 			$apiEmbedArray = str_replace("var effectoPostId=''","var effectoPostId='".$postId."'", $apiEmbedArray);
@@ -297,7 +297,7 @@ function myeffecto_admin() {
 		return $text;
 	}
 
-	function addAlert($pluginStatus) { 
+	function addAlert($pluginStatus) {
 		if (isset($pluginStatus)) {
 ?>
 			<script type="text/javascript">
@@ -309,7 +309,7 @@ function myeffecto_admin() {
 <?php
 		}
 	}
-	
+
 	function pluginUninstall() {
         global $wpdb;
         $table = $wpdb->prefix."effecto";

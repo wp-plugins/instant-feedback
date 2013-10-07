@@ -1,10 +1,10 @@
 === Myeffecto  ===
-Contributors: myeffecto
+Contributors: MyEffecto
 Donate link: http://www.myeffecto.com/
 Tags: feedback,myeffecto,instant feedback,emotional feedback
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.2
+Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,14 +12,11 @@ This plugin gives customized and interactive feedback for your blog.
 
 == Description ==
 
-**This plugin gives customized and interactive feedback for your blog.**
-This plugin is based on the site [MyEffecto](http://www.myeffecto.com)
-This site provides the Emotional Feedback System.
-Here on this site we provide a set of emoticons.
-This set can be used for as feedback for the blog.
-
-In this plugin we provide the same emoticons set which you can used for wordpress blogs to get the feedback for your blog.
-Inorder to get the feedback report please login to www.myeffecto.com and get the feedback reports.
+The only response to a share available till now was the 'Like' or the 'Favourite' option. With MyEffecto plugin, you can now give your viewers the privilege to vote your content in a way they actually feel about it.
+MyEffecto attends to this non-robotic tendency to feel in humans. 
+So you simply select a list of emotions from a library we provide and add the plugin to your content and your viewers respond you what they feel.
+And the best part? Its only a button click. So that your lazy friends needn't write lines of comments. 
+Myeffecto for wordpress plugin integrates by using Myeffecto login and aligns before wordpress comments.
 
 == Installation ==
 
@@ -44,12 +41,9 @@ Ans: Refresh the page once.
 
 == Changelog ==
 
-This is the first version so no changes.
+1. Post title update will be reflected in MyEffecto.
 
 == Upgrade notice ==
 
 Upgrade to get the customizable feedback system.
 Customizable feedback means  single selection(radio button),multiple selection(checkbox),rating,Emoticons set and many more.
-
-
-

@@ -1,57 +1,54 @@
 <?php
-	
 	add_action( 'add_meta_boxes', 'effectoBox' );  
 	function effectoBox() {  
 		add_meta_box( 'my-meta-box-id', 'MyEffecto Configuration', 'showEffectoBox', 'post', 'normal', 'high' );  
 	}
-
+$p_shortname = null;
 	function showEffectoBox() {
 		$pluginStatus = $_GET["plugin"];
-
 		if ($pluginStatus == 'success') {
 			addAlert($pluginStatus);
 		}
-		$getPostID = get_the_ID();
 
+		$getPostID = get_the_ID();
 		if (!isset($getPostID)) {
 			$getPostID = $_GET['post_id'];
 		}
-		
+
 		$getPostTitle = get_the_title();
 		$wpSite = get_site_url();
 
-		$getPostTitle = substr($getPostTitle, 0, 10);
+		//$getPostTitle = substr($getPostTitle, 0, 10);
 
 		$postCode = null;
-
 		$postUrl=$_SERVER['REQUEST_URI'];
 		$postUrl = str_replace('post-new.php','post.php', $postUrl);
 
 		$eff_details = getPluginDetails($getPostID);
 		foreach($eff_details as $detail) {
 			$postCode = $detail -> embedCode;
-			$shortname = $detail -> shortname;
+			$p_shortname = $detail -> shortname;
 		}
 		/* Check if there is plugin for current post. */
 		if (!isset($postCode)) {
 			/* If not found, check for AllPost code. */
 			//$allPostCode = getEmbedCodeByPostID(0);
 
-			$shortname = null;
 			$eff_details = getPluginDetails(0);
 			foreach($eff_details as $detail) {
 				$allPostCode = $detail -> embedCode;
-				$shortname = $detail -> shortname;
+				$p_shortname = $detail -> shortname;
 			}
 			if (isset($allPostCode)) {
 				/* allSetCode($allPostCode, $getPostTitle);
 				echo '<h1>
 						<center>OR</center>
 					</h1>'; */
+
 					$allPostCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $allPostCode);
 					$getPostID = get_the_ID();
 					$getPostTitle = get_the_title();
-					$getPostTitle = substr($getPostTitle, 0, 10);
+					//$getPostTitle = substr($getPostTitle, 0, 10);
 					if (!isset($getPostID) && !isset($getPostTitle)) {
 						$getPostID = 0;
 						$getPostTitle = "preview";
@@ -81,7 +78,7 @@
 			}
 			echo '<h2>
 					<center>
-						<a class="effectoConfig" style="cursor:pointer;" effectohref="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postID='.$getPostID.'&postName='.$getPostTitle.'&shortname='.$shortname.'&pluginType=postAdd&postURL='.$postUrl.'?post='.$getPostID.'">Add emotion set to this post</a>
+						<a class="effectoConfig" style="cursor:pointer;" effectohref="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postID='.$getPostID.'&postName='.$getPostTitle.'&shortname='.$p_shortname.'&pluginType=postAdd&postURL='.$postUrl.'?post='.$getPostID.'">Add emotion set to this post</a>
 					</center>
 				</h2>';
 		} else {
@@ -97,7 +94,7 @@
 				</h2> '.$postCode;
 			echo '<h2>
 					<center>
-						<a class="effectoConfig" style="cursor:pointer;" effectohref="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postID='.$getPostID.'&postName='.$getPostTitle.'&pluginType=postEdit&postURL='.$_SERVER['REQUEST_URI'].'?post_id='.$getPostID.'&shortname='.$shortname.'">Change emotion set of this post</a>
+						<a class="effectoConfig" style="cursor:pointer;" effectohref="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postID='.$getPostID.'&postName='.$getPostTitle.'&pluginType=postEdit&postURL='.$_SERVER['REQUEST_URI'].'?post_id='.$getPostID.'&shortname='.$p_shortname.'">Change emotion set of this post</a>
 					<center>
 				</h2>';
 		}
@@ -134,9 +131,25 @@
 			</script>';
 	}
 
+	function updateEff_title() {
+		$eff_id = get_the_ID();
+		$wpress_post = get_post($eff_id);
+		$wpress_title = $wpress_post->post_title;
+		/* $shortname = getShortnameByPostID($eff_id);
+		if (!isset($shortname)) {
+			$shortname = getShortnameByPostID(0);
+		} */
+		if (isset($eff_id)) {
+			$args = array(
+				'body' => array('action' => 'updateContentTitle', 'title' => $wpress_title, 'post_id' => $eff_id),
+			);
+			wp_remote_post('http://www.myeffecto.com/contentdetails', $args);
+		}
+	}
+
 	function allSetCode($allPostCode, $getPostTitle) {
 		$allPostCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $allPostCode);
-		
+
 		$allPostCode = str_replace("var effectoPostId=''","var effectoPostId='0'", $allPostCode);
 		$allPostCode = str_replace("var effectoPagetitle = ''","var effectoPagetitle='preview'", $allPostCode);
 		$allPostCode = str_replace("var effectoPageurl = ''","var effectoPageurl=''", $allPostCode);
@@ -146,6 +159,7 @@
 		foreach($eff_details as $detail) {
 			$shortname = $detail -> shortname;
 		}
+
 		echo '<h2>
 				<center>
 					<a href="http://www.myeffecto.com/dashboard-overview" target="_blank">Visit Dashboard</a> <br /><br />
@@ -160,4 +174,6 @@
 			</h2>';
 			showEffModal();
 	}
+
+	add_action( 'save_post', 'updateEff_title' );
 ?>
