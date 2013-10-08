@@ -125,10 +125,12 @@ function myeffecto_admin() {
 			} else {
 				$isFirstUser=false;
 				global $wpdb;
+				global $effecto_db_version;
 				$table_name = $wpdb->prefix . "effecto";
 				$eff_get_dbVersion = get_option('effecto_db_version');
 				if ($eff_get_dbVersion != $effecto_db_version) {
 					createEffectoTable($effecto_db_version);
+					update_option('effecto_db_version', $effecto_db_version);
 				} else {
 					$apiEmbedArray = getEmbedCodeByPostID(0);
 					$embedCode=$apiEmbedArray;
