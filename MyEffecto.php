@@ -3,7 +3,7 @@
 Plugin Name: My Effecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.1
+Version: 1.0.2
 Author URI: www.myeffecto.com
 */
 error_reporting(0);
@@ -14,6 +14,7 @@ add_action('admin_menu', 'myeffecto_admin_actions');
 add_filter( 'the_content', 'echoEndUserPlugin');
 
 $embedCode = null;
+$effecto_db_version = "1.0.2";
 
 /* Show plugin on Menu bar */
 function myeffecto_admin_actions() {
@@ -125,8 +126,9 @@ function myeffecto_admin() {
 				$isFirstUser=false;
 				global $wpdb;
 				$table_name = $wpdb->prefix . "effecto";
-				if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
-					createEffectoTable();
+				$eff_get_dbVersion = get_option('effecto_db_version');
+				if ($eff_get_dbVersion != $effecto_db_version) {
+					createEffectoTable($effecto_db_version);
 				} else {
 					$apiEmbedArray = getEmbedCodeByPostID(0);
 					$embedCode=$apiEmbedArray;
@@ -313,7 +315,7 @@ function myeffecto_admin() {
 	function pluginUninstall() {
         global $wpdb;
         $table = $wpdb->prefix."effecto";
-
+		delete_option("effecto_db_version");
 		$wpdb->query("DROP TABLE IF EXISTS $table");
 	}
 	register_uninstall_hook( __FILE__, 'pluginUninstall' );

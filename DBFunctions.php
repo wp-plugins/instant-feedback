@@ -4,7 +4,7 @@
 	$table_name = $wpdb->prefix . "effecto";
 
 	/* Create Effecto Table */
-	function createEffectoTable() {
+	function createEffectoTable($effecto_db_version) {
 		global $table_name;
 		$sql = "CREATE TABLE $table_name (
 			id mediumint(9) NOT NULL AUTO_INCREMENT,
@@ -17,6 +17,7 @@
 		);";
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $sql );
+		add_option( "effecto_db_version", $effecto_db_version );
 	}
 
 	/* Save plugin data in db */
