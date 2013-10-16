@@ -6,16 +6,19 @@ Description: Getting customized and interactive feedback for your blog.
 Version: 1.0.3
 Author URI: www.myeffecto.com
 */
-error_reporting(0);
+//error_reporting(0);
 require('DBFunctions.php');
 require('PostConfiguration.php');
 /* Add MyEffecto link to Setting Tab. */
 add_action('admin_menu', 'myeffecto_admin_actions');
 add_filter( 'the_content', 'echoEndUserPlugin');
+add_action('wp_ajax_nopriv_my_action', 'myeffecto_action_callback');
+add_action('wp_ajax_myeffecto_action_callback', 'myeffecto_dbupdate');
 
 $embedCode = null;
-$effecto_db_version = "1.0.3";
 
+$hostString="http://www.myeffecto.com";
+// $hostString="http://localhost:8888";
 /* Show plugin on Menu bar */
 function myeffecto_admin_actions() {
 	add_options_page('MyEffecto', 'MyEffecto', 'manage_options', _FILE_, 'myeffecto_admin', null, '59.5');
@@ -25,8 +28,15 @@ wp_enqueue_script("jquery");
 wp_enqueue_script("jquery-ui-dialog");
 wp_enqueue_style("wp-Myeffecto", "http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css");
 
+
 $shortname = $_GET['shortname'];
 $globalPostID = $_GET['postID'];
+
+function myeffecto_get_version() {
+		$plugin_data = get_plugin_data( __FILE__ );
+		$plugin_version = $plugin_data['Version'];
+		return $plugin_version;
+}
 
 function myeffecto_admin() {
 	 $user_id = get_current_user_id();
@@ -47,36 +57,38 @@ function myeffecto_admin() {
 	<form id="reloadForm" action="" method="post" style="display:none;"><input type='submit'/></form>
 <?php
 	if(isset($data)) {
-		$isCodeExist = getEmbedCodeByPostID($postID);
+		$isCodeExistArray = getMyEffectoPluginDetails($postID);
+		$isCodeExist=null;
+		foreach($isCodeExistArray as $detail) {
+			$isCodeExist = $detail -> embedCode;
+		}
 		if ($isCodeExist == null) {
+		
 			if (!isset($postID)) {
 			
-				$defaultEdit = $_GET['pluginType'];
-				if (isset($defaultEdit) && $defaultEdit == "defaultEdit") {
-					updateEmbedCode($data, 0, $eff_shortname);
-				?>
+				    $defaultEdit = $_GET['pluginType'];
+				    if (isset($defaultEdit) && $defaultEdit == "defaultEdit") {
+						updateMyeffectoEmbedCode($data, 0, $eff_shortname);
+						replaceDataWithNew($data, 0, $eff_shortname)
+					?>
 						<script type="text/javascript">
-					   <!--
-							window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
-					   //-->
-					   </script>
+								window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
+						</script>
 				<?php
 					} else {
-					insertInDb($user_id, null, $data, null, $eff_shortname);
-					if (isset($postURL)) {
-						?>
-							<script type="text/javascript">
-						   <!--
-								window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
-						   //-->
-						   </script>
-						<?php
-					} else {
-						echo "<h1><center>Your emoticon set has been added on your posts successfully.<br><br>Go to your post to see the effect.</center></h1>";
+						insertInMyEffectoDb($user_id, null, $data, null, $eff_shortname);
+						if (isset($postURL)) {
+							?>
+								<script type="text/javascript">
+									window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
+							   </script>
+							<?php
+						} else {
+							echo "<h1><center>Your emoticon set has been added on your posts successfully.<br><br>Go to your post to see the effect.</center></h1>";
+						}
 					}
-				}
 			} else {
-				insertInDb($user_id, null, $data, $postID, $eff_shortname);
+				insertInMyEffectoDb($user_id, null, $data, $postID, $eff_shortname);
 				?>
 					<script type="text/javascript">
 				   <!--
@@ -88,7 +100,9 @@ function myeffecto_admin() {
 		} else {
 			$addType = $_GET['pluginType'];
 			if ($addType == "postEdit") {
-				updateEmbedCode($data, $postID, $eff_shortname);
+				if(replaceDataWithNew($data,$postID,$eff_shortname)){
+					updateMyeffectoEmbedCode($data, $postID, $eff_shortname);
+				}
 				?>
 					<script type="text/javascript">
 						window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
@@ -125,14 +139,19 @@ function myeffecto_admin() {
 			} else {
 				$isFirstUser=false;
 				global $wpdb;
-				global $effecto_db_version;
+				$effecto_db_version=myeffecto_get_version();
 				$table_name = $wpdb->prefix . "effecto";
 				$eff_get_dbVersion = get_option('effecto_db_version');
 				if ($eff_get_dbVersion != $effecto_db_version) {
 					createEffectoTable($effecto_db_version);
 					update_option('effecto_db_version', $effecto_db_version);
 				} else {
-					$apiEmbedArray = getEmbedCodeByPostID(0);
+					$apiEmbedArrayDtls = getMyEffectoPluginDetails(0);
+					$apiEmbedArray="";
+					foreach($apiEmbedArrayDtls as $detail) {
+						$apiEmbedArray = $detail -> embedCode;
+					}
+					
 					$embedCode=$apiEmbedArray;
 
 					if (!isset($embedCode)) {
@@ -146,7 +165,7 @@ function myeffecto_admin() {
 				}
 
 				if ($isFirstUser) {
-					echoFirstUserScript();
+					echoUserScript();
 					return;
 				}
 			}
@@ -164,6 +183,7 @@ function myeffecto_admin() {
 	}
 
 	function configurationScript($shortname, $globalPostID) {
+	    global $hostString;
 		echo '<script>
 				var shortname = "'.$shortname.'";
 				var effecto_identifier = "'.$globalPostID.'";
@@ -171,9 +191,9 @@ function myeffecto_admin() {
 				function save(shortname) {
 					
 					if (shortname == null || shortname === "" || shortname === "undefined") {
-						ifrm.contentWindow.postMessage("Save","http://www.myeffecto.com");
+						ifrm.contentWindow.postMessage("Save","'.$hostString.'");
 					} else {
-						ifrm.contentWindow.postMessage("Save#~#delete#~#"+shortname+"#~#"+effecto_identifier,"http://www.myeffecto.com");
+						ifrm.contentWindow.postMessage("Save#~#delete#~#"+shortname+"#~#"+effecto_identifier,"'.$hostString.'");
 						shortname = "";
 						effecto_identifier = "";
 					}
@@ -224,19 +244,22 @@ function myeffecto_admin() {
 				}
 
 				function afterLoginSuccess() {
+				
 					jQuery(\'#effectoFrame\').parent().prepend(jQuery(\'<input type="button" id="generate" onclick="save("")" value="Generate Plugin" class="button-primary"/>\'));
-					ifrm.setAttribute("src", "http://www.myeffecto.com/configureplug");
+					ifrm.setAttribute("src", "'.$hostString.'/configureplug");
 				}';
 	}
 
-	function echoFirstUserScript() {
+	/*function echoFirstUserScript() {
 		global $shortname;
 		global $globalPostID;
+		global $hostString;
 		configurationScript($shortname, $globalPostID);
 		echo '	var ifrm = null;
 				window.onload=function(){
+			
 					ifrm = document.getElementById("effectoFrame");
-					ifrm.setAttribute("src", "http://www.myeffecto.com/login?callback=configureplug");
+					ifrm.setAttribute("src", "'.$hostString.'/login?callback=configureplug");
 					ifrm.setAttribute("frameborder","0");
 					ifrm.setAttribute("allowtransparency","true");
 
@@ -246,17 +269,19 @@ function myeffecto_admin() {
 				};
 			</script>
 			<div id="load" style="display:none;"></div>
-			<iframe id="effectoFrame" src ="http://www.myeffecto.com/login?callback=configureplug" width="100%" height="465">';
-	}
+			<iframe id="effectoFrame" src ="'.$hostString.'/login?callback=configureplug" width="100%" height="465">';
+	}*/
 
 	function echoUserScript() {
 		global $shortname;
 		global $globalPostID;
+		global $hostString;
 		configurationScript($shortname, $globalPostID);
 		echo '	var ifrm= null;
 				window.onload=function(){
+	
 					ifrm = document.getElementById("effectoFrame");
-					ifrm.setAttribute("src", "http://www.myeffecto.com/login?callback=configureplug");
+					ifrm.setAttribute("src", "'.$hostString.'/login?callback=configureplug");
 					ifrm.setAttribute("frameborder","0");
 					ifrm.setAttribute("allowtransparency","true");
 
@@ -266,7 +291,7 @@ function myeffecto_admin() {
 				};
 			</script>
 			<div id="load" style="display:none;"></div>
-			<iframe id="effectoFrame" src ="http://www.myeffecto.com/login?callback=configureplug" width="100%" height="465"/>';
+			<iframe id="effectoFrame" src ="'.$hostString.'/login?callback=configureplug" width="100%" height="465"/>';
 	}
 
 	/* Show plugin in posts. */
@@ -275,26 +300,28 @@ function myeffecto_admin() {
 		$getPostTitle = get_the_title();
 		$wpSite = get_site_url();
 		//$getPostTitle = substr($getPostTitle, 0, 10);
-		$apiEmbedArray = getEmbedCodeByPostID($postId);
-		if ($apiEmbedArray == null) {
-			$apiEmbedArray = getEmbedCodeByPostID(0);
+		$apiPluginDetailsArray = getMyEffectoPluginDetails($postId);
+		if ($apiPluginDetailsArray == null) {
+			$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
 		}
-
-		if (is_single()) 
+		$apiEmbedArray="";
+		$p_shortname="";
+		foreach($apiPluginDetailsArray as $detail) {
+			$apiEmbedArray = $detail -> embedCode;
+			$p_shortname = $detail -> shortname;
+		}
+		replaceDataWithNew($apiEmbedArray,$p_shortname,$postId);
+		if (is_single())
 		{
 			$apiEmbedArray = str_replace("var effectoPostId=''","var effectoPostId='".$postId."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPreview=''","var effectoPreview='false'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$postId."'", $apiEmbedArray);
-
-			// $last = substr($apiEmbedArray, stripos($apiEmbedArray, 'effecto_uniquename'), strpos($apiEmbedArray, ";") - stripos($apiEmbedArray, 'effecto_uniquename'));
-
 			return $text.$apiEmbedArray;
 		} else {
 			return $text;
 		}
 	}
-
 	/* Simple string replace function */
 	function replaceText ($text) {
 		$text = str_replace('\"','', $text);
@@ -320,5 +347,38 @@ function myeffecto_admin() {
 		delete_option("effecto_db_version");
 		$wpdb->query("DROP TABLE IF EXISTS $table");
 	}
+	function myeffecto_dbupdate(){
+		$action = $_POST['action'];
+		$upddata = $_POST['upddata'];
+		$shortname = $_POST['shortname'];
+		$postid = $_POST['postid'];
+		updateNewMyeffectoEmbedCode($upddata, $shortname);
+
+		die(); 
+	}
+	function replaceDataWithNew($apiEmbedArray, $p_shortname,$postId){
+		global $hostString;
+		if (strpos($apiEmbedArray,'version2') !== false) {return true;}else{
+			 echo '<script>
+					  function myCallback(html){
+							var data = {
+								action: "myeffecto_action_callback",
+								upddata: ""+html.keyser,
+								shortname: "'.$p_shortname.'",
+								postid: "'.$postId.'" 
+							};
+							var ajaxUrl="wp-admin/admin-ajax.php";
+							jQuery.post(ajaxUrl, data, function(response) {
+								alert(response);
+							});
+					  }
+					</script>
+					<script type="text/javascript" src="http://'.$hostString.'/contentdetails?action=recreate&icon=medium&shortName='.$p_shortname.'&callback=myCallback"></script>
+				';
+			return false;
+		}
+		return true;
+	}
 	register_uninstall_hook( __FILE__, 'pluginUninstall' );
+	
 ?>

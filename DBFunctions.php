@@ -21,7 +21,7 @@
 	}
 
 	/* Save plugin data in db */
-	function insertInDb($user_id, $apiKey, $code, $postID, $eff_shortname) {
+	function insertInMyEffectoDb($user_id, $apiKey, $code, $postID, $eff_shortname) {
 		$code = stripcslashes($code);
 
 		global $wpdb;
@@ -47,7 +47,7 @@
 	}
 
 	/* Update effecto table */
-	function updateEmbedCode($data, $postID, $eff_shortname) {
+	function updateMyeffectoEmbedCode($data, $postID, $eff_shortname) {
 		$data = stripcslashes($data);
 
 		global $wpdb;
@@ -68,15 +68,35 @@
 		);
 	}
 
+	function updateNewMyeffectoEmbedCode($data, $eff_shortname) {
+		$data = stripcslashes($data);
+
+		global $wpdb;
+		global $table_name;
+
+		$wpdb->update(
+			$table_name,
+			array(
+				'embedCode' => $data,
+			),
+			array( 'shortname' => $eff_shortname ),
+			array( 
+				'%s',	// value1
+			), 
+			array( '%d' )
+		);
+
+	}
+
 	/* Select pluginCode by userID */
-	function getEmbedCodeByPostID($postID) {
+	function getMyeffectoEmbedCodeByPostID($postID) {
 		global $wpdb;
 		global $table_name;
 
 		return $wpdb->get_var("SELECT embedCode FROM $table_name WHERE postID=".$postID);
 	}
 	
-	function getPluginDetails($postID) {
+	function getMyEffectoPluginDetails($postID) {
 		global $wpdb;
 		global $table_name;
 		return $wpdb->get_results( "SELECT embedCode, shortname FROM $table_name WHERE postID=".$postID);
