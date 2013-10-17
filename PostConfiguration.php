@@ -101,7 +101,6 @@ $p_shortname = null;
 				</h2> '.$postCode;
 			echo '<h2>
 					<center>
-					    Verion is '.myeffecto_get_version().'
 						<a class="effectoConfig" style="cursor:pointer;" effectohref="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postID='.$getPostID.'&postName='.$getPostTitle.'&pluginType=postEdit&postURL='.$_SERVER['REQUEST_URI'].'?post_id='.$getPostID.'&shortname='.$p_shortname.'">Change emotion set of this post</a>
 					<center>
 				</h2>';
