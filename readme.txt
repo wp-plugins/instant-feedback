@@ -41,7 +41,7 @@ Ans: Refresh the page once.
 
 == Changelog ==
 
-1. An important update related to database. Will fix problems of configuration page of not showing emotions even if it was configured, if any.
+1. Minor bug fixes.
 
 == Upgrade notice ==
 
