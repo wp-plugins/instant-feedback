@@ -317,7 +317,7 @@ function myeffecto_admin() {
 		{
 			$apiEmbedArray = str_replace("var effectoPostId=''","var effectoPostId='".$postId."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPreview=''","var effectoPreview='false'", $apiEmbedArray);
-			$apiEmbedArray = str_replace("var effectoPagetitle =''","var effectoPagetitle='".$getPostTitle."'", $apiEmbedArray);
+			$apiEmbedArray = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$postId."'", $apiEmbedArray);
 			return $text.$apiEmbedArray;
 		} else {
