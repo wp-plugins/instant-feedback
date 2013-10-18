@@ -15,7 +15,7 @@ $p_shortname = null;
 		}
 
 		$getPostID = get_the_ID();
-		if (!isset($getPostID)) {
+		if (!isset($getPostID) || empty($getPostID)) {
 			$getPostID = $_GET['post_id'];
 		}
 
@@ -34,7 +34,7 @@ $p_shortname = null;
 			$p_shortname = $detail -> shortname;
 		}
 		/* Check if there is plugin for current post. */
-		if (!isset($postCode)) {
+		if (!isset($postCode) || empty($postCode)) {
 			/* If not found, check for AllPost code. */
 			//$allPostCode = getMyeffectoEmbedCodeByPostID(0);
 
@@ -43,7 +43,7 @@ $p_shortname = null;
 				$allPostCode = $detail -> embedCode;
 				$p_shortname = $detail -> shortname;
 			}
-			if (isset($allPostCode)) {
+			if (isset($allPostCode) && !empty($allPostCode)) {
 				/* allSetCode($allPostCode, $getPostTitle);
 				echo '<h1>
 						<center>OR</center>
@@ -52,15 +52,16 @@ $p_shortname = null;
 					
 					$allPostCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $allPostCode);
 					$getPostID = get_the_ID();
+					
 					replaceDataWithNew($allPostCode,$p_shortname,$getPostID);
 					$getPostTitle = get_the_title();
 					//$getPostTitle = substr($getPostTitle, 0, 10);
-					if (!isset($getPostID) && !isset($getPostTitle)) {
+					if ((!isset($getPostID) || empty($getPostID)) && (!isset($getPostTitle) || empty($getPostTitle))) {
 						$getPostID = 0;
 						$getPostTitle = "preview";
 					}
 					$allPostCode = str_replace("var effectoPostId=''","var effectoPostId='0'", $allPostCode);
-					$allPostCode = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $allPostCode);
+					$allPostCode = str_replace("var effectoPagetitle =''","var effectoPagetitle='".$getPostTitle."'", $allPostCode);
 					$allPostCode = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$getPostID."'", $allPostCode);
 
 					echo '<h2>
@@ -89,10 +90,11 @@ $p_shortname = null;
 				</h2>';
 		} else {
 		//<strong> '.$getPostTitle.' </strong>
+		   
 			replaceDataWithNew($postCode,$p_shortname,$getPostID);
 			$postCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $postCode);
 			$postCode = str_replace("var effectoPostId=''","var effectoPostId='".$getPostID."'", $postCode);
-			$postCode = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $postCode);
+			$postCode = str_replace("var effectoPagetitle =''","var effectoPagetitle='".$getPostTitle."'", $postCode);
 			$postCode = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$getPostID."'", $postCode);
 
 			$currentPost = "current";
@@ -101,6 +103,7 @@ $p_shortname = null;
 				</h2> '.$postCode;
 			echo '<h2>
 					<center>
+					    Verion is '.myeffecto_get_version().'
 						<a class="effectoConfig" style="cursor:pointer;" effectohref="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postID='.$getPostID.'&postName='.$getPostTitle.'&pluginType=postEdit&postURL='.$_SERVER['REQUEST_URI'].'?post_id='.$getPostID.'&shortname='.$p_shortname.'">Change emotion set of this post</a>
 					<center>
 				</h2>';
@@ -147,7 +150,7 @@ $p_shortname = null;
 		if (!isset($shortname)) {
 			$shortname = getShortnameByPostID(0);
 		} */
-		if (isset($eff_id)) {
+		if (isset($eff_id) && !empty($eff_id)) {
 			$args = array(
 				'body' => array('action' => 'updateContentTitle', 'title' => $wpress_title, 'post_id' => $eff_id),
 			);
@@ -160,7 +163,7 @@ $p_shortname = null;
 		$allPostCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $allPostCode);
 
 		$allPostCode = str_replace("var effectoPostId=''","var effectoPostId='0'", $allPostCode);
-		$allPostCode = str_replace("var effectoPagetitle = ''","var effectoPagetitle='preview'", $allPostCode);
+		$allPostCode = str_replace("var effectoPagetitle =''","var effectoPagetitle='preview'", $allPostCode);
 		$allPostCode = str_replace("var effectoPageurl = ''","var effectoPageurl=''", $allPostCode);
 
 		$shortname = "";

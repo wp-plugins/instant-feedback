@@ -3,7 +3,7 @@
 Plugin Name: My Effecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.5
+Version: 1.0.6
 Author URI: www.myeffecto.com
 */
 //error_reporting(0);
@@ -28,14 +28,13 @@ wp_enqueue_script("jquery");
 wp_enqueue_script("jquery-ui-dialog");
 wp_enqueue_style("wp-Myeffecto", "http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css");
 
-
 $shortname = $_GET['shortname'];
 $globalPostID = $_GET['postID'];
 
 function myeffecto_get_version() {
-		$plugin_data = get_plugin_data( __FILE__ );
-		$plugin_version = $plugin_data['Version'];
-		return $plugin_version;
+	$plugin_data = get_plugin_data( __FILE__ );
+	$plugin_version = $plugin_data['Version'];
+	return $plugin_version;
 }
 
 function myeffecto_admin() {
@@ -56,7 +55,7 @@ function myeffecto_admin() {
 	</form>
 	<form id="reloadForm" action="" method="post" style="display:none;"><input type='submit'/></form>
 <?php
-	if(isset($data)) {
+	if(isset($data) && !empty($data)) {
 		$isCodeExistArray = getMyEffectoPluginDetails($postID);
 		$isCodeExist=null;
 		foreach($isCodeExistArray as $detail) {
@@ -64,11 +63,12 @@ function myeffecto_admin() {
 		}
 		if ($isCodeExist == null) {
 		
-			if (!isset($postID)) {
+			if (!isset($postID) || empty($postID)) {
 			
 				    $defaultEdit = $_GET['pluginType'];
 				    if (isset($defaultEdit) && $defaultEdit == "defaultEdit") {
 						updateMyeffectoEmbedCode($data, 0, $eff_shortname);
+					
 						replaceDataWithNew($data, 0, $eff_shortname)
 					?>
 						<script type="text/javascript">
@@ -77,7 +77,7 @@ function myeffecto_admin() {
 				<?php
 					} else {
 						insertInMyEffectoDb($user_id, null, $data, null, $eff_shortname);
-						if (isset($postURL)) {
+						if (isset($postURL) &&  !empty($postID)) {
 							?>
 								<script type="text/javascript">
 									window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
@@ -100,9 +100,10 @@ function myeffecto_admin() {
 		} else {
 			$addType = $_GET['pluginType'];
 			if ($addType == "postEdit") {
-				if(replaceDataWithNew($data,$postID,$eff_shortname)){
+					
 					updateMyeffectoEmbedCode($data, $postID, $eff_shortname);
-				}
+					
+					replaceDataWithNew($data,$postID,$eff_shortname);
 				?>
 					<script type="text/javascript">
 						window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
@@ -139,7 +140,7 @@ function myeffecto_admin() {
 			} else {
 				$isFirstUser=false;
 				global $wpdb;
-				$effecto_db_version=myeffecto_get_version();
+				$effecto_db_version = myeffecto_get_version();
 				$table_name = $wpdb->prefix . "effecto";
 				$eff_get_dbVersion = get_option('effecto_db_version');
 				if ($eff_get_dbVersion != $effecto_db_version) {
@@ -154,7 +155,7 @@ function myeffecto_admin() {
 					
 					$embedCode=$apiEmbedArray;
 
-					if (!isset($embedCode)) {
+					if (!isset($embedCode) || empty($embedCode)) {
 						$isFirstUser=true;
 					} else {
 						$myeffectoArray['userID']=$user_id ;
@@ -170,7 +171,7 @@ function myeffecto_admin() {
 				}
 			}
 
-			if (isset($embedCode) && !isset($postURL)) {
+			if (isset($embedCode) && !empty($embedCode) && (!isset($postURL) || empty($postURL))) {
 				allSetCode($embedCode, null);
 			} else {
 				echoUserScript();
@@ -310,12 +311,13 @@ function myeffecto_admin() {
 			$apiEmbedArray = $detail -> embedCode;
 			$p_shortname = $detail -> shortname;
 		}
+		
 		replaceDataWithNew($apiEmbedArray,$p_shortname,$postId);
 		if (is_single())
 		{
 			$apiEmbedArray = str_replace("var effectoPostId=''","var effectoPostId='".$postId."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPreview=''","var effectoPreview='false'", $apiEmbedArray);
-			$apiEmbedArray = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $apiEmbedArray);
+			$apiEmbedArray = str_replace("var effectoPagetitle =''","var effectoPagetitle='".$getPostTitle."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$postId."'", $apiEmbedArray);
 			return $text.$apiEmbedArray;
 		} else {
@@ -329,7 +331,7 @@ function myeffecto_admin() {
 	}
 
 	function addAlert($pluginStatus) {
-		if (isset($pluginStatus)) {
+		if (isset($pluginStatus) && !empty($pluginStatus)) {
 ?>
 			<script type="text/javascript">
 				$j = jQuery;
@@ -351,29 +353,30 @@ function myeffecto_admin() {
 		$action = $_POST['action'];
 		$upddata = $_POST['upddata'];
 		$shortname = $_POST['shortname'];
-		$postid = $_POST['postid'];
+		//$postid = $_POST['postid'];
 		updateNewMyeffectoEmbedCode($upddata, $shortname);
 
-		die(); 
+		die();
 	}
-	function replaceDataWithNew($apiEmbedArray, $p_shortname,$postId){
+	function replaceDataWithNew($apiEmbedArray, $p_shortname){
 		global $hostString;
 		if (strpos($apiEmbedArray,'version3') !== false) {return true;}else{
 			 echo '<script>
 					  function myCallback(html){
+					        alert(html.keyser);
 							var data = {
 								action: "myeffecto_action_callback",
 								upddata: ""+html.keyser,
 								shortname: "'.$p_shortname.'",
-								postid: "'.$postId.'" 
+								
 							};
-							var ajaxUrl="wp-admin/admin-ajax.php";
-							jQuery.post(ajaxUrl, data, function(response) {
+							//var ajaxUrl="/admin-ajax.php";
+							jQuery.post(ajaxurl, data, function(response) {
 								alert(response);
 							});
 					  }
 					</script>
-					<script type="text/javascript" src="http://'.$hostString.'/contentdetails?action=recreate&icon=medium&shortName='.$p_shortname.'&callback=myCallback"></script>
+					<script type=\'text/javascript\' src=\''.$hostString.'/contentdetails?action=recreate&icon=medium&shortName='.$p_shortname.'&callback=myCallback\'></script>
 				';
 			return false;
 		}

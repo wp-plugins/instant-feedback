@@ -83,7 +83,7 @@
 			array( 
 				'%s',	// value1
 			), 
-			array( '%d' )
+			array( '%s' )
 		);
 
 	}
