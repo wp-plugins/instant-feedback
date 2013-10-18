@@ -162,7 +162,7 @@ $p_shortname = null;
 		$allPostCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $allPostCode);
 
 		$allPostCode = str_replace("var effectoPostId=''","var effectoPostId='0'", $allPostCode);
-		$allPostCode = str_replace("var effectoPagetitle =''","var effectoPagetitle='preview'", $allPostCode);
+		$allPostCode = str_replace("var effectoPagetitle = ''","var effectoPagetitle='preview'", $allPostCode);
 		$allPostCode = str_replace("var effectoPageurl = ''","var effectoPageurl=''", $allPostCode);
 
 		$shortname = "";
