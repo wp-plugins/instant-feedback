@@ -363,7 +363,6 @@ function myeffecto_admin() {
 		if (strpos($apiEmbedArray,'version3') !== false) {return true;}else{
 			 echo '<script>
 					  function myCallback(html){
-					        alert(html.keyser);
 							var data = {
 								action: "myeffecto_action_callback",
 								upddata: ""+html.keyser,
@@ -372,7 +371,6 @@ function myeffecto_admin() {
 							};
 							//var ajaxUrl="/admin-ajax.php";
 							jQuery.post(ajaxurl, data, function(response) {
-								alert(response);
 							});
 					  }
 					</script>

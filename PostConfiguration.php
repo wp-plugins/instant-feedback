@@ -1,13 +1,13 @@
 <?php
 	add_action( 'add_meta_boxes', 'effectoBox' );  
-	
+
 	$hostString="http://www.myeffecto.com";
 	// $hostString="http://localhost:8888";
-	
+
 	function effectoBox() {  
 		add_meta_box( 'my-meta-box-id', 'MyEffecto Configuration', 'showEffectoBox', 'post', 'normal', 'core' );  
 	}
-$p_shortname = null;
+	$p_shortname = null;
 	function showEffectoBox() {
 
 		$pluginStatus = $_GET["plugin"];
