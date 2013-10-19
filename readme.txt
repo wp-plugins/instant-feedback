@@ -42,6 +42,7 @@ Ans: Refresh the page once.
 == Changelog ==
 
 1. Minor bug fixes.
+2. Removed unnecessary alerts(if any).
 
 == Upgrade notice ==
 
