@@ -5,10 +5,16 @@
 	// $hostString="http://localhost:8888";
 
 	function effectoBox() {  
-		add_meta_box( 'my-meta-box-id', 'MyEffecto Configuration', 'showEffectoBox', 'post', 'normal', 'core' );  
+		add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration', 'showEffectoBox', 'post', 'normal', 'core' );  
 	}
 	$p_shortname = null;
 	function showEffectoBox() {
+
+		echo "<script>
+				jQuery(function($){
+					$('#effecto_meta_box').addClass('closed');
+				});
+			</script>";
 
 		$pluginStatus = $_GET["plugin"];
 		if ($pluginStatus == 'success') {
@@ -64,12 +70,12 @@
 					$allPostCode = str_replace("var effectoPagetitle =''","var effectoPagetitle='".$getPostTitle."'", $allPostCode);
 					$allPostCode = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$getPostID."'", $allPostCode);
 
-					/* echo '<h2>
+					echo '<h2>
 						<center>
 							(PREVIEW-ONLY)<br />
 							Your default emotion set is 
 						</center>
-					</h2> '.$allPostCode; */
+					</h2> '.$allPostCode;
 			} else {
 				echo '<h1>
 						<center>
@@ -98,9 +104,9 @@
 			$postCode = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$getPostID."'", $postCode);
 
 			$currentPost = "current";
-			/* echo '<h2>
+			echo '<h2>
 					<center>(PREVIEW-ONLY) <br>Your current emotion set for this post is </center>
-				</h2> '.$postCode; */
+				</h2> '.$postCode;
 			echo '<h2>
 					<center>
 						<a class="effectoConfig" style="cursor:pointer;" effectohref="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postID='.$getPostID.'&postName='.$getPostTitle.'&pluginType=postEdit&postURL='.$_SERVER['REQUEST_URI'].'?post_id='.$getPostID.'&shortname='.$p_shortname.'">Change emotion set of this post</a>
