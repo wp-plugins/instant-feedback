@@ -3,7 +3,7 @@
 Plugin Name: My Effecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.10
+Version: 1.0.11
 Author URI: www.myeffecto.com
 */
 //error_reporting(0);
@@ -28,9 +28,6 @@ wp_enqueue_script("jquery");
 wp_enqueue_script("jquery-ui-dialog");
 wp_enqueue_style("wp-Myeffecto", "http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css");
 
-$shortname = $_GET['shortname'];
-$globalPostID = $_GET['postID'];
-
 function myeffecto_get_version() {
 	$plugin_data = get_plugin_data( __FILE__ );
 	$plugin_version = $plugin_data['Version'];
@@ -39,13 +36,35 @@ function myeffecto_get_version() {
 
 function myeffecto_admin() {
 	 $user_id = get_current_user_id();
-	 $data=$_POST['dataToSend'];
-	 $eff_shortname = $_POST['eff_shortname'];
+	 $data = null;
+	if (isset($_POST['dataToSend'])) {
+		$data=$_POST['dataToSend'];
+	}
 
-	 $postID = $_GET['postID'];
-	 $postName = $_GET['postName'];
-	 $postURL = $_GET['postURL'];
-	 $shortname = $_GET['shortname'];
+	$eff_shortname = null;
+	if (isset($_POST['eff_shortname'])) {
+		$eff_shortname = $_POST['eff_shortname'];
+	}
+
+	$postID = null;
+	if (isset($_GET['postID'])) {
+		$postID = $_GET['postID'];
+	}
+
+	$postName = null;
+	if (isset($_GET['postName'])) {
+		$postName = $_GET['postName'];
+	}
+
+	$postURL = null;
+	if (isset($_GET['postURL'])) {
+		$postURL = $_GET['postURL'];
+	}
+
+	$shortname = null;
+	if (isset($_GET['shortname'])) {
+		$shortname = $_GET['shortname'];
+	}
 ?> 
 	<form id="submitForm" action="" method="post" style="display:none;">
 		<input name="isToInsert" value="true" id="isToInsert" type="hidden"/>
@@ -183,7 +202,7 @@ function myeffecto_admin() {
 		}
 	}
 
-	function configurationScript($shortname, $globalPostID) {
+	function configurationScript($shortname, $globalPostID, $title) {
 	    global $hostString;
 		echo '<script>
 				var shortname = "'.$shortname.'";
@@ -275,10 +294,24 @@ function myeffecto_admin() {
 	}*/
 
 	function echoUserScript() {
-		global $shortname;
-		global $globalPostID;
 		global $hostString;
-		configurationScript($shortname, $globalPostID);
+
+		$shortname = null;
+		if (isset($_GET['shortname'])) {
+			$shortname = $_GET['shortname'];
+		}
+
+		$globalPostID = null;
+		if ($_GET['postID']) {
+			$globalPostID = $_GET['postID'];
+		}
+
+		$postname = null;
+		if ($_GET['postName']) {
+			$postname = $_GET['postName'];
+		}
+
+		configurationScript($shortname, $globalPostID, $title);
 		echo '	var ifrm= null;
 				window.onload=function(){
 					ifrm = document.getElementById("effectoFrame");
