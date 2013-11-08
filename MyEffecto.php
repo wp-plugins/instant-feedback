@@ -3,7 +3,7 @@
 Plugin Name: My Effecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.11
+Version: 1.0.12
 Author URI: www.myeffecto.com
 */
 //error_reporting(0);
@@ -311,7 +311,7 @@ function myeffecto_admin() {
 			$postname = $_GET['postName'];
 		}
 
-		configurationScript($shortname, $globalPostID, $title);
+		configurationScript($shortname, $globalPostID, $postname);
 		echo '	var ifrm= null;
 				window.onload=function(){
 					ifrm = document.getElementById("effectoFrame");
@@ -355,7 +355,7 @@ function myeffecto_admin() {
 				$postId = 0;
 			}
 			$apiEmbedArray = str_replace("var effectoPostId=''","var effectoPostId='".$postId."'", $apiEmbedArray);
-			$apiEmbedArray = str_replace("var effectoPreview=''","var effectoPreview='false'", $apiEmbedArray);
+			$apiEmbedArray = str_replace("var effectoPreview=''","var effectoPreview='".$effectoPreview."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$postId."'", $apiEmbedArray);
 			return $text.$apiEmbedArray;
