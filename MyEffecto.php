@@ -3,7 +3,7 @@
 Plugin Name: My Effecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.9
+Version: 1.0.10
 Author URI: www.myeffecto.com
 */
 //error_reporting(0);
@@ -188,13 +188,14 @@ function myeffecto_admin() {
 		echo '<script>
 				var shortname = "'.$shortname.'";
 				var effecto_identifier = "'.$globalPostID.'";
+				var postTitle="'.$title.'";
 
 				function save(shortname) {
 					
 					if (shortname == null || shortname === "" || shortname === "undefined") {
 						ifrm.contentWindow.postMessage("Save","'.$hostString.'");
 					} else {
-						ifrm.contentWindow.postMessage("Save#~#delete#~#"+shortname+"#~#"+effecto_identifier,"'.$hostString.'");
+						ifrm.contentWindow.postMessage("Save#~#delete#~#"+shortname+"#~#"+effecto_identifier+"#~#postTitle#~#"+postTitle,"'.$hostString.'");
 						shortname = "";
 						effecto_identifier = "";
 					}
@@ -281,7 +282,7 @@ function myeffecto_admin() {
 		echo '	var ifrm= null;
 				window.onload=function(){
 					ifrm = document.getElementById("effectoFrame");
-					/* ifrm.setAttribute("src", "'.$hostString.'/login?callback=configureplug"); */
+					/* ifrm.setAttribute("src", "'.$hostString.'/login?callback=configureplug&postTitle="+postTitle); */
 					ifrm.setAttribute("src", "'.$hostString.'/login?callback=confgEmoji&outside=true&postTitle="+postTitle);
 					ifrm.setAttribute("frameborder","0");
 					ifrm.setAttribute("allowtransparency","true");
