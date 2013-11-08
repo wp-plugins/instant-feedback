@@ -3,7 +3,7 @@
 Plugin Name: My Effecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.8
+Version: 1.0.9
 Author URI: www.myeffecto.com
 */
 //error_reporting(0);
@@ -280,9 +280,9 @@ function myeffecto_admin() {
 		configurationScript($shortname, $globalPostID);
 		echo '	var ifrm= null;
 				window.onload=function(){
-	
 					ifrm = document.getElementById("effectoFrame");
-					ifrm.setAttribute("src", "'.$hostString.'/login?callback=configureplug");
+					/* ifrm.setAttribute("src", "'.$hostString.'/login?callback=configureplug"); */
+					ifrm.setAttribute("src", "'.$hostString.'/login?callback=confgEmoji&outside=true&postTitle="+postTitle);
 					ifrm.setAttribute("frameborder","0");
 					ifrm.setAttribute("allowtransparency","true");
 
@@ -292,7 +292,8 @@ function myeffecto_admin() {
 				};
 			</script>
 			<div id="load" style="display:none;"></div>
-			<iframe id="effectoFrame" src ="'.$hostString.'/login?callback=configureplug" width="100%" height="465"/>';
+			<!--<iframe id="effectoFrame" src ="'.$hostString.'/login?callback=configureplug&postTitle="+postTitle width="100%" height="465"/>-->
+			<iframe id="effectoFrame" src ="'.$hostString.'/login?callback=confgEmoji&outside=true&postTitle="+postTitle width="100%" height="465"/>';
 	}
 
 	/* Show plugin in posts. */
@@ -300,7 +301,7 @@ function myeffecto_admin() {
 		$postId = get_the_ID();
 		$getPostTitle = get_the_title();
 		$wpSite = get_site_url();
-		//$getPostTitle = substr($getPostTitle, 0, 10);
+		$effectoPreview = "false";
 		$apiPluginDetailsArray = getMyEffectoPluginDetails($postId);
 		if ($apiPluginDetailsArray == null) {
 			$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
@@ -315,6 +316,10 @@ function myeffecto_admin() {
 		replaceDataWithNew($apiEmbedArray,$p_shortname,$postId);
 		if (is_single())
 		{
+			if (is_preview()) {
+				$effectoPreview = "true";
+				$postId = 0;
+			}
 			$apiEmbedArray = str_replace("var effectoPostId=''","var effectoPostId='".$postId."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPreview=''","var effectoPreview='false'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $apiEmbedArray);

@@ -5,11 +5,10 @@
 	// $hostString="http://localhost:8888";
 
 	function effectoBox() {  
-		add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration', 'showEffectoBox', 'post', 'normal', 'core' );  
+		add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration (Open for more options)', 'showEffectoBox', 'post', 'normal', 'core' );  
 	}
 	$p_shortname = null;
 	function showEffectoBox() {
-
 		echo "<script>
 				jQuery(function($){
 					$('#effecto_meta_box').addClass('closed');

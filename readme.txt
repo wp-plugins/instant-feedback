@@ -41,7 +41,7 @@ Ans: Refresh the page once.
 
 == Changelog ==
 
-1. Your configured emotions will now be visible on your EDIT POST screen. 
+1. Some minor bug fixes.
 
 == Upgrade notice ==
 
