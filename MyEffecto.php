@@ -3,7 +3,7 @@
 Plugin Name: My Effecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.13
+Version: 1.0.14
 Author URI: www.myeffecto.com
 */
 //error_reporting(0);
@@ -315,19 +315,19 @@ function myeffecto_admin() {
 		echo '	var ifrm= null;
 				window.onload=function(){
 					ifrm = document.getElementById("effectoFrame");
-					/* ifrm.setAttribute("src", "'.$hostString.'/login?callback=configureplug&postTitle="+postTitle); */
-					ifrm.setAttribute("src", "'.$hostString.'/login?callback=confgEmoji&outside=true&postTitle="+postTitle);
+					/* ifrm.setAttribute("src", "'.$hostString.'/register?callback=configureplug&postTitle="+postTitle); */
+					ifrm.setAttribute("src", "'.$hostString.'/register?callback=confgEmoji&outside=true&postTitle="+postTitle);
 					ifrm.setAttribute("frameborder","0");
 					ifrm.setAttribute("allowtransparency","true");
 
 					ifrm.style.width = "100%";
-					ifrm.style.height = "465";
+					ifrm.style.height = "500";
 					window.addEventListener("message", receiveMessage, false);
 				};
 			</script>
 			<div id="load" style="display:none;"></div>
-			<!--<iframe id="effectoFrame" src ="'.$hostString.'/login?callback=configureplug&postTitle="+postTitle width="100%" height="465"/>-->
-			<iframe id="effectoFrame" src ="'.$hostString.'/login?callback=confgEmoji&outside=true&postTitle="+postTitle width="100%" height="465"/>';
+			<!--<iframe id="effectoFrame" src ="'.$hostString.'/register?callback=configureplug&postTitle="+postTitle width="100%" height="465"/>-->
+			<iframe id="effectoFrame" src ="'.$hostString.'/register?callback=confgEmoji&outside=true&postTitle="+postTitle width="100%" height="500"/>';
 	}
 
 	/* Show plugin in posts. */
