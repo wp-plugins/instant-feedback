@@ -3,7 +3,7 @@
 Plugin Name: My Effecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.14
+Version: 1.0.15
 Author URI: www.myeffecto.com
 */
 //error_reporting(0);
@@ -81,9 +81,7 @@ function myeffecto_admin() {
 			$isCodeExist = $detail -> embedCode;
 		}
 		if ($isCodeExist == null) {
-		
 			if (!isset($postID) || empty($postID)) {
-			
 				    $defaultEdit = $_GET['pluginType'];
 				    if (isset($defaultEdit) && $defaultEdit == "defaultEdit") {
 						updateMyeffectoEmbedCode($data, 0, $eff_shortname);
@@ -96,7 +94,7 @@ function myeffecto_admin() {
 				<?php
 					} else {
 						insertInMyEffectoDb($user_id, null, $data, null, $eff_shortname);
-						if (isset($postURL) &&  !empty($postID)) {
+						if (isset($postURL) && !empty($postURL)) {
 							?>
 								<script type="text/javascript">
 									window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
@@ -195,7 +193,6 @@ function myeffecto_admin() {
 			} else {
 				echoUserScript();
 			}
-
 	?>
 		</div>
 	<?php
@@ -210,9 +207,8 @@ function myeffecto_admin() {
 				var postTitle="'.$title.'";
 
 				function save(shortname) {
-					
 					if (shortname == null || shortname === "" || shortname === "undefined") {
-						ifrm.contentWindow.postMessage("Save","'.$hostString.'");
+						ifrm.contentWindow.postMessage("Save#~#postTitle#~#"+postTitle,"'.$hostString.'");
 					} else {
 						ifrm.contentWindow.postMessage("Save#~#delete#~#"+shortname+"#~#"+effecto_identifier+"#~#postTitle#~#"+postTitle,"'.$hostString.'");
 						shortname = "";
@@ -346,7 +342,7 @@ function myeffecto_admin() {
 			$apiEmbedArray = $detail -> embedCode;
 			$p_shortname = $detail -> shortname;
 		}
-		
+
 		replaceDataWithNew($apiEmbedArray,$p_shortname,$postId);
 		if (is_single())
 		{
@@ -363,6 +359,7 @@ function myeffecto_admin() {
 			return $text;
 		}
 	}
+
 	/* Simple string replace function */
 	function replaceText ($text) {
 		$text = str_replace('\"','', $text);
@@ -406,7 +403,6 @@ function myeffecto_admin() {
 								action: "myeffecto_action_callback",
 								upddata: ""+html.keyser,
 								shortname: "'.$p_shortname.'",
-								
 							};
 							var ajaxurl = "'.admin_url("admin-ajax.php").'";
 							jQuery.post(ajaxurl, data, function(response) {
