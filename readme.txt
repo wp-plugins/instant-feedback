@@ -37,6 +37,9 @@ Ans: Refresh the page once.
 
 == Screenshots ==
 
+1. Myeffecto configuration screen inside your WordPress admin panel.
+2. Myeffecto plugin in posts.
+3. Myeffecto plugin configuration for a post.
 
 
 == Changelog ==
