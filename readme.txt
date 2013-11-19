@@ -13,10 +13,33 @@ This plugin gives customized and interactive feedback for your blog.
 == Description ==
 
 The only response to a share available till now was the 'Like' or the 'Favourite' option. With MyEffecto plugin, you can now give your viewers the privilege to vote your content in a way they actually feel about it.
+
 MyEffecto attends to this non-robotic tendency to feel in humans. 
+
+= Myeffecto for WordPress =
+
 So you simply select a list of emotions from a library we provide and add the plugin to your content and your viewers respond you what they feel.
 And the best part? Its only a button click. So that your lazy friends needn't write lines of comments. 
 Myeffecto for wordpress plugin integrates by using Myeffecto login and aligns before wordpress comments.
+
+= Myeffecto Features =
+
+* Places a div under each content which contents the set of emotions.
+* Also on the click of emotions you will get the recommendations and share.
+  These recommandations are basically the top clicked contents based on the clicked emotions.
+* Share will be the sharing on the Twitter and Facebook.
+* Provides the analytics based on the clicks.
+* Analytics will be no. of clicks and no. of visits.
+* Also Analytics will be clicks verses visits.
+* Tracks Location of clicks and visits.
+* Displays all this analytics in charts on myeffecto site(http://www.myeffecto.com/).  
+
+
+= Support =
+
+Email us on (support@myeffecto.com) for any kind of support. We assure you of a quick solutions.
+
+
 
 == Installation ==
 
@@ -30,10 +53,10 @@ MyEffecto Link is present in settings tab.
 
 == Frequently asked questions ==
 
-1.How to change the Emoticons set for a post?
-Ans: You will get the tab under the editor of post to select the set.   
-2.If the Config plugin does not get seen in the add new post tab?
-Ans: Refresh the page once.   
+*How to change the Emoticons set for a post?
+* You will get the tab under the editor of post to select the set.
+*If the Config plugin does not get seen in the add new post tab?
+* Refresh the page once.   
 
 == Screenshots ==
 
