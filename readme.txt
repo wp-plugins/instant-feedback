@@ -15,31 +15,43 @@ This plugin gives customized and interactive feedback for your blog.
 How MyEffecto helps you:
 
 = Create custom emotional feedback button sets for specific blog posts: =
-	The author of the post can specifically choose which MyEffecto emotional feedback set she would like to have for each particular post.
-	To get the most suitable reply, she can also frame the right question along with the emoticon feedback set.
+	The author of the post can specifically choose which MyEffecto 
+	emotional feedback set she would like to have for each particular post.
+	To get the most suitable reply, she can also frame the right question
+	along with the emoticon feedback set.
 
 = Capture instant, visual and measurable feedback from your readers: =
-	 Likes tend to be uni-dimensional and doesn’t really capture the flavor of the feedback. Comments, on the other hand, need moderation. 
-	 They can also be too tedious to fill or may see comment threads go in a direction that is absolutely off-topic.
-	 MyEffecto helps you capture a range of expression –  = on how they feel = - which no other feedback mechanism can capture.
+	 Likes tend to be uni-dimensional and doesn’t really capture the 
+	 flavor of the feedback. Comments, on the other hand, need moderation. 
+	 They can also be too tedious to fill or may see comment threads go 
+	 in a direction that is absolutely off-topic.MyEffecto helps you 
+	 capture a range of expression –  = on how they feel = - which
+	 no other feedback mechanism can capture.
 
 = Increase reader engagement: =	
-	Barely 1% of readers give any sort of feedback to posts and articles. Our early trials have seen this number go upto 20%. 
-	If the emotion placed resonates well with the audience, the feedback capture is higher among the click happy customers.
+	Barely 1% of readers give any sort of feedback to posts and articles.
+	Our early trials have seen this number go upto 20%. 
+	If the emotion placed resonates well with the audience, 
+	the feedback capture is higher among the click happy customers.
 
 = Increase time spent on site by audience: =	
-	2 minutes is the average time spent on a media site or blog by a reader. 
-	By providing recommended reads based on the feedback readers have provided on a particular post,
-	the widget encourages readers to read similarly tagged articles and thereby increase time spent on site.
+	2 minutes is the average time spent on a media site 
+	or blog by a reader. By providing recommended reads based on the 
+	feedback readers have provided on a particular post,the widget 
+	encourages readers to read similarly tagged articles and thereby 
+	increase time spent on site.
 	
 = Get emotion tagged articles v/s keyword tagged articles: =	
 	Get audience tagged content based on the outcome of the article.
-	The effect of such articles where audience say that it made them feel ‘happy’ or ‘sad’ may not 
-	necessarily be captured through keywords in the posts.
+	The effect of such articles where audience say that it made them 
+	feel ‘happy’ or ‘sad’ may not necessarily be captured through 
+	keywords in the posts.
 
 = Get insightful engagement analytics: While pageviews could happen due to multiple reasons, =
-	Myeffecto you get a dashboard that helps you get insightful engagement analytics based on the feedback readers provided 
-	-  what content gets most feedback, what time of day is best for highest feedback, what percentage of readers provided feedback. 
+	Myeffecto you get a dashboard that helps you get insightful
+	engagement analytics based on the feedback readers provided 
+	-  what content gets most feedback, what time of day
+	is best for highest feedback, what percentage of readers provided feedback. 
 	
 This is an offical MyEffecto plugin that lets you embed the Javascript integration code into your pages. 
 
@@ -47,22 +59,19 @@ You can check out more details on MyEffecto here – [myeffecto.com](http://www.
 
 = Features =
 
-	= A customizable emoticon based feedback button set for instant feedback capture =
-	= Once feedback provided, the emotion-tagged article can be shared along with the url of the article over social networks =
-	= Dynamic feedback-triggered real-time content recommendation engine =
-	= Get insightful engagement analytics =
-
-
-= Myeffecto for WordPress =
-
-So you simply select a list of emotions from a library we provide and add the plugin to your content and your viewers respond you what they feel.
-And the best part? Its only a button click. So that your lazy friends needn't write lines of comments. 
-Myeffecto for wordpress plugin integrates by using Myeffecto login and aligns before wordpress comments.
+	 A customizable emoticon based feedback button set for instant feedback capture 
+	 
+	 Once feedback provided, the emotion-tagged article can be shared along with the url of the article over social networks 
+	 
+	Dynamic feedback-triggered real-time content recommendation engine 
+	
+	Get insightful engagement analytics 
 
 = Language =
 	
 	MyEffecto is currently only available in English. 
-	If you’d like to help us to translate our emoticon nomenclature into your local language,
+	If you’d like to help us to translate our emoticon 
+	nomenclature into your local language,
 	please let us know on support@myeffecto.com
 
 = Support =
@@ -123,18 +132,13 @@ Myeffecto for wordpress plugin integrates by using Myeffecto login and aligns be
 
 	We ensure one can only click on the MyEffecto Feedback once. For the moment, he cannot undo his choice.
 	
-= 6.Many of my readers may read the entire article, do you have an option wherein I can display the widget adjacent
- to the article or in any other fashion that can capture feedback whenever they stopped reading? =	
-
-	Not at the moment. We are working on it.
-	
-= 7.I have finished reading the article, however the MyEffecto Widget has still not loaded. =
+= 6.I have finished reading the article, however the MyEffecto Widget has still not loaded. =
 
 	MyEffecto Emotional Feedback Widget loads simultaneously with other widgets and usually loads instantly. 
 	However, since the widget is being served from our (third-party) server and not yours, 
 	there may be instances where the widget will have a delayed appearance.
 	
-= 8.What is the information I can get through MyEffecto Engagement analytics? =	
+= 7.What is the information I can get through MyEffecto Engagement analytics? =	
 
 	Till the time we enable login based posting, you can view the following data :
 		
@@ -163,15 +167,15 @@ Myeffecto for wordpress plugin integrates by using Myeffecto login and aligns be
 		
 		12.Number of time each recommended post is visited
 		
-= 9.Can I export the reports from the MyEffecto Engagement Analytics Dashboard? =	
+= 8.Can I export the reports from the MyEffecto Engagement Analytics Dashboard? =	
 	
 	No. You can’t export the reports in excel and pdf format at the moment.
 	
-= 10.I have added the MyEffecto Feeback Plugin. But I can’t see the Configuration option in ‘Add New Post tab’ =	
+= 9.I have added the MyEffecto Feeback Plugin. But I can’t see the Configuration option in ‘Add New Post tab’ =	
 
 	Nothing to worry about. Simply refresh the page. If the problem persists, please write to us at (support@myeffecto.com)
 
-= 11.How does MyEffecto recommend articles to my reader? =	
+= 10.How does MyEffecto recommend articles to my reader? =	
 
 	While at the moment, MyEffecto uses only simple ‘most rated’ mechanisms to push content recommendation;
 	it will use a far sophisticated approach to drive recommendation once the data available with us crosses a certain threshold.
