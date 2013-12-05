@@ -87,7 +87,7 @@ Email support@myeffecto.com for any help.
 Our support is limited to English language at the moment. 
 Support days: Monday to Friday. We will revert within 24 hours.
 
-INSTALLATION
+== Installation ==
 1.	‘Upload’ MyEffecto to the /wp-content/plugins/ directory
 2.	Activate the plugin through the 'Plugins' menu in WordPress
 3.	From the Menu Section, select the set of emoticons you’d like to use for 
@@ -97,7 +97,7 @@ INSTALLATION
 5.	To set the emoticons set for an invidual/specific post, 
 	you will get the option under the Post Editor to select the set.
 
-FAQ
+== FAQ ==
 1.	Is MyEffecto FREE to use? 
 Yes. You can select a MyEffecto Emotional Feedback Emoticon set from our public library and 
 use it for FREE. You can also request for customizable buttons, also currently free.
