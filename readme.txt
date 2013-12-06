@@ -105,12 +105,10 @@ Support days: Monday to Friday. We will revert within 24 hours.
 == Frequently Asked Questions ==
 
 1.	**Is MyEffecto FREE to use?**
- 
 Yes. You can select a MyEffecto Emotional Feedback Emoticon set from our public library and 
 use it for FREE. You can also request for customizable buttons, also currently free.
 
 2.	**How do I know the MyEffecto Emotional Feedback Emoticon set I have chosen are the right ones?**
-
 We have made it as easy as possible for you to get the right Emoticon set. 
 Each emoticon set has been classified for a variety of editorial content product launches, 
 product reviews, opinion pieces, features stories, profiles, news reports, photo-features, 
@@ -124,13 +122,11 @@ We recommend trying out different sets if your original set is not working.
 You may also customize your own Emoticon set.
 
 3.	**Can I change the MyEffecto Emotional Feedback Emoticon Set at any point in time?**
-
 Absolutely. The MyEffecto Emotional Feedback Emoticon Set is completely based on the 
 choice of the author and publisher.
 However, the data around the earlier emoticon set will be lost.
 
 4.	**Does a user or reader need to be signed in to provide feedback?**
-
 At the moment, the user does not need to be signed in to provide feedback. 
 If he chooses to share the article on his social network 
 (options available for Facebook, Twitter, Linkedin) 
@@ -138,24 +134,20 @@ he will then need to sign in to his social network account
 (and not a MyEffecto account or yours) to do so.
 
 5.	**How can I be sure that the feedback mechanism can't be gamed?**
-
 We ensure one can only click on the MyEffecto Feedback once. 
 For the moment, he cannot undo his choice.
 
 6. **Many of my readers may read the entire article, do you have an option 
 wherein I can display the widget adjacent to the article or in any other fashion that can 
 capture feedback whenever they stopped reading?**
-
 Not at the moment. We are working on it.
 
 7.	**I have finished reading the article, however the MyEffecto Widget has still not loaded.**
-
 MyEffecto Emotional Feedback Widget loads simultaneously with other widgets and usually loads instantly. 
 However, since the widget is being served from our (third-party) server and not yours, 
 there may be instances where the widget will have a delayed appearance.
 
 3.	**What is the information I can get through MyEffecto Engagement analytics?**
-
 Till the time we enable login based posting, you can view the following data :
 
 *	Pageviews per post  (Unique and otherwise)
@@ -184,16 +176,13 @@ Till the time we enable login based posting, you can view the following data :
 *	Number of time each recommended post is visited
 
 4.	**Can I export the reports from the MyEffecto Engagement Analytics Dashboard?**
-
 No. You can't export the reports in excel and pdf format at the moment.
 
 5.	**I have added the MyEffecto Feeback Plugin. But I can't see the Configuration option in 'Add New Post tab'.**
-
 Nothing to worry about. Simply refresh the page. If the problem persists,
 please write to us at support@myeffecto.com
 
 6.	**How does MyEffecto recommend articles to my reader?**
-
 While at the moment, MyEffecto uses only simple 'most rated' mechanisms to push content recommendation; 
 it will use a far sophisticated approach to drive recommendation once the data available with us 
 crosses a certain threshold. The recommendation will be based on a proprietary algorithm 
