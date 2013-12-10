@@ -93,14 +93,19 @@ Support days: Monday to Friday. We will revert within 24 hours.
 
 == Installation ==
 
-1.	'Upload' MyEffecto to the /wp-content/plugins/ directory
-2.	Activate the plugin through the 'Plugins' menu in WordPress
+1.	'Upload' MyEffecto to the /wp-content/plugins/ directory.
+
+2.	Activate the plugin through the 'Plugins' menu in WordPress.
+
 3.	From the Menu Section, select the set of emoticons you'd like to use for 
 	your blog posts. (This plugin will be set, by default, for the whole blog. 
-	You may customize them individually for each blog post at the time of publishing a post) 
+	You may customize them individually for each blog post at the time of publishing a post)
+	
 4.	'MyEffecto' will now be seen in the Settings tab.
+
 5.	To set the emoticons set for an invidual/specific post, 
 	you will get the option under the Post Editor to select the set.
+
 
 == Frequently Asked Questions ==
 
