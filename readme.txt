@@ -100,7 +100,7 @@ Support days: Monday to Friday. We will revert within 24 hours.
 3.	'MyEffecto' will now be seen in the Settings tab.
 
 4.	From the Menu Section Click on 'MyEffecto', First Login Or Register to MyEffecto
-	and you will get the configure page. 
+	and you will be redirected to the configuration page. 
 	
 5.	Then Select the set of emoticons according to the category you'd like to use for 	
 	your blog posts. (This plugin will be set, by default, for the whole blog. 
