@@ -99,12 +99,15 @@ Support days: Monday to Friday. We will revert within 24 hours.
 
 3.	'MyEffecto' will now be seen in the Settings tab.
 
-4.	From the Menu Section, select the set of emoticons you'd like to use for 
+4.	From the Menu Section Click on 'MyEffecto', First Login Or Register to MyEffecto
+	and you will get the configure page. 
+	
+5.	Then Select the set of emoticons according to the category you'd like to use for 	
 	your blog posts. (This plugin will be set, by default, for the whole blog. 
 	You may customize them individually for each blog post at the time of publishing a post)
 	
 
-5.	To set the emoticons set for an invidual/specific post, 
+6.	To set the emoticons set for an invidual/specific post, 
 	you will get the option under the Post Editor to select the set.
 
 
