@@ -206,6 +206,7 @@ For any unanswered questions, please write to us at support@myeffecto.com
 1. Myeffecto configuration screen inside your WordPress admin panel.
 2. Myeffecto plugin in posts.
 3. Myeffecto plugin configuration for a post.
+4. Myeffecto plugin Share & Recommends for a post.
 
 
 == Changelog ==
