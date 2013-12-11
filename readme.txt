@@ -1,7 +1,7 @@
 === MyEffecto-Instant Visual Feedback ===
 Contributors: MyEffecto
 Donate link: http://www.myeffecto.com/
-Tags: free feedback widget, real time feedback, visual feedback, measurable feedback, emoji, emotions, emoticons, emoticon feedback, response, dashboard, rating, polls, feedback, feedback widget, free in-site content recommendation engine, recommended reads, response widget, survey widget, user feedback, web engagement, widget , comments, likes, visual tags, improve posts, UGC, Share UGC articles, UGC based Content Recommendation Engine, Emotion based content recommendation, High CTR
+Tags: free feedback widget, real time feedback, visual feedback, measurable feedback, emoji, emotions, emoticons, emoticon feedback, response, dashboard, rating, polls, feedback, feedback widget, free in-site content recommendation engine, recommended reads, response widget, survey widget, user feedback, web engagement, widget , rating widget, comments, likes, visual tags, improve posts, UGC, Share UGC articles, UGC based Content Recommendation Engine, Emotion based content recommendation, High CTR
 Requires at least: 3.5
 Tested up to: 3.6
 Stable tag: 1.0
