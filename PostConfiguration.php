@@ -27,7 +27,7 @@
 
 		$getPostTitle = get_the_title();
 		$wpSite = get_site_url();
-
+		$effDate_published = get_the_date("l,F d,Y");
 		//$getPostTitle = substr($getPostTitle, 0, 10);
 
 		$postCode = null;
@@ -68,6 +68,7 @@
 					$allPostCode = str_replace("var effectoPostId=''","var effectoPostId='0'", $allPostCode);
 					$allPostCode = str_replace("var effectoPagetitle =''","var effectoPagetitle='".$getPostTitle."'", $allPostCode);
 					$allPostCode = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$getPostID."'", $allPostCode);
+					$allPostCode = str_replace("var effectoPublDate = ''","var effectoPublDate='".$effDate_published."'", $allPostCode);
 
 					echo '<h2>
 						<center>
@@ -94,15 +95,13 @@
 					</center>
 				</h2>';
 		} else {
-		//<strong> '.$getPostTitle.' </strong>
-		   
 			replaceDataWithNew($postCode,$p_shortname,$getPostID);
 			$postCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $postCode);
 			$postCode = str_replace("var effectoPostId=''","var effectoPostId='".$getPostID."'", $postCode);
 			$postCode = str_replace("var effectoPagetitle =''","var effectoPagetitle='".$getPostTitle."'", $postCode);
 			$postCode = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$getPostID."'", $postCode);
+			$postCode = str_replace("var effectoPublDate = ''","var effectoPublDate='".$effDate_published."'", $postCode);
 
-			$currentPost = "current";
 			echo '<h2>
 					<center>(PREVIEW-ONLY) <br>Your current emotion set for this post is </center>
 				</h2> '.$postCode;

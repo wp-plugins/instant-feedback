@@ -3,7 +3,7 @@
 Plugin Name: My Effecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.15
+Version: 1.0.16
 Author URI: www.myeffecto.com
 */
 //error_reporting(0);
@@ -274,7 +274,6 @@ function myeffecto_admin() {
 		configurationScript($shortname, $globalPostID);
 		echo '	var ifrm = null;
 				window.onload=function(){
-			
 					ifrm = document.getElementById("effectoFrame");
 					ifrm.setAttribute("src", "'.$hostString.'/login?callback=configureplug");
 					ifrm.setAttribute("frameborder","0");
@@ -332,6 +331,8 @@ function myeffecto_admin() {
 		$getPostTitle = get_the_title();
 		$wpSite = get_site_url();
 		$effectoPreview = "false";
+		$user_id = get_current_user_id();
+		$effectoAuthor = get_the_author_meta('user_email', $user_id );
 		$apiPluginDetailsArray = getMyEffectoPluginDetails($postId);
 		if ($apiPluginDetailsArray == null) {
 			$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
@@ -346,6 +347,7 @@ function myeffecto_admin() {
 		replaceDataWithNew($apiEmbedArray,$p_shortname,$postId);
 		if (is_single())
 		{
+			$effDate_published = get_the_date("l,F d,Y");
 			if (is_preview()) {
 				$effectoPreview = "true";
 				$postId = 0;
@@ -354,6 +356,8 @@ function myeffecto_admin() {
 			$apiEmbedArray = str_replace("var effectoPreview=''","var effectoPreview='".$effectoPreview."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$postId."'", $apiEmbedArray);
+			$apiEmbedArray = str_replace("var effectoPublDate = ''","var effectoPublDate='".$effDate_published."'", $apiEmbedArray);
+			$apiEmbedArray = str_replace("var effectoAuthorName = ''","var effectoAuthorName='".$effectoAuthor."'", $apiEmbedArray);
 			return $text.$apiEmbedArray;
 		} else {
 			return $text;
