@@ -156,7 +156,7 @@ MyEffecto Emotional Feedback Widget loads simultaneously with other widgets and 
 However, since the widget is being served from our (third-party) server and not yours, 
 there may be instances where the widget will have a delayed appearance.
 
-3.	**What is the information I can get through MyEffecto Engagement analytics?**
+8.	**What is the information I can get through MyEffecto Engagement analytics?**
 Till the time we enable login based posting, you can view the following data :
 
 *	Pageviews per post  (Unique and otherwise)
@@ -184,14 +184,14 @@ Till the time we enable login based posting, you can view the following data :
 
 *	Number of time each recommended post is visited
 
-4.	**Can I export the reports from the MyEffecto Engagement Analytics Dashboard?**
+9.	**Can I export the reports from the MyEffecto Engagement Analytics Dashboard?**
 No. You can't export the reports in excel and pdf format at the moment.
 
-5.	**I have added the MyEffecto Feeback Plugin. But I can't see the Configuration option in 'Add New Post tab'.**
+10.	**I have added the MyEffecto Feeback Plugin. But I can't see the Configuration option in 'Add New Post tab'.**
 Nothing to worry about. Simply refresh the page. If the problem persists,
 please write to us at support@myeffecto.com
 
-6.	**How does MyEffecto recommend articles to my reader?**
+11.	**How does MyEffecto recommend articles to my reader?**
 While at the moment, MyEffecto uses only simple 'most rated' mechanisms to push content recommendation; 
 it will use a far sophisticated approach to drive recommendation once the data available with us 
 crosses a certain threshold. The recommendation will be based on a proprietary algorithm 
