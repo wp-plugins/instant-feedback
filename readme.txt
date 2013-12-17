@@ -156,7 +156,22 @@ MyEffecto Emotional Feedback Widget loads simultaneously with other widgets and 
 However, since the widget is being served from our (third-party) server and not yours, 
 there may be instances where the widget will have a delayed appearance.
 
-8.	**What is the information I can get through MyEffecto Engagement analytics?**
+
+8.	**Can I export the reports from the MyEffecto Engagement Analytics Dashboard?**
+No. You can't export the reports in excel and pdf format at the moment.
+
+9.	**I have added the MyEffecto Feeback Plugin. But I can't see the Configuration option in 'Add New Post tab'.**
+Nothing to worry about. Simply refresh the page. If the problem persists,
+please write to us at support@myeffecto.com
+
+10.	**How does MyEffecto recommend articles to my reader?**
+While at the moment, MyEffecto uses only simple 'most rated' mechanisms to push content recommendation; 
+it will use a far sophisticated approach to drive recommendation once the data available with us 
+crosses a certain threshold. The recommendation will be based on a proprietary algorithm 
+involving the user feedback, category of the articles, 
+the users behavior, general audience behavior and many other such factors.
+
+11.	**What is the information I can get through MyEffecto Engagement analytics?**
 Till the time we enable login based posting, you can view the following data :
 
 *	Pageviews per post  (Unique and otherwise)
@@ -183,20 +198,6 @@ Till the time we enable login based posting, you can view the following data :
 *	What article leads to a referral of what post
 
 *	Number of time each recommended post is visited
-
-9.	**Can I export the reports from the MyEffecto Engagement Analytics Dashboard?**
-No. You can't export the reports in excel and pdf format at the moment.
-
-10.	**I have added the MyEffecto Feeback Plugin. But I can't see the Configuration option in 'Add New Post tab'.**
-Nothing to worry about. Simply refresh the page. If the problem persists,
-please write to us at support@myeffecto.com
-
-11.	**How does MyEffecto recommend articles to my reader?**
-While at the moment, MyEffecto uses only simple 'most rated' mechanisms to push content recommendation; 
-it will use a far sophisticated approach to drive recommendation once the data available with us 
-crosses a certain threshold. The recommendation will be based on a proprietary algorithm 
-involving the user feedback, category of the articles, 
-the users behavior, general audience behavior and many other such factors.
 
 
 For any unanswered questions, please write to us at support@myeffecto.com	
