@@ -263,7 +263,7 @@ function myeffecto_admin() {
 				function afterLoginSuccess() {
 				
 					jQuery(\'#effectoFrame\').parent().prepend(jQuery(\'<input type="button" id="generate" onclick="save("")" value="Generate Plugin" class="button-primary"/>\'));
-					ifrm.setAttribute("src", "'.$hostString.'/configureplug");
+					ifrm.setAttribute("src", "'.$hostString.'/confgEmoji?outside=true&postTitle=" + postTitle);
 				}';
 	}
 
@@ -310,7 +310,6 @@ function myeffecto_admin() {
 		echo '	var ifrm= null;
 				window.onload=function(){
 					ifrm = document.getElementById("effectoFrame");
-					/* ifrm.setAttribute("src", "'.$hostString.'/register?callback=configureplug&postTitle="+postTitle); */
 					ifrm.setAttribute("src", "'.$hostString.'/register?callback=confgEmoji&outside=true&postTitle="+postTitle);
 					ifrm.setAttribute("frameborder","0");
 					ifrm.setAttribute("allowtransparency","true");
@@ -321,7 +320,6 @@ function myeffecto_admin() {
 				};
 			</script>
 			<div id="load" style="display:none;"></div>
-			<!--<iframe id="effectoFrame" src ="'.$hostString.'/register?callback=configureplug&postTitle="+postTitle width="100%" height="465"/>-->
 			<iframe id="effectoFrame" src ="'.$hostString.'/register?callback=confgEmoji&outside=true&postTitle="+postTitle width="100%" height="500"/>';
 	}
 
