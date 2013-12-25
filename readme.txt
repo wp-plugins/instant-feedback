@@ -212,6 +212,10 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 == Changelog ==
 
+= 1.0.17 =
+
+* Minor Bug Fixes.
+
 = 1.0.16 =
 
 * Plugin creation for posts with published date before 1st Dec., 2012 is disabled for now.
