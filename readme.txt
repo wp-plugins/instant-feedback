@@ -214,7 +214,7 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 = 1.0.18 =
 
-* Minor Bug Fixes.
+* Removed unnecessary included scripts and styles from posts.
 
 = 1.0.17 =
 
