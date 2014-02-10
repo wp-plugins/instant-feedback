@@ -91,7 +91,7 @@ function myeffecto_admin() {
 				    if (isset($defaultEdit) && $defaultEdit == "defaultEdit") {
 						updateMyeffectoEmbedCode($data, 0, $eff_shortname);
 					
-						replaceDataWithNew($data, 0, $eff_shortname)
+						replaceDataWithNew($data, $eff_shortname)
 					?>
 						<script type="text/javascript">
 								window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
@@ -125,7 +125,7 @@ function myeffecto_admin() {
 					
 					updateMyeffectoEmbedCode($data, $postID, $eff_shortname);
 					
-					replaceDataWithNew($data,$postID,$eff_shortname);
+					replaceDataWithNew($data, $eff_shortname);
 				?>
 					<script type="text/javascript">
 						window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
@@ -347,7 +347,7 @@ function myeffecto_admin() {
 			$p_shortname = $detail -> shortname;
 		}
 
-		replaceDataWithNew($apiEmbedArray,$p_shortname,$postId);
+		replaceDataWithNew($apiEmbedArray,$p_shortname);
 		if (is_single())
 		{
 			$effDate_published = get_the_date("l,F d,Y");
@@ -403,7 +403,7 @@ function myeffecto_admin() {
 	}
 	function replaceDataWithNew($apiEmbedArray, $p_shortname){
 		global $hostString;
-		if (strpos($apiEmbedArray,'version3') !== false) {return true;}else{
+		if (strpos($apiEmbedArray,'version4') !== false) {return true;}else{
 			 echo '<script>
 					  function myCallback(html){
 							var data = {
