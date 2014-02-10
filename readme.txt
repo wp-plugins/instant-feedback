@@ -212,6 +212,10 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 == Changelog ==
 
+= 1.0.20 =
+
+* Minor Bug Fixes.
+
 = 1.0.19 =
 
 * Minor Bug Fixes.
