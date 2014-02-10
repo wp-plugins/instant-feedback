@@ -403,7 +403,7 @@ function myeffecto_admin() {
 	}
 	function replaceDataWithNew($apiEmbedArray, $p_shortname){
 		global $hostString;
-		if (strpos($apiEmbedArray,'version4') !== false) {return true;}else{
+		if (strpos($apiEmbedArray,'version3') !== false) {return true;}else{
 			 echo '<script>
 					  function myCallback(html){
 							var data = {
