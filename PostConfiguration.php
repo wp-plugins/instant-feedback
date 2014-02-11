@@ -58,7 +58,6 @@
 					$allPostCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $allPostCode);
 					$getPostID = get_the_ID();
 
-					replaceDataWithNew($allPostCode,$p_shortname);
 					$getPostTitle = get_the_title();
 					//$getPostTitle = substr($getPostTitle, 0, 10);
 					if ((!isset($getPostID) || empty($getPostID)) && (!isset($getPostTitle) || empty($getPostTitle))) {
@@ -95,7 +94,6 @@
 					</center>
 				</h2>';
 		} else {
-			replaceDataWithNew($postCode,$p_shortname);
 			$postCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $postCode);
 			$postCode = str_replace("var effectoPostId=''","var effectoPostId='".$getPostID."'", $postCode);
 			$postCode = str_replace("var effectoPagetitle =''","var effectoPagetitle='".$getPostTitle."'", $postCode);

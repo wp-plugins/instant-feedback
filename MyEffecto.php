@@ -3,7 +3,7 @@
 Plugin Name: My Effecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.17
+Version: 1.0.18
 Author URI: www.myeffecto.com
 */
 //error_reporting(0);
@@ -12,8 +12,6 @@ require('PostConfiguration.php');
 /* Add MyEffecto link to Setting Tab. */
 add_action('admin_menu', 'myeffecto_admin_actions');
 add_filter( 'the_content', 'echoEndUserPlugin');
-add_action('wp_ajax_nopriv_my_action', 'myeffecto_action_callback');
-add_action('wp_ajax_myeffecto_action_callback', 'myeffecto_dbupdate');
 
 $embedCode = null;
 
@@ -24,10 +22,16 @@ function myeffecto_admin_actions() {
 	add_options_page('MyEffecto', 'MyEffecto', 'manage_options', _FILE_, 'myeffecto_admin', null, '59.5');
 }
 
-
-wp_enqueue_script("jquery");
-wp_enqueue_script("jquery-ui-dialog");
-wp_enqueue_style("wp-Myeffecto", "http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.min.css");
+function effInitScripts($hook) {
+	if (is_admin()) {
+		if ($hook == "post.php" || $hook == "post-new.php" || $hook == "settings_page__FILE_") {
+			wp_enqueue_script("jquery");
+			wp_enqueue_script("jquery-ui-dialog");
+			wp_enqueue_style("wp-Myeffecto", "http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.min.css");
+		}		
+	}
+}
+add_action("admin_enqueue_scripts", "effInitScripts");
 
 function myeffecto_get_version() {
 	$plugin_data = get_plugin_data( __FILE__ );
@@ -86,8 +90,6 @@ function myeffecto_admin() {
 				    $defaultEdit = $_GET['pluginType'];
 				    if (isset($defaultEdit) && $defaultEdit == "defaultEdit") {
 						updateMyeffectoEmbedCode($data, 0, $eff_shortname);
-					
-						replaceDataWithNew($data, $eff_shortname)
 					?>
 						<script type="text/javascript">
 								window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
@@ -120,8 +122,6 @@ function myeffecto_admin() {
 			if ($addType == "postEdit") {
 					
 					updateMyeffectoEmbedCode($data, $postID, $eff_shortname);
-					
-					replaceDataWithNew($data, $eff_shortname);
 				?>
 					<script type="text/javascript">
 						window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
@@ -343,7 +343,6 @@ function myeffecto_admin() {
 			$p_shortname = $detail -> shortname;
 		}
 
-		replaceDataWithNew($apiEmbedArray,$p_shortname);
 		if (is_single())
 		{
 			$effDate_published = get_the_date("l,F d,Y");
@@ -388,36 +387,7 @@ function myeffecto_admin() {
 		delete_option("effecto_db_version");
 		$wpdb->query("DROP TABLE IF EXISTS $table");
 	}
-	function myeffecto_dbupdate(){
-		$action = $_POST['action'];
-		$upddata = $_POST['upddata'];
-		$shortname = $_POST['shortname'];
-		//$postid = $_POST['postid'];
-		updateNewMyeffectoEmbedCode($upddata, $shortname);
 
-		die();
-	}
-	function replaceDataWithNew($apiEmbedArray, $p_shortname){
-		global $hostString;
-		if (strpos($apiEmbedArray,'version3') !== false) {return true;}else{
-			 echo '<script>
-					  function myCallback(html){
-							var data = {
-								action: "myeffecto_action_callback",
-								upddata: ""+html.keyser,
-								shortname: "'.$p_shortname.'",
-							};
-							var ajaxurl = "'.admin_url("admin-ajax.php").'";
-							jQuery.post(ajaxurl, data, function(response) {
-							});
-					  }
-					</script>
-					<script type=\'text/javascript\' src=\''.$hostString.'/contentdetails?action=recreate&icon=medium&shortName='.$p_shortname.'&callback=myCallback\'></script>
-				';
-			return false;
-		}
-		return true;
-	}
 	register_uninstall_hook( __FILE__, 'pluginUninstall' );
 	
 ?>
