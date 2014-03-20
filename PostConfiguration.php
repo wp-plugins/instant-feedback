@@ -24,8 +24,6 @@
 		if (!isset($getPostID) || empty($getPostID)) {
 			$getPostID = $_GET['post_id'];
 		}
-		
-		$_db_is_disabled = 0;
 
 		$getPostTitle = get_the_title();
 		$wpSite = get_site_url();
@@ -40,9 +38,7 @@
 		foreach($eff_details as $detail) {
 			$postCode = $detail -> embedCode;
 			$p_shortname = $detail -> shortname;
-			$_db_is_disabled = $detail -> isDisabled;
 		}
-
 		/* Check if there is plugin for current post. */
 		if (!isset($postCode) || empty($postCode)) {
 			/* If not found, check for AllPost code. */
@@ -78,8 +74,7 @@
 							(PREVIEW-ONLY)<br />
 							Your default emotion set is 
 						</center>
-						'.effecto_get_checkbox_html($_db_is_disabled, $p_shortname)
-					.' </h2> '.$allPostCode;
+					</h2> '.$allPostCode;
 			} else {
 				echo '<h1>
 						<center>
@@ -107,8 +102,7 @@
 
 			echo '<h2>
 					<center>(PREVIEW-ONLY) <br>Your current emotion set for this post is </center>
-					'.effecto_get_checkbox_html($_db_is_disabled, $p_shortname)
-				.' </h2> '.$postCode;
+				</h2> '.$postCode;
 			echo '<h2>
 					<center>
 						<a class="effectoConfig" style="cursor:pointer;" effectohref="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postID='.$getPostID.'&postName='.$wpSite.'&pluginType=postEdit&postURL='.$_SERVER['REQUEST_URI'].'?post_id='.$getPostID.'&shortname='.$p_shortname.'">Change emotion set of this post</a>
@@ -116,21 +110,6 @@
 				</h2>';
 		}
 		showEffModal();
-	}
-
-	function effecto_get_checkbox_html($is_disabled, $shortname) {
-		$checked = "";
-		if (!isset($is_disabled)) {
-			$is_disabled = 0;
-		} else if ($is_disabled) {
-			$checked = "checked";
-		}
-		return '<span style="float: right; margin-top:-60px;">
-					<input type="checkbox" '.$checked.' id="eff_chkbx" name="_eff_disable" style="vertical-align: 0px;"> 
-					Disable in this post
-				</span>
-				<input type="hidden" name="eff_sname" value="'.$shortname.'">
-		';
 	}
 
 	function showEffModal() {
@@ -168,35 +147,13 @@
 		$eff_id = get_the_ID();
 		$wpress_post = get_post($eff_id);
 		$wpress_title = $wpress_post->post_title;
+		/* $shortname = getShortnameByPostID($eff_id);
+		if (!isset($shortname)) {
+			$shortname = getShortnameByPostID(0);
+		} */
 		if (isset($eff_id) && !empty($eff_id)) {
 			$args = array(
 				'body' => array('action' => 'updateContentTitle', 'title' => $wpress_title, 'post_id' => $eff_id),
-			);
-			wp_remote_post($hostString.'/contentdetails', $args);
-		}
-	}
-	
-	function effecto_save_action() {
-		updateEff_title();
-		effecto_disable_plugin();
-	}
-
-	function effecto_disable_plugin() {
-		global $hostString;
-		$req_sname = $_POST['eff_sname'];
-		if (isset($_POST['_eff_disable'])) {
-			$checked_val = $_POST['_eff_disable'];
-			if ($checked_val == "on") {
-				effecto_insert_plugin_disable(true, get_the_ID(), $req_sname);
-				$args = array(
-					'body' => array('action' => 'updateVisibility', 'sname' => $req_sname, 'postId' => get_the_ID(), 'disabled' => 'PUBLIC'),
-				);
-				wp_remote_post($hostString.'/contentdetails', $args);
-			}
-		} else {
-			effecto_delete_disabled(get_the_ID(), 0);
-			$args = array(
-				'body' => array('action' => 'updateVisibility', 'sname' => $req_sname, 'postId' => get_the_ID()),
 			);
 			wp_remote_post($hostString.'/contentdetails', $args);
 		}
@@ -231,5 +188,5 @@
 			showEffModal();
 	}
 
-	add_action( 'save_post', 'effecto_save_action' );
+	add_action( 'save_post', 'updateEff_title' );
 ?>
