@@ -3,7 +3,7 @@
 Plugin Name: My Effecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.18
+Version: 1.0.19
 Author URI: www.myeffecto.com
 */
 //error_reporting(0);
@@ -108,6 +108,7 @@ function myeffecto_admin() {
 						}
 					}
 			} else {
+				effecto_delete_disabled($postID, 0);
 				insertInMyEffectoDb($user_id, null, $data, $postID, $eff_shortname);
 				?>
 					<script type="text/javascript">
@@ -333,17 +334,25 @@ function myeffecto_admin() {
 		$user_id = get_current_user_id();
 		$effectoAuthor = get_the_author_meta('user_email', $user_id );
 		$apiPluginDetailsArray = getMyEffectoPluginDetails($postId);
-		if ($apiPluginDetailsArray == null) {
-			$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
-		}
+		
 		$apiEmbedArray="";
 		$p_shortname="";
+		$is_disabled = false;
+		foreach($apiPluginDetailsArray as $detail) {
+			$apiEmbedArray = $detail -> embedCode;
+			$p_shortname = $detail -> shortname;
+			$is_disabled = $detail -> isDisabled;
+		}
+
+		if (!isset($apiEmbedArray) || empty($apiEmbedArray)) {
+			$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
+			$is_disabled = effecto_is_disabled($postId);
+		}
 		foreach($apiPluginDetailsArray as $detail) {
 			$apiEmbedArray = $detail -> embedCode;
 			$p_shortname = $detail -> shortname;
 		}
-
-		if (is_single())
+		if (is_single() && !$is_disabled)
 		{
 			$effDate_published = get_the_date("l,F d,Y");
 			if (is_preview()) {
@@ -357,7 +366,9 @@ function myeffecto_admin() {
 			$apiEmbedArray = str_replace("var effectoPublDate = ''","var effectoPublDate='".$effDate_published."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoAuthorName = ''","var effectoAuthorName='".$effectoAuthor."'", $apiEmbedArray);
 			return $text.$apiEmbedArray;
+			// return $text;
 		} else {
+			echo "<script>console.error('disabled state is ".$is_disabled." for postId ".$postId."')</script>";
 			return $text;
 		}
 	}
