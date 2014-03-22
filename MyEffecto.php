@@ -50,7 +50,7 @@ function effecto_init_table() {
 	}
 }
 
-register_activation_hook( __FILE__, 'effecto_init_table' );
+register_update_hook( __FILE__, 'effecto_init_table' );
 
 function myeffecto_admin() {
 	 $user_id = get_current_user_id();
