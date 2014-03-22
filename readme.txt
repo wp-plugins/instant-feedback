@@ -214,7 +214,7 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 = 1.0.18 =
 
-* Removed unnecessary included scripts and styles from posts.
+* Removed unnecessary included scripts and styles from posts and other pages.
 
 = 1.0.17 =
 
