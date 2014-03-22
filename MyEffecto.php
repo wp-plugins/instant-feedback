@@ -39,6 +39,20 @@ function myeffecto_get_version() {
 	return $plugin_version;
 }
 
+function effecto_init_table() {
+	error_log("creating table..........");
+	$eff_get_dbVersion = get_option('effecto_db_version');
+	$effecto_db_version = myeffecto_get_version();
+	error_log($eff_get_dbVersion.", ".$effecto_db_version);
+	if ($eff_get_dbVersion != $effecto_db_version) {
+		createEffectoTable($effecto_db_version);
+		error_log("table created");
+		update_option( "effecto_db_version", $effecto_db_version );
+	}
+}
+
+register_activation_hook( __FILE__, 'effecto_init_table' );
+
 function myeffecto_admin() {
 	 $user_id = get_current_user_id();
 	 $data = null;
