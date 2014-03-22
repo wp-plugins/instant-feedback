@@ -40,13 +40,12 @@ function myeffecto_get_version() {
 }
 
 function effecto_init_table() {
-	error_log("creating table..........");
 	$eff_get_dbVersion = get_option('effecto_db_version');
 	$effecto_db_version = myeffecto_get_version();
-	error_log($eff_get_dbVersion.", ".$effecto_db_version);
 	if ($eff_get_dbVersion != $effecto_db_version) {
 		createEffectoTable($effecto_db_version);
 		error_log("table created");
+		echo "<script>console.log('table created  ".get_option('effecto_db_version')."');</script>";
 		update_option( "effecto_db_version", $effecto_db_version );
 	}
 }
