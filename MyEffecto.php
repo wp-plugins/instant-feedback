@@ -16,6 +16,7 @@ add_filter( 'the_content', 'echoEndUserPlugin');
 $embedCode = null;
 
 $hostString="http://www.myeffecto.com";
+$eff_ssl_host = "https://myeffecto.appspot.com";
 // $hostString="http://localhost:8888";
 /* Show plugin on Menu bar */
 function myeffecto_admin_actions() {
@@ -326,6 +327,9 @@ function myeffecto_admin() {
 
 	/* Show plugin in posts. */
 	function echoEndUserPlugin($text) {
+		global $hostString;
+		global $eff_ssl_host;
+
 		$postId = get_the_ID();
 		$getPostTitle = get_the_title();
 		$wpSite = get_site_url();
@@ -345,10 +349,22 @@ function myeffecto_admin() {
 
 		if (is_single())
 		{
+			$categories = get_the_category($postId);
+			$eff_category = "";
+			if($categories){
+				foreach($categories as $category) {
+					$eff_category .= $category->name . ",";
+				}
+			}
+
 			$effDate_published = get_the_date("l,F d,Y");
 			if (is_preview()) {
 				$effectoPreview = "true";
 				$postId = 0;
+			}
+
+			if (is_ssl()) {
+				$apiEmbedArray = str_replace($hostString, $eff_ssl_host, $apiEmbedArray);
 			}
 			$apiEmbedArray = str_replace("var effectoPostId=''","var effectoPostId='".$postId."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPreview=''","var effectoPreview='".$effectoPreview."'", $apiEmbedArray);
@@ -356,6 +372,7 @@ function myeffecto_admin() {
 			$apiEmbedArray = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$postId."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPublDate = ''","var effectoPublDate='".$effDate_published."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoAuthorName = ''","var effectoAuthorName='".$effectoAuthor."'", $apiEmbedArray);
+			$apiEmbedArray = str_replace("var effectoCategory = ''","var effectoCategory='".$eff_category."'", $apiEmbedArray);
 			return $text.$apiEmbedArray;
 		} else {
 			return $text;
