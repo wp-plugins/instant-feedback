@@ -1,14 +1,15 @@
 <?php
 	add_action( 'add_meta_boxes', 'effectoBox' );  
 
-	$hostString="http://www.myeffecto.com";
+	// $hostString="http://www.myeffecto.com";
 	// $hostString="http://localhost:8888";
 
-	function effectoBox() {  
+	function effectoBox() {
 		add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration (Open for more options)', 'showEffectoBox', 'post', 'normal', 'core' );  
 	}
 	$p_shortname = null;
 	function showEffectoBox() {
+		global $hostString;
 		echo "<script>
 				jQuery(function($){
 					$('#effecto_meta_box').addClass('closed');
@@ -55,26 +56,45 @@
 						<center>OR</center>
 					</h1>'; */
 
-					$allPostCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $allPostCode);
 					$getPostID = get_the_ID();
-
 					$getPostTitle = get_the_title();
 					//$getPostTitle = substr($getPostTitle, 0, 10);
 					if ((!isset($getPostID) || empty($getPostID)) && (!isset($getPostTitle) || empty($getPostTitle))) {
 						$getPostID = 0;
 						$getPostTitle = "preview";
 					}
+
+					$eff_category = effecto_get_category(get_the_ID());
+					$effectoAuthor = effecto_get_author();
+
+					/* $allPostCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $allPostCode);
+					$allPostCode = str_replace("var effectoCategory = ''","var effectoCategory='".$eff_category."'", $allPostCode);
 					$allPostCode = str_replace("var effectoPostId=''","var effectoPostId='0'", $allPostCode);
 					$allPostCode = str_replace("var effectoPagetitle =''","var effectoPagetitle='".$getPostTitle."'", $allPostCode);
 					$allPostCode = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$getPostID."'", $allPostCode);
-					$allPostCode = str_replace("var effectoPublDate = ''","var effectoPublDate='".$effDate_published."'", $allPostCode);
+					$allPostCode = str_replace("var effectoPublDate = ''","var effectoPublDate='".$effDate_published."'", $allPostCode); */
+					
+					$eff_json = '<div id="effecto_bar"></div>
+						<script>
+							var eff_json = {
+								"effecto_uniquename":"'.$p_shortname.'", 
+								"effectoPostId":"0", 
+								"effectoPreview": "true", 
+								"effectoPagetitle":"'.$getPostTitle.'", 
+								"effectoPageurl":"'.$wpSite."?p=".$getPostID.'", 
+								"effectoPublDate":"'.$effDate_published.'", 
+								"effectoAuthorName":"'.$effectoAuthor.'", 
+								"effectoCategory":"'.$eff_category.'"
+							};
+						</script>
+						<script src="'.$hostString.'/p-js/mye-wp.js" async="1"></script>';
 
 					echo '<h2>
 						<center>
 							(PREVIEW-ONLY)<br />
 							Your default emotion set is 
 						</center>
-					</h2> '.$allPostCode;
+					</h2> '.$eff_json;
 			} else {
 				echo '<h1>
 						<center>
@@ -94,15 +114,34 @@
 					</center>
 				</h2>';
 		} else {
-			$postCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $postCode);
+			$eff_category = effecto_get_category(get_the_ID());
+			$effectoAuthor = effecto_get_author();
+
+			/* $postCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $postCode);
 			$postCode = str_replace("var effectoPostId=''","var effectoPostId='".$getPostID."'", $postCode);
 			$postCode = str_replace("var effectoPagetitle =''","var effectoPagetitle='".$getPostTitle."'", $postCode);
 			$postCode = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$getPostID."'", $postCode);
-			$postCode = str_replace("var effectoPublDate = ''","var effectoPublDate='".$effDate_published."'", $postCode);
+			$postCode = str_replace("var effectoPublDate = ''","var effectoPublDate='".$effDate_published."'", $postCode); */
+			
+			
+			$eff_json = '<div id="effecto_bar"></div>
+						<script>
+							var eff_json = {
+								"effecto_uniquename":"'.$p_shortname.'", 
+								"effectoPostId":"'.$getPostID.'", 
+								"effectoPreview": "true", 
+								"effectoPagetitle":"'.$getPostTitle.'", 
+								"effectoPageurl":"'.$wpSite."?p=".$getPostID.'", 
+								"effectoPublDate":"'.$effDate_published.'", 
+								"effectoAuthorName":"'.$effectoAuthor.'", 
+								"effectoCategory":"'.$eff_category.'"
+							};
+						</script>
+						<script src="'.$hostString.'/p-js/mye-wp.js" async="1"></script>';
 
 			echo '<h2>
 					<center>(PREVIEW-ONLY) <br>Your current emotion set for this post is </center>
-				</h2> '.$postCode;
+				</h2> '.$eff_json;
 			echo '<h2>
 					<center>
 						<a class="effectoConfig" style="cursor:pointer;" effectohref="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postID='.$getPostID.'&postName='.$wpSite.'&pluginType=postEdit&postURL='.$_SERVER['REQUEST_URI'].'?post_id='.$getPostID.'&shortname='.$p_shortname.'">Change emotion set of this post</a>
@@ -110,6 +149,23 @@
 				</h2>';
 		}
 		showEffModal();
+	}
+
+	function effecto_get_category($postId) {
+		$categories = get_the_category($postId);
+		$eff_category = "";
+		if($categories){
+			foreach($categories as $category) {
+				$eff_category .= $category->name . ",";
+			}
+		}
+		
+		return $eff_category;
+	}
+	
+	function effecto_get_author() {
+		$user_id = get_current_user_id();
+		return get_the_author_meta('user_email', $user_id );
 	}
 
 	function showEffModal() {

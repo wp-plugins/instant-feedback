@@ -6,9 +6,10 @@ Description: Getting customized and interactive feedback for your blog.
 Version: 1.0.18
 Author URI: www.myeffecto.com
 */
-//error_reporting(0);
+
 require('DBFunctions.php');
 require('PostConfiguration.php');
+
 /* Add MyEffecto link to Setting Tab. */
 add_action('admin_menu', 'myeffecto_admin_actions');
 add_filter( 'the_content', 'echoEndUserPlugin');
@@ -18,6 +19,7 @@ $embedCode = null;
 $hostString="http://www.myeffecto.com";
 $eff_ssl_host = "https://myeffecto.appspot.com";
 // $hostString="http://localhost:8888";
+
 /* Show plugin on Menu bar */
 function myeffecto_admin_actions() {
 	add_options_page('MyEffecto', 'MyEffecto', 'manage_options', _FILE_, 'myeffecto_admin', null, '59.5');
@@ -29,7 +31,7 @@ function effInitScripts($hook) {
 			wp_enqueue_script("jquery");
 			wp_enqueue_script("jquery-ui-dialog");
 			wp_enqueue_style("wp-Myeffecto", "http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.min.css");
-		}		
+		}
 	}
 }
 add_action("admin_enqueue_scripts", "effInitScripts");
@@ -248,7 +250,7 @@ function myeffecto_admin() {
 
 				function showButtonCode(shortname) {
 					jQuery(\'#generate\').remove();
-					
+
 					if (shortname === null) {
 					    shortname="";
 						jQuery(\'#effectoFrame\').after(jQuery(\'<center><h3><input type="button" id="generate"  value="Apply Emotion Set" style="font-size : 22px; padding-top : 7px; padding-bottom : 30px;" class="button-primary" /></h3></center>\'));
@@ -268,27 +270,6 @@ function myeffecto_admin() {
 					ifrm.setAttribute("src", "'.$hostString.'/confgEmoji?outside=true&postTitle=" + postTitle);
 				}';
 	}
-
-	/*function echoFirstUserScript() {
-		global $shortname;
-		global $globalPostID;
-		global $hostString;
-		configurationScript($shortname, $globalPostID);
-		echo '	var ifrm = null;
-				window.onload=function(){
-					ifrm = document.getElementById("effectoFrame");
-					ifrm.setAttribute("src", "'.$hostString.'/login?callback=configureplug");
-					ifrm.setAttribute("frameborder","0");
-					ifrm.setAttribute("allowtransparency","true");
-
-					ifrm.style.width = "100%";
-					ifrm.style.height = "465";
-					window.addEventListener("message", receiveMessage, false);
-				};
-			</script>
-			<div id="load" style="display:none;"></div>
-			<iframe id="effectoFrame" src ="'.$hostString.'/login?callback=configureplug" width="100%" height="465">';
-	}*/
 
 	function echoUserScript() {
 		global $hostString;
@@ -324,37 +305,37 @@ function myeffecto_admin() {
 			<div id="load" style="display:none;"></div>
 			<iframe id="effectoFrame" src ="'.$hostString.'/register?callback=confgEmoji&outside=true&postTitle="+postTitle width="100%" height="500"/>';
 	}
+	
+	function eff_is_html($string) {
+	  return preg_match("/<[^<]+>/",$string,$m) != 0;
+	}
 
 	/* Show plugin in posts. */
 	function echoEndUserPlugin($text) {
 		global $hostString;
 		global $eff_ssl_host;
 
-		$postId = get_the_ID();
-		$getPostTitle = get_the_title();
-		$wpSite = get_site_url();
-		$effectoPreview = "false";
-		$user_id = get_current_user_id();
-		$effectoAuthor = get_the_author_meta('user_email', $user_id );
-		$apiPluginDetailsArray = getMyEffectoPluginDetails($postId);
-		if ($apiPluginDetailsArray == null) {
-			$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
-		}
-		$apiEmbedArray="";
-		$p_shortname="";
-		foreach($apiPluginDetailsArray as $detail) {
-			$apiEmbedArray = $detail -> embedCode;
-			$p_shortname = $detail -> shortname;
-		}
-
 		if (is_single())
 		{
-			$categories = get_the_category($postId);
-			$eff_category = "";
-			if($categories){
-				foreach($categories as $category) {
-					$eff_category .= $category->name . ",";
-				}
+			$postId = get_the_ID();
+			$getPostTitle = get_the_title();
+			if (eff_is_html($getPostTitle)) {
+				$getPostTitle = null;
+			}
+			$wpSite = get_site_url();
+			$effectoPreview = "false";
+			$effectoAuthor = effecto_get_author();
+			$eff_category = effecto_get_category($postId);
+
+			$apiPluginDetailsArray = getMyEffectoPluginDetails($postId);
+			if ($apiPluginDetailsArray == null) {
+				$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
+			}
+			$apiEmbedArray="";
+			$p_shortname="";
+			foreach($apiPluginDetailsArray as $detail) {
+				$apiEmbedArray = $detail -> embedCode;
+				$p_shortname = $detail -> shortname;
 			}
 
 			$effDate_published = get_the_date("l,F d,Y");
@@ -364,16 +345,32 @@ function myeffecto_admin() {
 			}
 
 			if (is_ssl()) {
-				$apiEmbedArray = str_replace($hostString, $eff_ssl_host, $apiEmbedArray);
+				$hostString = $eff_ssl_host;
 			}
-			$apiEmbedArray = str_replace("var effectoPostId=''","var effectoPostId='".$postId."'", $apiEmbedArray);
+			/* $apiEmbedArray = str_replace("var effectoPostId=''","var effectoPostId='".$postId."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPreview=''","var effectoPreview='".$effectoPreview."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$postId."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPublDate = ''","var effectoPublDate='".$effDate_published."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoAuthorName = ''","var effectoAuthorName='".$effectoAuthor."'", $apiEmbedArray);
-			$apiEmbedArray = str_replace("var effectoCategory = ''","var effectoCategory='".$eff_category."'", $apiEmbedArray);
-			return $text.$apiEmbedArray;
+			$apiEmbedArray = str_replace("var effectoCategory = ''","var effectoCategory='".$eff_category."'", $apiEmbedArray); */
+
+			$eff_json = '<div id="effecto_bar"></div>
+						<script>
+							var eff_json = {
+								"effecto_uniquename":"'.$p_shortname.'", 
+								"effectoPostId":"'.$postId.'", 
+								"effectoPreview": "'.$effectoPreview.'", 
+								"effectoPagetitle":"'.$getPostTitle.'", 
+								"effectoPageurl":"'.$wpSite."?p=".$postId.'", 
+								"effectoPublDate":"'.$effDate_published.'", 
+								"effectoAuthorName":"'.$effectoAuthor.'", 
+								"effectoCategory":"'.$eff_category.'"
+							};
+						</script>
+						<script src="'.$hostString.'/p-js/mye-wp.js" async="1"></script>';
+			// return $apiEmbedArray.$text;
+			return $text.$eff_json;
 		} else {
 			return $text;
 		}
