@@ -212,6 +212,10 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 == Changelog ==
 
+= 1.0.19 =
+
+* Recommends contents according to your post category.
+
 = 1.0.18 =
 
 * Removed unnecessary included scripts and styles from posts and other pages.
