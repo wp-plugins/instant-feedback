@@ -16,7 +16,6 @@ add_filter( 'the_content', 'echoEndUserPlugin');
 $embedCode = null;
 
 $hostString="http://www.myeffecto.com";
-$eff_ssl_host = "https://myeffecto.appspot.com";
 // $hostString="http://localhost:8888";
 /* Show plugin on Menu bar */
 function myeffecto_admin_actions() {
@@ -325,71 +324,39 @@ function myeffecto_admin() {
 			<iframe id="effectoFrame" src ="'.$hostString.'/register?callback=confgEmoji&outside=true&postTitle="+postTitle width="100%" height="500"/>';
 	}
 
-	function eff_is_html($string) {
-	  return preg_match("/<[^<]+>/",$string,$m) != 0;
-	}
-
 	/* Show plugin in posts. */
 	function echoEndUserPlugin($text) {
-		global $hostString;
-		global $eff_ssl_host;
+		$postId = get_the_ID();
+		$getPostTitle = get_the_title();
+		$wpSite = get_site_url();
+		$effectoPreview = "false";
+		$user_id = get_current_user_id();
+		$effectoAuthor = get_the_author_meta('user_email', $user_id );
+		$apiPluginDetailsArray = getMyEffectoPluginDetails($postId);
+		if ($apiPluginDetailsArray == null) {
+			$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
+		}
+		$apiEmbedArray="";
+		$p_shortname="";
+		foreach($apiPluginDetailsArray as $detail) {
+			$apiEmbedArray = $detail -> embedCode;
+			$p_shortname = $detail -> shortname;
+		}
 
 		if (is_single())
 		{
-			$postId = get_the_ID();
-			$getPostTitle = get_the_title();
-			if (eff_is_html($getPostTitle)) {
-				$getPostTitle = null;
-			}
-			$wpSite = get_site_url();
-			$effectoPreview = "false";
-			$effectoAuthor = effecto_get_author();
-			$eff_category = effecto_get_category($postId);
-
-			$apiPluginDetailsArray = getMyEffectoPluginDetails($postId);
-			if ($apiPluginDetailsArray == null) {
-				$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
-			}
-			$apiEmbedArray="";
-			$p_shortname="";
-			foreach($apiPluginDetailsArray as $detail) {
-				$apiEmbedArray = $detail -> embedCode;
-				$p_shortname = $detail -> shortname;
-			}
-
 			$effDate_published = get_the_date("l,F d,Y");
 			if (is_preview()) {
 				$effectoPreview = "true";
 				$postId = 0;
 			}
-
-			if (is_ssl()) {
-				$hostString = $eff_ssl_host;
-			}
-			/* $apiEmbedArray = str_replace("var effectoPostId=''","var effectoPostId='".$postId."'", $apiEmbedArray);
+			$apiEmbedArray = str_replace("var effectoPostId=''","var effectoPostId='".$postId."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPreview=''","var effectoPreview='".$effectoPreview."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$postId."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoPublDate = ''","var effectoPublDate='".$effDate_published."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoAuthorName = ''","var effectoAuthorName='".$effectoAuthor."'", $apiEmbedArray);
-			$apiEmbedArray = str_replace("var effectoCategory = ''","var effectoCategory='".$eff_category."'", $apiEmbedArray); */
-
-			$eff_json = '<div id="effecto_bar"></div>
-						<script>
-							var eff_json = {
-								"effecto_uniquename":"'.$p_shortname.'", 
-								"effectoPostId":"'.$postId.'", 
-								"effectoPreview": "'.$effectoPreview.'", 
-								"effectoPagetitle":"'.$getPostTitle.'", 
-								"effectoPageurl":"'.$wpSite."?p=".$postId.'", 
-								"effectoPublDate":"'.$effDate_published.'", 
-								"effectoAuthorName":"'.$effectoAuthor.'", 
-								"effectoCategory":"'.$eff_category.'"
-							};
-						</script>
-						<script src="'.$hostString.'/p-js/mye-wp.js" async="1"></script>';
-			// return $apiEmbedArray.$text;
-			return $text.$eff_json;
+			return $text.$apiEmbedArray;
 		} else {
 			return $text;
 		}
