@@ -74,20 +74,23 @@
 					$allPostCode = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$getPostID."'", $allPostCode);
 					$allPostCode = str_replace("var effectoPublDate = ''","var effectoPublDate='".$effDate_published."'", $allPostCode); */
 					
-					$eff_json = '<div id="effecto_bar"></div>
+					$getPostTitle = str_replace("'","\'", $getPostTitle);
+					$eff_category = str_replace("'","\'", $eff_category);
+
+					$eff_json = "<div id='effecto_bar'></div>
 						<script>
 							var eff_json = {
-								"effecto_uniquename":"'.$p_shortname.'", 
-								"effectoPostId":"0", 
-								"effectoPreview": "true", 
-								"effectoPagetitle":"'.$getPostTitle.'", 
-								"effectoPageurl":"'.$wpSite."?p=".$getPostID.'", 
-								"effectoPublDate":"'.$effDate_published.'", 
-								"effectoAuthorName":"'.$effectoAuthor.'", 
-								"effectoCategory":"'.$eff_category.'"
+								'effecto_uniquename':'".$p_shortname."', 
+								'effectoPostId':'0',  
+								'effectoPreview': 'true', 
+								'effectoPagetitle':'".$getPostTitle."', 
+								'effectoPageurl':'".$wpSite.'?p='.$getPostID."', 
+								'effectoPublDate':'".$effDate_published."', 
+								'effectoAuthorName':'".$effectoAuthor."', 
+								'effectoCategory':'".$eff_category."', 
 							};
 						</script>
-						<script src="'.$hostString.'/p-js/mye-wp.js" async="1"></script>';
+						<script src='".$hostString."/p-js/mye-wp.js' async='1'></script>";
 
 					echo '<h2>
 						<center>
