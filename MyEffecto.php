@@ -3,7 +3,7 @@
 Plugin Name: My Effecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.19
+Version: 1.0.18
 Author URI: www.myeffecto.com
 */
 
@@ -18,7 +18,7 @@ $embedCode = null;
 
 $hostString="http://www.myeffecto.com";
 $eff_ssl_host = "https://myeffecto.appspot.com";
-// $hostString="http://localhost:8888";
+//$hostString="http://localhost:8888";
 
 /* Show plugin on Menu bar */
 function myeffecto_admin_actions() {
@@ -305,7 +305,7 @@ function myeffecto_admin() {
 			<div id="load" style="display:none;"></div>
 			<iframe id="effectoFrame" src ="'.$hostString.'/register?callback=confgEmoji&outside=true&postTitle="+postTitle width="100%" height="500"/>';
 	}
-
+	
 	function eff_is_html($string) {
 	  return preg_match("/<[^<]+>/",$string,$m) != 0;
 	}
@@ -319,6 +319,9 @@ function myeffecto_admin() {
 		{
 			$postId = get_the_ID();
 			$getPostTitle = get_the_title();
+			if (eff_is_html($getPostTitle)) {
+				$getPostTitle = null;
+			}
 			$wpSite = get_site_url();
 			$effectoPreview = "false";
 			$effectoAuthor = effecto_get_author();
@@ -352,23 +355,20 @@ function myeffecto_admin() {
 			$apiEmbedArray = str_replace("var effectoAuthorName = ''","var effectoAuthorName='".$effectoAuthor."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoCategory = ''","var effectoCategory='".$eff_category."'", $apiEmbedArray); */
 
-			/* $getPostTitle = str_replace("'","\'", $getPostTitle);
-			$eff_category = str_replace("'","\'", $eff_category); */
-
-			$eff_json = "<div id='effecto_bar'></div>
+			$eff_json = '<div id="effecto_bar"></div>
 						<script>
 							var eff_json = {
-								'effecto_uniquename':'".$p_shortname."', 
-								'effectoPostId':'".$postId."',  
-								'effectoPreview': '".$effectoPreview."', 
-								'effectoPagetitle':'".$getPostTitle."', 
-								'effectoPageurl':'".$wpSite.'?p='.$postId."', 
-								'effectoPublDate':'".$effDate_published."', 
-								'effectoAuthorName':'".$effectoAuthor."', 
-								'effectoCategory':'".$eff_category."', 
+								"effecto_uniquename":"'.$p_shortname.'", 
+								"effectoPostId":"'.$postId.'", 
+								"effectoPreview": "'.$effectoPreview.'", 
+								"effectoPagetitle":"'.$getPostTitle.'", 
+								"effectoPageurl":"'.$wpSite."?p=".$postId.'", 
+								"effectoPublDate":"'.$effDate_published.'", 
+								"effectoAuthorName":"'.$effectoAuthor.'", 
+								"effectoCategory":"'.$eff_category.'"
 							};
 						</script>
-						<script src='".$hostString."/p-js/mye-wp.js' async='1'></script>";
+						<script src="'.$hostString.'/p-js/mye-wp.js" async="1"></script>';
 			// return $apiEmbedArray.$text;
 			return $text.$eff_json;
 		} else {
