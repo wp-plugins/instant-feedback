@@ -319,9 +319,6 @@ function myeffecto_admin() {
 		{
 			$postId = get_the_ID();
 			$getPostTitle = get_the_title();
-			if (eff_is_html($getPostTitle)) {
-				$getPostTitle = null;
-			}
 			$wpSite = get_site_url();
 			$effectoPreview = "false";
 			$effectoAuthor = effecto_get_author();
