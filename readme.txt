@@ -214,10 +214,6 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 = 1.0.19 =
 
-* Bug Fixes.
-
-= 1.0.19 =
-
 * Recommends contents according to your post category.
 
 = 1.0.18 =
