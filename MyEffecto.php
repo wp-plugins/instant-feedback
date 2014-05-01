@@ -3,7 +3,7 @@
 Plugin Name: My Effecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.20
+Version: 1.0.19
 Author URI: www.myeffecto.com
 */
 
@@ -352,8 +352,8 @@ function myeffecto_admin() {
 			$apiEmbedArray = str_replace("var effectoAuthorName = ''","var effectoAuthorName='".$effectoAuthor."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoCategory = ''","var effectoCategory='".$eff_category."'", $apiEmbedArray); */
 
-			$getPostTitle = str_replace("'","\'", $getPostTitle);
-			$eff_category = str_replace("'","\'", $eff_category);
+			/* $getPostTitle = str_replace("'","\'", $getPostTitle);
+			$eff_category = str_replace("'","\'", $eff_category); */
 
 			$eff_json = "<div id='effecto_bar'></div>
 						<script>
