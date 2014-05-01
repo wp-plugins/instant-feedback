@@ -3,7 +3,7 @@
 Plugin Name: My Effecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.19
+Version: 1.0.20
 Author URI: www.myeffecto.com
 */
 
@@ -319,9 +319,6 @@ function myeffecto_admin() {
 		{
 			$postId = get_the_ID();
 			$getPostTitle = get_the_title();
-			if (eff_is_html($getPostTitle)) {
-				$getPostTitle = null;
-			}
 			$wpSite = get_site_url();
 			$effectoPreview = "false";
 			$effectoAuthor = effecto_get_author();
@@ -355,20 +352,23 @@ function myeffecto_admin() {
 			$apiEmbedArray = str_replace("var effectoAuthorName = ''","var effectoAuthorName='".$effectoAuthor."'", $apiEmbedArray);
 			$apiEmbedArray = str_replace("var effectoCategory = ''","var effectoCategory='".$eff_category."'", $apiEmbedArray); */
 
-			$eff_json = '<div id="effecto_bar"></div>
+			$getPostTitle = str_replace("'","\'", $getPostTitle);
+			$eff_category = str_replace("'","\'", $eff_category);
+
+			$eff_json = "<div id='effecto_bar'></div>
 						<script>
 							var eff_json = {
-								"effecto_uniquename":"'.$p_shortname.'", 
-								"effectoPostId":"'.$postId.'", 
-								"effectoPreview": "'.$effectoPreview.'", 
-								"effectoPagetitle":"'.$getPostTitle.'", 
-								"effectoPageurl":"'.$wpSite."?p=".$postId.'", 
-								"effectoPublDate":"'.$effDate_published.'", 
-								"effectoAuthorName":"'.$effectoAuthor.'", 
-								"effectoCategory":"'.$eff_category.'"
+								'effecto_uniquename':'".$p_shortname."', 
+								'effectoPostId':'".$postId."',  
+								'effectoPreview': '".$effectoPreview."', 
+								'effectoPagetitle':'".$getPostTitle."', 
+								'effectoPageurl':'".$wpSite.'?p='.$postId."', 
+								'effectoPublDate':'".$effDate_published."', 
+								'effectoAuthorName':'".$effectoAuthor."', 
+								'effectoCategory':'".$eff_category."', 
 							};
 						</script>
-						<script src="'.$hostString.'/p-js/mye-wp.js" async="1"></script>';
+						<script src='".$hostString."/p-js/mye-wp.js' async='1'></script>";
 			// return $apiEmbedArray.$text;
 			return $text.$eff_json;
 		} else {
