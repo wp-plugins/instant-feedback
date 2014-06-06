@@ -3,7 +3,7 @@
 Plugin Name: My Effecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.21
+Version: 1.0.22
 Author URI: www.myeffecto.com
 */
 
@@ -25,16 +25,16 @@ function myeffecto_admin_actions() {
 	add_options_page('MyEffecto', 'MyEffecto', 'manage_options', _FILE_, 'myeffecto_admin', null, '59.5');
 }
 
-/* function effInitScripts($hook) {
+function effInitScripts($hook) {
 	if (is_admin()) {
 		if ($hook == "post.php" || $hook == "post-new.php" || $hook == "settings_page__FILE_") {
 			wp_enqueue_script("jquery");
-			wp_enqueue_script("jquery-ui-dialog");
-			wp_enqueue_style("wp-Myeffecto", "http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.min.css");
+			/* wp_enqueue_script("jquery-ui-dialog");
+			wp_enqueue_style("wp-Myeffecto", "http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.min.css"); */
 		}
 	}
 }
-add_action("admin_enqueue_scripts", "effInitScripts"); */
+add_action("admin_enqueue_scripts", "effInitScripts");
 
 function myeffecto_get_version() {
 	$plugin_data = get_plugin_data( __FILE__ );
