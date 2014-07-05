@@ -355,6 +355,16 @@ function myeffecto_admin() {
 			$getPostTitle = str_replace("'","\'", $getPostTitle);
 			$eff_category = str_replace("'","\'", $eff_category);
 
+			//User Info
+			global $current_user;
+			get_currentuserinfo();
+			$eff_cur_loggedIn = is_user_logged_in();
+			$eff_user_role = $current_user->user_login;
+			$eff_user_email = $current_user->user_email;
+			$eff_user_display = str_replace("'","\'", $current_user->display_name);
+			$eff_user_fname = str_replace("'","\'", $current_user->user_firstname);
+			$eff_user_lname = str_replace("'","\'", $current_user->user_lastname);
+
 			$eff_json = "<div id='effecto_bar'></div>
 						<script>
 							var eff_json = {
@@ -366,6 +376,14 @@ function myeffecto_admin() {
 								'effectoPublDate':'".$effDate_published."', 
 								'effectoAuthorName':'".$effectoAuthor."', 
 								'effectoCategory':'".$eff_category."', 
+								'effUserInfo': {
+									'isLoggedIn': '".$eff_cur_loggedIn."',
+									'loginAs': '".$eff_user_role."',
+									'email': '".$eff_user_email."',
+									'dpName': '".$eff_user_display."',
+									'fName': '".$eff_user_fname."',
+									'lName': '".$eff_user_lname."'
+								}
 							};
 						</script>
 						<script src='".$hostString."/p-js/mye-wp.js' async='1'></script>";
