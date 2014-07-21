@@ -80,6 +80,7 @@
 					$eff_json = "<div id='effecto_bar'></div>
 						<script>
 							var eff_json = {
+								'ext_path':'".plugins_url( '' , __FILE__ )."',
 								'effecto_uniquename':'".$p_shortname."', 
 								'effectoPostId':'0',  
 								'effectoPreview': 'true', 
@@ -89,8 +90,8 @@
 								'effectoAuthorName':'".$effectoAuthor."', 
 								'effectoCategory':'".$eff_category."', 
 							};
-						</script>
-						<script src='".$hostString."/p-js/mye-wp.js' async='1'></script>";
+						</script>";
+					wp_enqueue_script("wp-pluginJs", plugins_url( 'mye-wp.js' , __FILE__ ));
 
 					echo '<h2>
 						<center>
@@ -130,21 +131,21 @@
 			$getPostTitle = str_replace("'","\'", $getPostTitle);
 			$eff_category = str_replace("'","\'", $eff_category);
 
-			$eff_json = "<div id='effecto_bar'></div>
-				<script>
-					var eff_json = {
-						'effecto_uniquename':'".$p_shortname."', 
-						'effectoPostId':'0',  
-						'effectoPreview': 'true', 
-						'effectoPagetitle':'".$getPostTitle."', 
-						'effectoPageurl':'".$wpSite.'?p='.$getPostID."', 
-						'effectoPublDate':'".$effDate_published."', 
-						'effectoAuthorName':'".$effectoAuthor."', 
-						'effectoCategory':'".$eff_category."', 
-					};
-				</script>
-				<script src='".$hostString."/p-js/mye-wp.js' async='1'></script>";
-
+				$eff_json = "<div id='effecto_bar'></div>
+						<script>
+							var eff_json = {
+								'ext_path':'".plugins_url( '' , __FILE__ )."',
+								'effecto_uniquename':'".$p_shortname."', 
+								'effectoPostId':'0',  
+								'effectoPreview': 'true', 
+								'effectoPagetitle':'".$getPostTitle."', 
+								'effectoPageurl':'".$wpSite.'?p='.$getPostID."', 
+								'effectoPublDate':'".$effDate_published."', 
+								'effectoAuthorName':'".$effectoAuthor."', 
+								'effectoCategory':'".$eff_category."', 
+							};
+						</script>";
+					wp_enqueue_script("wp-pluginJs", plugins_url( 'mye-wp.js' , __FILE__ ));
 			echo '<h2>
 					<center>(PREVIEW-ONLY) <br>Your current emotion set for this post is </center>
 				</h2> '.$eff_json;

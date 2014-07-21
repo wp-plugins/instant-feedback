@@ -16,6 +16,7 @@ add_filter( 'the_content', 'echoEndUserPlugin');
 
 $embedCode = null;
 
+
 $hostString="http://www.myeffecto.com";
 $eff_ssl_host = "https://myeffecto.appspot.com";
 //$hostString="http://localhost:8888";
@@ -368,6 +369,7 @@ function myeffecto_admin() {
 			$eff_json = "<div id='effecto_bar'></div>
 						<script>
 							var eff_json = {
+								'ext_path':'".plugins_url( '' , __FILE__ )."',
 								'effecto_uniquename':'".$p_shortname."', 
 								'effectoPostId':'".$postId."',  
 								'effectoPreview': '".$effectoPreview."', 
@@ -385,8 +387,8 @@ function myeffecto_admin() {
 									'lName': '".$eff_user_lname."'
 								}
 							};
-						</script>
-						<script src='".$hostString."/p-js/mye-wp.js' async='1'></script>";
+						</script>";
+						wp_enqueue_script("wp-pluginJs", plugins_url( 'mye-wp.js' , __FILE__ ));
 			// return $apiEmbedArray.$text;
 			return $text.$eff_json;
 		} else {
