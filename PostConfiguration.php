@@ -224,17 +224,25 @@
 
 	function allSetCode($allPostCode, $getPostTitle) {
 	    global $hostString;
-		$allPostCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $allPostCode);
-
-		$allPostCode = str_replace("var effectoPostId=''","var effectoPostId='0'", $allPostCode);
-		$allPostCode = str_replace("var effectoPagetitle = ''","var effectoPagetitle='preview'", $allPostCode);
-		$allPostCode = str_replace("var effectoPageurl = ''","var effectoPageurl=''", $allPostCode);
 
 		$shortname = "";
 		$eff_details = getMyEffectoPluginDetails(0);
 		foreach($eff_details as $detail) {
 			$shortname = $detail -> shortname;
 		}
+		
+		$eff_json = "<div id='effecto_bar'></div>
+					<script>
+						var eff_json = {
+							'ext_path':'".plugins_url( '' , __FILE__ )."',
+							'effecto_uniquename':'".$shortname."', 
+							'effectoPostId':'0',  
+							'effectoPreview': 'true', 
+							'effectoPagetitle':'preview', 
+							'effectoPageurl':'', 
+						};
+					</script>";
+				wp_enqueue_script("wp-pluginJs", plugins_url( 'mye-wp.js' , __FILE__ ));
 
 		echo '<h2>
 				<center>
@@ -242,13 +250,13 @@
 					(PREVIEW-ONLY) <br>
 					Your default emotion set is 
 				</center>
-			</h2> '.$allPostCode;
+			</h2> '.$eff_json;
 		echo '<h2>
 				<center>
 					<a class="effectoConfig" style="cursor:pointer;" href="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Default emotion set appears on all posts.">Change your default emotion set </a>
 				</center>
 			</h2>';
-			//showEffModal();
+			
 	}
 
 	add_action( 'save_post', 'updateEff_title' );
