@@ -1,22 +1,23 @@
 <?php
-	add_action( 'add_meta_boxes', 'effectoBox' );  
-
-	// $hostString="http://www.myeffecto.com";
-	// $hostString="http://localhost:8888";
+	add_action( 'add_meta_boxes', 'effectoBox' );
 
 	function effectoBox() {
 		add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration (Open for more options)', 'showEffectoBox', 'post', 'normal', 'core' );  
 	}
 	$p_shortname = null;
 	function showEffectoBox() {
-		global $hostString;
+		global $hostString, $eff_sett_nav;
 		echo "<script>
 				jQuery(function($){
 					$('#effecto_meta_box').addClass('closed');
 				});
 			</script>";
 
-		$pluginStatus = $_GET["plugin"];
+		$pluginStatus = "";
+		if (isset($_GET["plugin"])) {
+			$pluginStatus = $_GET["plugin"];
+		}
+
 		if ($pluginStatus == 'success') {
 			addAlert($pluginStatus);
 		}
@@ -51,7 +52,7 @@
 				$p_shortname = $detail -> shortname;
 			}
 			if (isset($allPostCode) && !empty($allPostCode)) {
-				/* allSetCode($allPostCode, $getPostTitle);
+				/* allSetCode($allPostCode, $getPostTitle,  $p_shortname);
 				echo '<h1>
 						<center>OR</center>
 					</h1>'; */
@@ -108,13 +109,13 @@
 
 					<h2>
 						<center>
-							<a style="cursor:pointer; text-decoration:none;" href="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postName='.$wpSite.'&pluginType=defaultAdd&postURL='.$_SERVER['REQUEST_URI'].'?post_id='.$getPostID.'">Add a default emotion set </a> <br /> OR 
+							<a style="cursor:pointer; text-decoration:none;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_sett_nav.'&postName='.$wpSite.'&pluginType=defaultAdd&postURL='.$_SERVER['REQUEST_URI'].'?post_id='.$getPostID.'">Add a default emotion set </a> <br /> OR 
 						</center>
 					</h2>';
 			}
 			echo '<h2 style="margin-top:-16px;">
 					<center>
-						<a class="effectoConfig" style="cursor:pointer;" href="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postID='.$getPostID.'&postName='.$wpSite.'&shortname='.$p_shortname.'&pluginType=postAdd&postURL='.$postUrl.'?post='.$getPostID.'">You can aslo configure different set for this post.</a>
+						<a class="effectoConfig" style="cursor:pointer;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_sett_nav.'&postID='.$getPostID.'&postName='.$wpSite.'&shortname='.$p_shortname.'&pluginType=postAdd&postURL='.$postUrl.'?post='.$getPostID.'">You can aslo configure different set for this post.</a>
 					</center>
 				</h2>';
 		} else {
@@ -151,11 +152,10 @@
 				</h2> '.$eff_json;
 			echo '<h2>
 					<center>
-						<a class="effectoConfig" style="cursor:pointer;" href="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postID='.$getPostID.'&postName='.$wpSite.'&pluginType=postEdit&postURL='.$_SERVER['REQUEST_URI'].'?post_id='.$getPostID.'&shortname='.$p_shortname.'">Change emotion set of this post</a>
+						<a class="effectoConfig" style="cursor:pointer;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_nav.'&postID='.$getPostID.'&postName='.$wpSite.'&pluginType=postEdit&postURL='.$_SERVER['REQUEST_URI'].'?post_id='.$getPostID.'&shortname='.$p_shortname.'">Change emotion set of this post</a>
 					<center>
 				</h2>';
 		}
-		//showEffModal();
 	}
 
 	function effecto_get_category($postId) {
@@ -222,15 +222,15 @@
 		}
 	}
 
-	function allSetCode($allPostCode, $getPostTitle) {
-	    global $hostString;
+	function allSetCode($allPostCode, $getPostTitle, $shortname) {
+	    global $hostString, $eff_sett_nav;
 
-		$shortname = "";
+		/* $shortname = "";
 		$eff_details = getMyEffectoPluginDetails(0);
 		foreach($eff_details as $detail) {
 			$shortname = $detail -> shortname;
-		}
-		
+		} */
+
 		$eff_json = "<div id='effecto_bar'></div>
 					<script>
 						var eff_json = {
@@ -243,7 +243,6 @@
 						};
 					</script>";
 				wp_enqueue_script("wp-pluginJs", plugins_url( 'mye-wp.js' , __FILE__ ));
-
 		echo '<h2>
 				<center>
 					<a href="'.$hostString.'/dashboard-overview" target="_blank">Visit Dashboard</a> <br /><br />
@@ -253,10 +252,9 @@
 			</h2> '.$eff_json;
 		echo '<h2>
 				<center>
-					<a class="effectoConfig" style="cursor:pointer;" href="'.get_site_url().'/wp-admin/admin.php?page=_FILE_&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Default emotion set appears on all posts.">Change your default emotion set </a>
+					<a class="effectoConfig" style="cursor:pointer;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_sett_nav.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Default emotion set appears on all posts.">Change your default emotion set </a>
 				</center>
 			</h2>';
-			
 	}
 
 	add_action( 'save_post', 'updateEff_title' );
