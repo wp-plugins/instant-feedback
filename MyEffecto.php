@@ -16,22 +16,19 @@ add_filter( 'the_content', 'echoEndUserPlugin');
 
 $embedCode = null;
 
+
 $hostString="http://www.myeffecto.com";
 $eff_ssl_host = "https://myeffecto.appspot.com";
 //$hostString="http://localhost:8888";
 
-$eff_sett_nav = "eff_sett_nav";
-
 /* Show plugin on Menu bar */
 function myeffecto_admin_actions() {
-	global $eff_sett_nav;
-	add_options_page('MyEffecto', 'MyEffecto', 'manage_options', $eff_sett_nav, 'myeffecto_admin', null, '59.5');
+	add_options_page('MyEffecto', 'MyEffecto', 'manage_options', _FILE_, 'myeffecto_admin', null, '59.5');
 }
 
 function effInitScripts($hook) {
-	global $eff_sett_nav;
 	if (is_admin()) {
-		if ($hook == "post.php" || $hook == "post-new.php" || $hook == "settings_page_".$eff_sett_nav) {
+		if ($hook == "post.php" || $hook == "post-new.php" || $hook == "settings_page__FILE_") {
 			wp_enqueue_script("jquery");
 			/* wp_enqueue_script("jquery-ui-dialog");
 			wp_enqueue_style("wp-Myeffecto", "http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.min.css"); */
@@ -159,10 +156,10 @@ function myeffecto_admin() {
 			$apiKey=null;
 			$myeffectoArray = array();
 
-			/* delete_option('myeffecto_apikeys'.'#@#'.$user_id);
+			delete_option('myeffecto_apikeys'.'#@#'.$user_id);
 			if (get_option('myeffecto_apikeys'.'#@#'.$user_id)) {
 				$myeffectoArray = get_option('myeffecto_apikeys'.'#@#'.$user_id);
-			} else { */
+			} else {
 				$isFirstUser=false;
 				global $wpdb;
 				$effecto_db_version = myeffecto_get_version();
@@ -194,10 +191,10 @@ function myeffecto_admin() {
 					echoUserScript();
 					return;
 				}
-			// }
+			}
 
 			if (isset($embedCode) && !empty($embedCode) && (!isset($postURL) || empty($postURL))) {
-				allSetCode($embedCode, null, $shortname);
+				allSetCode($embedCode, null);
 			} else {
 				echoUserScript();
 			}

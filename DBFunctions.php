@@ -85,6 +85,7 @@
 			), 
 			array( '%s' )
 		);
+
 	}
 
 	/* Select pluginCode by userID */
@@ -94,13 +95,10 @@
 
 		return $wpdb->get_var("SELECT embedCode FROM $table_name WHERE postID=".$postID);
 	}
-
+	
 	function getMyEffectoPluginDetails($postID) {
-		if (isset($postID)) {
-			global $wpdb;
-			global $table_name;
-			return $wpdb->get_results( "SELECT embedCode, shortname FROM $table_name WHERE postID=".$postID);
-		}
-		return null;
+		global $wpdb;
+		global $table_name;
+		return $wpdb->get_results( "SELECT embedCode, shortname FROM $table_name WHERE postID=".$postID);
 	}
 ?>
