@@ -214,7 +214,7 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 = 1.0.24 =
 
-* Plugin load optimized. Now plugin will load only after the post is loaded.
+* Plugin load optimized.
 
 = 1.0.20 =
 
