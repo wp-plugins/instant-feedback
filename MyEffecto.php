@@ -24,10 +24,12 @@ $eff_sett_nav = "eff_sett_nav";
 
 /* Show plugin on Menu bar */
 function myeffecto_admin_actions() {
+	global $eff_sett_nav;
 	add_options_page('MyEffecto', 'MyEffecto', 'manage_options', $eff_sett_nav, 'myeffecto_admin', null, '59.5');
 }
 
 function effInitScripts($hook) {
+	global $eff_sett_nav;
 	if (is_admin()) {
 		if ($hook == "post.php" || $hook == "post-new.php" || $hook == "settings_page_".$eff_sett_nav) {
 			wp_enqueue_script("jquery");
