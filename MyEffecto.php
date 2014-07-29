@@ -388,7 +388,7 @@ function myeffecto_admin() {
 								}
 							};
 						</script>";
-						wp_enqueue_script("wp-pluginJs", plugins_url( 'mye-wp.js' , __FILE__ ));
+						wp_enqueue_script("mye-wp-pluginjs", plugins_url( 'mye-wp.js' , __FILE__ ));
 			// return $apiEmbedArray.$text;
 			return $text.$eff_json;
 		} else {
