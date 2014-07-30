@@ -212,6 +212,10 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 == Changelog ==
 
+= 1.0.26 =
+
+* Multiple plugin display error fixed.
+
 = 1.0.25 =
 
 * Bug Fixes.
