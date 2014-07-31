@@ -211,6 +211,9 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 
 == Changelog ==
+= 1.0.27 =
+
+* Plugin Jquery dependency removed. Optimized javascript
 
 = 1.0.26 =
 
