@@ -366,7 +366,7 @@ function myeffecto_admin() {
 			$eff_user_fname = str_replace("'","\'", $current_user->user_firstname);
 			$eff_user_lname = str_replace("'","\'", $current_user->user_lastname);
 
-			$eff_json = "<div id='effecto_bar'></div>
+			$eff_json = "<div id='effecto_bar' p='1'></div>
 						<script>
 							var eff_json = {
 								'ext_path':'".plugins_url( '' , __FILE__ )."',
