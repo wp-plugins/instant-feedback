@@ -212,8 +212,7 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 == Changelog ==
 = 1.0.29 =
-* Loading img for plugin
-* For blog post with scroll, plugin will be loaded after user scroll down to the page(helps to load blog faster)
+* Plugin Loading image
 
 = 1.0.28 =
 * Included better blog promotion tactics
