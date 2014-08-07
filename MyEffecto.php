@@ -3,7 +3,7 @@
 Plugin Name: MyEffecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.28
+Version: 1.0.29
 Author URI: www.myeffecto.com
 */
 
@@ -15,11 +15,9 @@ add_action('admin_menu', 'myeffecto_admin_actions');
 add_filter( 'the_content', 'echoEndUserPlugin');
 
 $embedCode = null;
-
-
 $hostString="http://www.myeffecto.com";
-$eff_ssl_host = "https://myeffecto.appspot.com";
-//$hostString="http://localhost:8888";
+// $eff_ssl_host = "https://myeffecto.appspot.com";
+// $hostString="http://localhost:8888";
 
 /* Show plugin on Menu bar */
 function myeffecto_admin_actions() {
@@ -366,7 +364,7 @@ function myeffecto_admin() {
 			$eff_user_fname = str_replace("'","\'", $current_user->user_firstname);
 			$eff_user_lname = str_replace("'","\'", $current_user->user_lastname);
 
-			$eff_json = "<div id='effecto_bar' V='1'></div>
+			$eff_json = "<div id='effecto_bar' V='1.0' style='text-align:center;'><img id='mye_load' src='".plugins_url( 'loading.gif' , __FILE__ )."' ></div>
 						<script>
 							var eff_json = {
 								'ext_path':'".plugins_url( '' , __FILE__ )."',
