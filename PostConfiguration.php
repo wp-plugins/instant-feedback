@@ -77,7 +77,7 @@
 					$getPostTitle = str_replace("'","\'", $getPostTitle);
 					$eff_category = str_replace("'","\'", $eff_category);
 
-					$eff_json = "<div id='effecto_bar'></div>
+					$eff_json = "<div id='effecto_bar' style='text-align:center;'><img id='mye_load' src='".plugins_url( 'loading.gif' , __FILE__ )."' ></div>
 						<script>
 							var eff_json = {
 								'ext_path':'".plugins_url( '' , __FILE__ )."',
@@ -131,7 +131,7 @@
 			$getPostTitle = str_replace("'","\'", $getPostTitle);
 			$eff_category = str_replace("'","\'", $eff_category);
 
-				$eff_json = "<div id='effecto_bar'></div>
+				$eff_json = "<div id='effecto_bar' style='text-align:center;'><img id='mye_load' src='".plugins_url( 'loading.gif' , __FILE__ )."' ></div>
 						<script>
 							var eff_json = {
 								'ext_path':'".plugins_url( '' , __FILE__ )."',
