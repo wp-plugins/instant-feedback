@@ -211,6 +211,9 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 
 == Changelog ==
+= 1.0.30 =
+* Plugin Loading image on settings page.
+
 = 1.0.29 =
 * Plugin Loading image
 
