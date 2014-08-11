@@ -16,7 +16,7 @@ add_filter( 'the_content', 'echoEndUserPlugin');
 
 $embedCode = null;
 $hostString="http://www.myeffecto.com";
-// $eff_ssl_host = "https://myeffecto.appspot.com";
+$eff_ssl_host = "https://myeffecto.appspot.com";
 // $hostString="http://localhost:8888";
 
 /* Show plugin on Menu bar */
@@ -364,7 +364,7 @@ function myeffecto_admin() {
 			$eff_user_fname = str_replace("'","\'", $current_user->user_firstname);
 			$eff_user_lname = str_replace("'","\'", $current_user->user_lastname);
 
-			$eff_json = "<div id='effecto_bar' V='1.0' style='text-align:center;'><img id='mye_load' src='".plugins_url( 'loading.gif' , __FILE__ )."' ></div>
+			$eff_json = "<div id='effecto_bar' V='1.0' style='text-align:center;'></div>
 						<script>
 							var eff_json = {
 								'ext_path':'".plugins_url( '' , __FILE__ )."',
