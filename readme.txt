@@ -18,17 +18,8 @@ Not getting enough love and attention from your readers? Get MYEFFECTO now.
 
 == Description ==
 
-With MyEffecto's Emotional Feedback widget, get Instant, Visual, Measurable emotional
-response for your blog posts. Capture the unsaid expressions between 'Likes' and Comments.
-Improve engagement and see the analytics through a dashboard. Simply select a list of 
-emotions from a library we provide and add the plugin to your content and your viewers 
-respond you what they feel. Allow readers to share articles by tagging the articles as per
-their feedback automatically. Display recommended articles (based on the feedback clicked 
-and other behavioural elements) through an in-site content recommendation engine. 
-Example: If you provide "WOW" as a feedback button to your reader and he clicks it, 
-he can share this articles n say Twitter "WOW- Eg: Dalai Lama wins Time Person of the 
-Year award <url> via @myeffecto". Instantly, he also sees MyEffecto Recommended articles
- that are best suited to him that also have a WOW tag.  
+It's a simple rating widget with emoticons. Readers can thus provide quick feedback and drive engagement and traffic as we promote user activity on our effecto community. 
+MyEffecto increases engagement and drives traffic to your blogs via a simple feedback plugin. 
 
 How MyEffecto helps you:
 
@@ -61,12 +52,9 @@ How MyEffecto helps you:
 	The effect of such articles where audience say that it made them feel 'happy' 
 	or 'sad' may not necessarily be captured through keywords in the posts.
 
-6.	**Get insightful engagement analytics:** 
-	While pageviews could happen due to multiple reasons, 
-	Myeffecto you get a dashboard that helps you get insightful engagement analytics 
-	based on the feedback readers provided -  what content gets most feedback, 
-	what time of day is best for highest feedback, what percentage of 
-	readers provided feedback.
+6.	**Get your Blog Promoted on different communities:** 
+	We promote your blog on different communities at twitter,facebook,tumblr,google+,pinterest and lots more, depending
+	on the category of your blog like fashion,health,startup,entertainment..etc
 	
 This is an offical MyEffecto plugin that lets you embed the Javascript integration code into your pages. 
 You can check out more details on MyEffecto here  http://www.myeffecto.com
