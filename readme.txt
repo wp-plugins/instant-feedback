@@ -200,7 +200,7 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 == Changelog ==
 = 1.0.34 =
-* Moved Myeffecto JS file to Myeffecto CDN Server
+* Moved static files (css,img,js) to myeffecto CDN Server
 
 = 1.0.33 =
 * Plugin height issue resolved
