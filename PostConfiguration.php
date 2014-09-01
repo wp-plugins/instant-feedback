@@ -90,8 +90,8 @@
 								'effectoAuthorName':'".$effectoAuthor."', 
 								'effectoCategory':'".$eff_category."', 
 							};
-						</script>";
-					wp_enqueue_script("wp-pluginJs", plugins_url( 'mye-wp.js' , __FILE__ ));
+						</script><script src='http://cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
+					
 
 					echo '<h2>
 						<center>
@@ -144,8 +144,8 @@
 								'effectoAuthorName':'".$effectoAuthor."', 
 								'effectoCategory':'".$eff_category."', 
 							};
-						</script>";
-					wp_enqueue_script("wp-pluginJs", plugins_url( 'mye-wp.js' , __FILE__ ));
+						</script><script src='http://cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
+					
 			echo '<h2>
 					<center>(PREVIEW-ONLY) <br>Your current emotion set for this post is </center>
 				</h2> '.$eff_json;
@@ -241,8 +241,7 @@
 							'effectoPagetitle':'preview', 
 							'effectoPageurl':'', 
 						};
-					</script>";
-				wp_enqueue_script("wp-pluginJs", plugins_url( 'mye-wp.js' , __FILE__ ));
+					</script><script src='http://cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
 
 		echo '<h2>
 				<center>
