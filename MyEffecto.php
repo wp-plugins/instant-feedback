@@ -385,7 +385,7 @@ function myeffecto_admin() {
 									'lName': '".$eff_user_lname."'
 								}
 							};
-						</script><script src='http://cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
+						</script><script src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
 			// return $apiEmbedArray.$text;
 			return $text.$eff_json;
 		} else {

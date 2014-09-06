@@ -90,7 +90,7 @@
 								'effectoAuthorName':'".$effectoAuthor."', 
 								'effectoCategory':'".$eff_category."', 
 							};
-						</script><script src='http://cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
+						</script><script src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
 					
 
 					echo '<h2>
@@ -241,7 +241,7 @@
 							'effectoPagetitle':'preview', 
 							'effectoPageurl':'', 
 						};
-					</script><script src='http://cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
+					</script><script src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
 
 		echo '<h2>
 				<center>
