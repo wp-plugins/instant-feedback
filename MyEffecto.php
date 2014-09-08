@@ -18,15 +18,18 @@ $embedCode = null;
 $hostString="http://www.myeffecto.com";
 $eff_ssl_host = "https://myeffecto.appspot.com";
 // $hostString="http://localhost:8888";
+$eff_settings_page = "eff_conf_nav";
 
 /* Show plugin on Menu bar */
 function myeffecto_admin_actions() {
-	add_options_page('MyEffecto', 'MyEffecto', 'manage_options', _FILE_, 'myeffecto_admin', null, '59.5');
+	global $eff_settings_page;
+	add_options_page('MyEffecto', 'MyEffecto', 'manage_options', $eff_settings_page, 'myeffecto_admin', null, '59.5');
 }
 
 function effInitScripts($hook) {
+	global $eff_settings_page;
 	if (is_admin()) {
-		if ($hook == "post.php" || $hook == "post-new.php" || $hook == "settings_page__FILE_") {
+		if ($hook == "post.php" || $hook == "post-new.php" || $hook == "settings_page_".$eff_settings_page) {
 			wp_enqueue_script("jquery");
 			/* wp_enqueue_script("jquery-ui-dialog");
 			wp_enqueue_style("wp-Myeffecto", "http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.min.css"); */
@@ -84,12 +87,18 @@ function myeffecto_admin() {
 	if(isset($data) && !empty($data)) {
 		$isCodeExistArray = getMyEffectoPluginDetails($postID);
 		$isCodeExist=null;
-		foreach($isCodeExistArray as $detail) {
-			$isCodeExist = $detail -> embedCode;
+		
+		if (isset($isCodeExistArray)) {
+			foreach($isCodeExistArray as $detail) {
+				$isCodeExist = $detail -> embedCode;
+			}
 		}
 		if ($isCodeExist == null) {
 			if (!isset($postID) || empty($postID)) {
-				    $defaultEdit = $_GET['pluginType'];
+					$defaultEdit = null;
+					if (isset($_GET['pluginType'])) {
+						$defaultEdit = $_GET['pluginType'];
+					}
 				    if (isset($defaultEdit) && $defaultEdit == "defaultEdit") {
 						updateMyeffectoEmbedCode($data, 0, $eff_shortname);
 					?>
@@ -264,8 +273,6 @@ function myeffecto_admin() {
 				}
 
 				function afterLoginSuccess() {
-				
-					jQuery(\'#effectoFrame\').parent().prepend(jQuery(\'<input type="button" id="generate" onclick="save("")" value="Generate Plugin" class="button-primary"/>\'));
 					ifrm.setAttribute("src", "'.$hostString.'/confgEmoji?outside=true&postTitle=" + postTitle);
 				}';
 	}
@@ -279,12 +286,12 @@ function myeffecto_admin() {
 		}
 
 		$globalPostID = null;
-		if ($_GET['postID']) {
+		if (isset($_GET['postID'])) {
 			$globalPostID = $_GET['postID'];
 		}
 
 		$postname = null;
-		if ($_GET['postName']) {
+		if (isset($_GET['postName'])) {
 			$postname = $_GET['postName'];
 		}
 
@@ -412,13 +419,23 @@ function myeffecto_admin() {
 		}
 	}
 
-	function pluginUninstall() {
+	function eff_pluginDeactivate() {
+		$shortname = getMyEffectoShortnames();
+		if ($shortname) {
+			global $hostString;
+			$args = array(
+				'body' => array('action' => 'updateStatus', 'status' => 'Deactivated', 'sname' => $shortname),
+			);
+			wp_remote_post($hostString.'/contentdetails', $args);
+		}
+	}
+	register_deactivation_hook( __FILE__, 'eff_pluginDeactivate');
+
+	function eff_pluginUninstall() {
         global $wpdb;
         $table = $wpdb->prefix."effecto";
 		delete_option("effecto_db_version");
 		$wpdb->query("DROP TABLE IF EXISTS $table");
 	}
-
-	register_uninstall_hook( __FILE__, 'pluginUninstall' );
-	
+	register_uninstall_hook( __FILE__, 'eff_pluginUninstall' );
 ?>

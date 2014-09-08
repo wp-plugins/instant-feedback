@@ -97,8 +97,21 @@
 	}
 	
 	function getMyEffectoPluginDetails($postID) {
+		if (isset($postID)) {
+			global $wpdb;
+			global $table_name;
+			return $wpdb->get_results( "SELECT embedCode, shortname FROM $table_name WHERE postID=".$postID);
+		}
+		return null;
+	}
+	
+	function getMyEffectoShortnames() {
 		global $wpdb;
 		global $table_name;
-		return $wpdb->get_results( "SELECT embedCode, shortname FROM $table_name WHERE postID=".$postID);
+		if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
+			return null;
+		} else {
+			return $wpdb->get_var("SELECT shortname FROM $table_name");
+		}
 	}
 ?>
