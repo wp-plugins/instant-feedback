@@ -7,6 +7,7 @@
 	function effectoBox() {
 		add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration (Open for more options)', 'showEffectoBox', 'post', 'normal', 'core' );  
 	}
+
 	$p_shortname = null;
 	function showEffectoBox() {
 		global $hostString, $eff_settings_page;

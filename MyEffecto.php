@@ -20,6 +20,10 @@ $eff_ssl_host = "https://myeffecto.appspot.com";
 // $hostString="http://localhost:8888";
 $eff_settings_page = "eff_conf_nav";
 
+if (is_ssl()) {
+	$hostString = $eff_ssl_host;
+}
+
 /* Show plugin on Menu bar */
 function myeffecto_admin_actions() {
 	global $eff_settings_page;
