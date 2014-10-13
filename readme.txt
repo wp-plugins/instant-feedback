@@ -174,7 +174,7 @@ For any unanswered questions, please write to us at support@myeffecto.com
 1. Myeffecto plugin in [blog post](http://homeremediesforlife.com/lemon-for-acne/)
 2. Myeffecto plugin after click (share & recommendation)
 3. Myeffecto plugin configuration Screen in wordpress
-4. Myeffecto plugin Customization (changing text, images) just before confirmation
+4. Myeffecto plugin Customization (change text/images) just before confirmation
 5. Myeffecto plugin below blog post editor (It appear only after plugin is configured in WP)
 
 
