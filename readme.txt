@@ -15,25 +15,25 @@ MyEffecto increases engagement and drives traffic to your blogs via a simple fee
 = Benefits =
 
 * **Increase Engagement**
-	* **Instant Visual Feedback :**
+	1. **Instant Visual Feedback :**
 	Myeffecto provide you with customizeable emoticon widget which helps to capture sentiments of your blog visitor
 	instantly by a single click of emoticon.
-	* **Share With Emotion :**
+	2. **Share With Emotion :**
 	Our widget enable the reader to share the content they emoted to social networking site tagged along with emotion
 	Shareability of the blog increase when it is tagged with emotion.
-	* **Recommendation :**
+	3. **Recommendation :**
 	Our widget provide emotion based recommendation of blog post within your blog, which helps to engage and read more
 	articles from your own blog
 
 * **Drive Traffic**
-	* **Social Network Auto Poster :**
+	1. **Social Network Auto Poster :**
 	We promote your blog articles/post to 16 different social networking site like facebook,twitter,stumbleupon,pinterest hence bringing
 	more traction on your blog
-	* **Blog Promotion :**
+	2. **Blog Promotion :**
 	Blog promotion is done on our communities at social networking site based on blog categories we maintain communities on different 
 	verticals like startup,fashion,health,technology,sports and so on. User can also promote the blog post on their own social network 
 	by configuring the setting at [myefecto.com](http://www.myeffecto.com/login)
-	* **Hashtag Marketing :**
+	3. **Hashtag Marketing :**
 	We also do hashtag marketing of your blog post by running an alogrithem and identifying the best hast tag for your blog
 	before posting it into our communities
 
