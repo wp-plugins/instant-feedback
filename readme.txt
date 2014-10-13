@@ -14,12 +14,12 @@ MyEffecto increases engagement and drives traffic to your blogs via a simple fee
 
 How MyEffecto helps you:
 
-*	=**Enagegment:**=
+*	=Enagegment:=
 	The author of the post can specifically choose which MyEffecto emotional feedback set 
 	she would like to have for each particular post. To get the most suitable reply, 
 	she can also frame the right question along with the emoticon feedback set.
 
-*	=**Traffic:**= 
+*	=Traffic:= 
 	Likes tend to be uni-dimensional and don't really capture the flavor of the feedback. 
 	Comments, on the other hand, need moderation. They can also be too tedious to write or 
 	one may see comment threads go in a direction that is absolutely off-topic. 
