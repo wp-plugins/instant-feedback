@@ -1,60 +1,32 @@
 === MyEffecto-Instant Visual Feedback ===
 Contributors: MyEffecto
-Donate link: http://www.myeffecto.com/
-Tags: free feedback widget, real time feedback, visual feedback, measurable feedback, emoji, emotions, emoticons, emoticon feedback, response, dashboard, rating, polls, feedback, feedback widget, free in-site content recommendation engine, recommended reads, response widget, survey widget, user feedback, web engagement, widget , rating widget, comments, likes, visual tags, improve posts, UGC, Share UGC articles, UGC based Content Recommendation Engine, Emotion based content recommendation, High CTR
+Donate link: http://www.myeffecto.com/contact
+Tags: comments,emotion,feedback,feeling,mood,sentiment,widget,traffic,rate,rating,engage,visitors,images,emoticons,recommendation,post,shortcode
 Requires at least: 3.5
 Tested up to: 3.9.1
 Stable tag: 1.0.34
 
 
-MyEffecto Engagement Widget. Get Feedback. Recommend Articles.
-Real Time One-click Emotional Feedback,  Feedback Sharing, Feedback 
-based Live Content Recommendation Engine Get Instant, Visual, Measurable 
-emotional response for your blog posts. Capture the unsaid expressions between ‘Likes' and Comments. 
-Display recommended articles (based on the feedback clicked and other 
-behavioural elements) through an in-site content recommendation engine. 
-Not getting enough love and attention from your readers? Get MYEFFECTO now. 
-
-
 == Description ==
 
-It's a simple rating widget with emoticons. Readers can thus provide quick feedback and drive engagement and traffic as we promote user activity on our effecto community. 
+It's a simple rating widget with emoticons, readers can thus provide quick feedback and drive engagement and traffic as we promote user activity on our effecto community. 
 MyEffecto increases engagement and drives traffic to your blogs via a simple feedback plugin. 
 
 How MyEffecto helps you:
 
-1.	**Create custom emotional feedback button sets for specific blog posts:**
+*	=**Enagegment:**=
 	The author of the post can specifically choose which MyEffecto emotional feedback set 
 	she would like to have for each particular post. To get the most suitable reply, 
 	she can also frame the right question along with the emoticon feedback set.
 
-2.	**Capture instant, visual and measurable feedback from your readers:** 
+*	=**Traffic:**= 
 	Likes tend to be uni-dimensional and don't really capture the flavor of the feedback. 
 	Comments, on the other hand, need moderation. They can also be too tedious to write or 
 	one may see comment threads go in a direction that is absolutely off-topic. 
 	MyEffecto helps you capture a range of expressions - on how they feel -
 	which no other feedback mechanism captures.
 
-3.	**Increase reader engagement:** 
-	Barely 1% of readers give any sort of feedback to posts and articles. 
-	Our early trials have seen this number go upto 20%.  
-	If the emotion placed resonates well with the audience, 
-	the feedback capture is higher among click happy readers.
 
-4.	**Increase time spent on site by audience:** 
-	2 minutes is the average time spent on a media site or blog by a reader. 
-	By providing recommended reads based on the feedback readers have provided 
-	on a particular post, the widget encourages readers to read relevant articles 
-	and thereby increase time spent on site.
-
-5.	**Get emotion tagged articles v/s keyword tagged articles:** 
-	Get audience tagged content based on the outcome of the article. 
-	The effect of such articles where audience say that it made them feel 'happy' 
-	or 'sad' may not necessarily be captured through keywords in the posts.
-
-6.	**Get your Blog Promoted on different communities:** 
-	We promote your blog on different communities at twitter,facebook,tumblr,google+,pinterest and lots more, depending
-	on the category of your blog like fashion,health,startup,entertainment..etc
 	
 This is an offical MyEffecto plugin that lets you embed the Javascript integration code into your pages. 
 You can check out more details on MyEffecto here  http://www.myeffecto.com
