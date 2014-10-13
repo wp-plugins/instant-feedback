@@ -171,10 +171,11 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 == Screenshots ==
 
-1. Myeffecto configuration screen inside your WordPress admin panel.
-2. Myeffecto plugin in posts.
-3. Myeffecto plugin configuration for a post.
-4. Myeffecto plugin Share & Recommends for a post.
+1. Myeffecto plugin in [blog post](http://homeremediesforlife.com/lemon-for-acne/)
+2. Myeffecto plugin after click (share & recommendation)
+3. Myeffecto plugin configuration Screen in wordpress
+4. Myeffecto plugin Customization (changing text, images) just before confirmation
+5. Myeffecto plugin below blog post editor (It appear only after plugin is configured in WP)
 
 
 == Changelog ==
