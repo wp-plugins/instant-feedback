@@ -9,8 +9,8 @@ Stable tag: 1.0.34
 
 == Description ==
 
-It's a simple rating widget with emoticons, readers can thus provide quick feedback and drive engagement and traffic as we promote user activity on our effecto community. 
-MyEffecto increases engagement and drives traffic to your blogs via a simple feedback plugin. 
+It's a simple rating widget with emoticons, readers can provide quick feedback. It also helps readers to engage with blog by reading more recommended articles based on emotion and share blog again driven by emotion. Its an easy to use and **free** widget for blogger
+MyEffecto helps in increasing  engagement and drives traffic of your blogs via a simple feedback plugin. 
 
 = Benefits =
 
@@ -19,24 +19,24 @@ MyEffecto increases engagement and drives traffic to your blogs via a simple fee
 	Myeffecto provide you with customizeable emoticon widget which helps to capture sentiments of your blog visitor
 	instantly by a single click of emoticon.
 	2. **Share With Emotion :**
-	Our widget enable the reader to share the content they emoted to social networking site tagged along with emotion
-	Shareability of the blog increase when it is tagged with emotion.
+	This widget enable the reader to share the content they emoted to social networking site, tagged along with emotion.
+	our customers hasd reviewed that, shareability of the blog increase when it is tagged with emotion.
 	3. **Recommendation :**
-	Our widget provide emotion based recommendation of blog post within your blog, which helps to engage and read more
+	Our widget provide emotion based recommendation of your blog post, which helps to engage and read more
 	articles from your own blog
 
 * **Drive Traffic**
-	1. **Social Network Auto Poster :**
-	We promote your blog articles/post to 16 different social networking site like facebook,twitter,stumbleupon,pinterest hence bringing
-	more traction on your blog
-	2. **Blog Promotion :**
+	1. **Blog Promotion :**
 	Blog promotion is done on our communities at social networking site based on blog categories we maintain communities on different 
 	verticals like startup,fashion,health,technology,sports and so on. User can also promote the blog post on their own social network 
 	by configuring the setting at [myefecto.com](http://www.myeffecto.com/login)
-	3. **Hashtag Marketing :**
+	2. **Hashtag Marketing :**
 	We also do hashtag marketing of your blog post by running an alogrithem and identifying the best hast tag for your blog
 	before posting it into our communities
-
+	3. **Social Network Auto-Post :**
+	Myeffecto users can configure there social networking sites such as facebook, twitter, linkedin & tumblr for auto post, so that
+	myeffecto may post notification about your new blog post or activities like myeffecto plugin click on your social networking account.
+	Go to [myeffecto settings](http://www.myeffecto.com/settings) to configure your social accounts 
 = Features =
 
 * A customizable emoticon based feedback button set for instant feedback capture
