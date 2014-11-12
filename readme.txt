@@ -37,14 +37,11 @@ MyEffecto helps in increasing  engagement and drives traffic of your blogs via a
 	Myeffecto users can configure there social networking sites such as facebook, twitter, linkedin & tumblr for auto post, so that
 	myeffecto may post notification about your new blog post or activities like myeffecto plugin click on your social networking account.
 	Go to [myeffecto settings](http://www.myeffecto.com/settings) to configure your social accounts 
-= Features =
-
-* A customizable emoticon based feedback button set for instant feedback capture
-* Once feedback provided, the emotion-tagged article can be shared along with 
-	the url of the article over social networks
-* Social Syndication
-* SEO Optimization
+= Features (Optional)=
 * Upload icons/emoji's of your choice
+* **Comment :** enabling commenting will prompt visitor to ask why did you feel particular emotion 
+
+
 
 = Language =
 
