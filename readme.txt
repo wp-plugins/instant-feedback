@@ -39,8 +39,8 @@ MyEffecto helps in increasing  engagement and drives traffic of your blogs via a
 	Go to [myeffecto settings](http://www.myeffecto.com/settings) to configure your social accounts 
 
 = Features(Optional) =
-* Upload icons/emoji's of your choice
-* **Comment :** enabling commenting will prompt visitor to ask why did you feel particular emotion 
+* **Upload** icons/emoji's of your choice
+* **Comment :** enabling commenting will prompt visitor to ask why did you feel particular emotion after they give there feedback
 
 
 
