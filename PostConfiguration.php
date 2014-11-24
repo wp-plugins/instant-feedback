@@ -1,9 +1,6 @@
 <?php
 	add_action( 'add_meta_boxes', 'effectoBox' );  
 
-	// $hostString="http://www.myeffecto.com";
-	// $hostString="http://localhost:8888";
-
 	function effectoBox() {
 		add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration (Open for more options)', 'showEffectoBox', 'post', 'normal', 'core' );  
 	}
@@ -253,7 +250,7 @@
 			</h2> '.$eff_json;
 		echo '<h2>
 				<center>
-					<a class="effectoConfig" style="cursor:pointer;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Default emotion set appears on all posts.">Change your default emotion set </a>
+					<a class="effectoConfig button-primary" style="cursor:pointer;font-weight:bold;font-size: 20px;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Default emotion set appears on all posts.">Change default set</a>
 				</center>
 			</h2>';
 			
