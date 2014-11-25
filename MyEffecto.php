@@ -17,7 +17,7 @@ add_filter( 'the_content', 'echoEndUserPlugin');
 $embedCode = null;
 $hostString="http://www.myeffecto.com";
 $eff_ssl_host = "https://myeffecto.appspot.com";
-// $hostString="http://localhost:8888";
+//$hostString="http://localhost:8888";
 $eff_settings_page = "eff_conf_nav";
 
 if (is_ssl()) {
@@ -396,7 +396,8 @@ function myeffecto_admin() {
 									'lName': '".$eff_user_lname."'
 								}
 							};
-						</script><script src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
+						</script><script id='wp-script' src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>
+						";
 			// return $apiEmbedArray.$text;
 			return $text.$eff_json;
 		} else {
@@ -442,4 +443,6 @@ function myeffecto_admin() {
 		$wpdb->query("DROP TABLE IF EXISTS $table");
 	}
 	register_uninstall_hook( __FILE__, 'eff_pluginUninstall' );
+
+	wp_enqueue_script("wp-mye-load","//cdn-files.appspot.com/js/mye-wp-load.js",null,null,false);
 ?>
