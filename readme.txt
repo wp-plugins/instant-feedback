@@ -177,6 +177,9 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 
 == Changelog ==
+= 1.0.35 =
+* plugin conflicit issue with other plugins resolved
+
 = 1.0.34 =
 * Moved static files (css,img,js) to myeffecto CDN Server
 
