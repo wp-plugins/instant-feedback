@@ -327,6 +327,7 @@ function myeffecto_admin() {
 
 		if (is_single())
 		{
+			wp_enqueue_script("wp-mye-load","//cdn-files.appspot.com/p-js/mye-wp-load.js",null,null,false);
 			$postId = get_the_ID();
 			$getPostTitle = get_the_title();
 			$wpSite = get_site_url();
@@ -375,7 +376,7 @@ function myeffecto_admin() {
 			$eff_user_fname = str_replace("'","\'", $current_user->user_firstname);
 			$eff_user_lname = str_replace("'","\'", $current_user->user_lastname);
 
-			$eff_json = "<div id='effecto_bar' V='1.4' style='text-align:center;'></div>
+			$eff_json = "<div id='effecto_bar' V='1.5' style='text-align:center;'></div>
 						<script>
 							var eff_json = {
 								'ext_path':'".plugins_url( '' , __FILE__ )."',
@@ -396,7 +397,7 @@ function myeffecto_admin() {
 									'lName': '".$eff_user_lname."'
 								}
 							};
-						</script><script id='effectp-code' src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>
+						</script><script id='effectp-code' src='//cdn-files.appspot.com/p-js/mye-wp.js' type='text/javascript' async='true'></script>
 						";
 			// return $apiEmbedArray.$text;
 			return $text.$eff_json;
@@ -444,5 +445,5 @@ function myeffecto_admin() {
 	}
 	register_uninstall_hook( __FILE__, 'eff_pluginUninstall' );
 
-	wp_enqueue_script("wp-mye-load","//cdn-files.appspot.com/js/mye-wp-load.js",null,null,false);
+	
 ?>
