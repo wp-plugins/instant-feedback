@@ -327,7 +327,7 @@ function myeffecto_admin() {
 
 		if (is_single())
 		{
-			wp_enqueue_script("wp-mye-load","//cdn-files.appspot.com/p-js/mye-wp-load.js",null,null,false);
+			wp_enqueue_script("wp-mye-load","//cdn-files.appspot.com/js/mye-wp-load.js",null,null,false);
 			$postId = get_the_ID();
 			$getPostTitle = get_the_title();
 			$wpSite = get_site_url();
@@ -397,7 +397,7 @@ function myeffecto_admin() {
 									'lName': '".$eff_user_lname."'
 								}
 							};
-						</script><script id='effectp-code' src='//cdn-files.appspot.com/p-js/mye-wp.js' type='text/javascript' async='true'></script>
+						</script><script id='effectp-code' src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>
 						";
 			// return $apiEmbedArray.$text;
 			return $text.$eff_json;
