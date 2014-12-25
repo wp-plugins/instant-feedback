@@ -3,7 +3,7 @@ Contributors: MyEffecto
 Donate link: http://www.myeffecto.com/contact
 Tags: comments,emotion,feedback,feeling,mood,sentiment,widget,traffic,rate,rating,engage,visitors,images,emoticons,recommendation,post,shortcode,SEO
 Requires at least: 3.5
-Tested up to: 4.0
+Tested up to: 4.1
 Stable tag: 1.0.36
 
 
