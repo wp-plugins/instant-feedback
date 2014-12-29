@@ -430,7 +430,7 @@ function myeffecto_admin() {
 		if ($shortname) {
 			global $hostString;
 			$args = array(
-				'body' => array('action' => 'updateStatus', 'status' => 'Deactivated', 'sname' => $shortname, 'utm' => get_option( 'admin_email' )),
+				'body' => array('action' => 'updateStatus', 'status' => 'Deactivated', 'sname' => $shortname, 'utm' => get_option( 'admin_email' ), 'site' => get_site_url()),
 			);
 			wp_remote_post($hostString.'/contentdetails', $args);
 		}
