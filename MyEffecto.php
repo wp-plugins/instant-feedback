@@ -427,13 +427,15 @@ function myeffecto_admin() {
 
 	function eff_pluginDeactivate() {
 		$shortname = getMyEffectoShortnames();
-		if ($shortname) {
-			global $hostString;
-			$args = array(
-				'body' => array('action' => 'updateStatus', 'status' => 'Deactivated', 'sname' => $shortname, 'utm' => get_option( 'admin_email' ), 'site' => get_site_url()),
-			);
-			wp_remote_post($hostString.'/contentdetails', $args);
+		if (!isset($shortname)) {
+			$shortname = "";
 		}
+
+		global $hostString;
+		$args = array(
+			'body' => array('action' => 'updateStatus', 'status' => 'Deactivated', 'sname' => $shortname, 'utm' => get_option( 'admin_email' ), 'site' => get_site_url()),
+		);
+		wp_remote_post($hostString.'/contentdetails', $args);
 	}
 	register_deactivation_hook( __FILE__, 'eff_pluginDeactivate');
 
