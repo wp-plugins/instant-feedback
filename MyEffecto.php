@@ -408,13 +408,13 @@ function myeffecto_admin() {
 		}
 	}
 
-	function getEffectoCustomTag(){
+/*	function getEffectoCustomTag(){
 	return "<div id='effecto_bar' style='text-align:center;'></div>";
 	}
 	function register_effectoTag(){
 	   add_shortcode('effecto-bar', 'getEffectoCustomTag');
 	}
-	add_action( 'init', 'register_effectoTag');
+	add_action( 'init', 'register_effectoTag');*/
 
 
 	/* Simple string replace function */
