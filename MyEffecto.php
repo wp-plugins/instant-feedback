@@ -320,6 +320,8 @@ function myeffecto_admin() {
 	  return preg_match("/<[^<]+>/",$string,$m) != 0;
 	}
 
+
+	
 	/* Show plugin in posts. */
 	function echoEndUserPlugin($text) {
 		global $hostString;
@@ -376,7 +378,7 @@ function myeffecto_admin() {
 			$eff_user_fname = str_replace("'","\'", $current_user->user_firstname);
 			$eff_user_lname = str_replace("'","\'", $current_user->user_lastname);
 
-			$eff_json = "<div id='effecto_bar' V='1.5' style='text-align:center;'></div>
+			$eff_json = "<div id='effecto_bar' V='1.6' style='text-align:center;'></div>
 						<script>
 							var eff_json = {
 								'ext_path':'".plugins_url( '' , __FILE__ )."',
@@ -406,6 +408,15 @@ function myeffecto_admin() {
 		}
 	}
 
+	function getEffectoCustomTag(){
+	return "<div id='effecto_bar' style='text-align:center;'></div>";
+	}
+	function register_effectoTag(){
+	   add_shortcode('effecto-bar', 'getEffectoCustomTag');
+	}
+	add_action( 'init', 'register_effectoTag');
+
+
 	/* Simple string replace function */
 	function replaceText ($text) {
 		$text = str_replace('\"','', $text);
@@ -424,6 +435,7 @@ function myeffecto_admin() {
 <?php
 		}
 	}
+
 
 	function eff_pluginDeactivate() {
 		$shortname = getMyEffectoShortnames();
