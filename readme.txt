@@ -58,6 +58,8 @@ Support days: Monday to Friday. We will revert within 24 hours.
 
 == Installation ==
 
+= How to install =
+
 1.	'Upload' MyEffecto to the /wp-content/plugins/ directory.
 
 2.	Activate the plugin through the 'Plugins' menu in WordPress.
@@ -75,7 +77,17 @@ Support days: Monday to Friday. We will revert within 24 hours.
 6.	To set the emoticons set for an invidual/specific post, 
 	you will get the option under the Post Editor to select the set.
 
+= Using wordpress short-code for plugin placement =
+
+1. Our plugin usually appears on bottom of the post
+
+2. Inorder to change its position please use this tag [effecto-bar] inside your post
+
+3. for details visit [here](http://www.myeffecto.com/support?type=shortcode)
+
+
 For more support [Click here](http://www.myeffecto.com/support)
+
 == Frequently Asked Questions ==
 
 1.	**Is MyEffecto FREE to use?**
@@ -178,7 +190,7 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 == Changelog ==
 = 1.0.37 =
-* Added Wordpress short-code feature to change the position of plugin inside a post
+* Added Wordpress short-code feature to change the position of plugin inside a post. Read instructions at installion section myeffecto wordpress plugin page
 = 1.0.36 =
 * plugin conflicit issue with other plugins resolved
 
