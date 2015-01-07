@@ -189,8 +189,12 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 
 == Changelog ==
+= 1.0.38 =
+* Some UI changes on plugin meta box on post edit page
+
 = 1.0.37 =
 * Added Wordpress short-code feature to change the position of plugin inside a post. Read instructions at installion section myeffecto wordpress plugin page
+
 = 1.0.36 =
 * plugin conflicit issue with other plugins resolved
 
