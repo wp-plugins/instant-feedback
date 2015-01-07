@@ -4,6 +4,17 @@
 	function effectoBox() {
 		add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration (Open for more options)', 'showEffectoBox', 'post', 'normal', 'core' );  
 	}
+	
+	function eff_applyMinHeight() {
+		echo "<style>
+				#effecto_bar{
+					min-height:200px;
+				}
+				#effecto_bar > iframe {
+					min-height:200px;
+				}
+			</style>";
+	}
 
 	$p_shortname = null;
 	function showEffectoBox() {
@@ -14,6 +25,7 @@
 				});
 			</script>";
 
+		eff_applyMinHeight();
 		$pluginStatus = $_GET["plugin"];
 		if ($pluginStatus == 'success') {
 			addAlert($pluginStatus);
@@ -228,7 +240,8 @@
 		foreach($eff_details as $detail) {
 			$shortname = $detail -> shortname;
 		}
-		
+
+		eff_applyMinHeight();
 		$eff_json = "<div id='effecto_bar' style='text-align:center'></div>
 					<script>
 						var eff_json = {
