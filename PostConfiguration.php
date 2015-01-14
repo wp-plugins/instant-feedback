@@ -101,7 +101,7 @@
 								'effectoAuthorName':'".$effectoAuthor."', 
 								'effectoCategory':'".$eff_category."', 
 							};
-						</script><script src='http://localhost:8888/p-js/mye-wp.js' type='text/javascript' async='true'></script>";
+						</script><script src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
 					
 
 					echo '<h2>
@@ -155,7 +155,7 @@
 								'effectoAuthorName':'".$effectoAuthor."', 
 								'effectoCategory':'".$eff_category."', 
 							};
-						</script><script src='http://localhost:8888/p-js/mye-wp.js' type='text/javascript' async='true'></script>";
+						</script><script src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
 					
 			echo '<h2>
 					<center>(PREVIEW-ONLY) <br>Your current emotion set for this post is </center>
@@ -253,7 +253,7 @@
 							'effectoPagetitle':'preview', 
 							'effectoPageurl':'', 
 						};
-					</script><script src='http://localhost:8888/p-js/mye-wp.js' type='text/javascript' async='true'></script>";
+					</script><script src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
 		
 		$mye_plugin_visib = get_option('mye_plugin_visib');
 		$isOnPost = "checked";
