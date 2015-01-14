@@ -2,7 +2,8 @@
 	add_action( 'add_meta_boxes', 'effectoBox' );  
 
 	function effectoBox() {
-		add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration (Open for more options)', 'showEffectoBox', 'post', 'normal', 'core' );  
+		add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration (Open for more options)', 'showEffectoBox', 'post', 'normal', 'core' ); 
+		add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration (Open for more options)', 'showEffectoBox', 'page', 'normal', 'core' ); 
 	}
 	
 	function eff_applyMinHeight() {
@@ -100,7 +101,7 @@
 								'effectoAuthorName':'".$effectoAuthor."', 
 								'effectoCategory':'".$eff_category."', 
 							};
-						</script><script src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
+						</script><script src='http://localhost:8888/p-js/mye-wp.js' type='text/javascript' async='true'></script>";
 					
 
 					echo '<h2>
@@ -154,7 +155,7 @@
 								'effectoAuthorName':'".$effectoAuthor."', 
 								'effectoCategory':'".$eff_category."', 
 							};
-						</script><script src='http://cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
+						</script><script src='http://localhost:8888/p-js/mye-wp.js' type='text/javascript' async='true'></script>";
 					
 			echo '<h2>
 					<center>(PREVIEW-ONLY) <br>Your current emotion set for this post is </center>
@@ -240,7 +241,7 @@
 		foreach($eff_details as $detail) {
 			$shortname = $detail -> shortname;
 		}
-
+		
 		eff_applyMinHeight();
 		$eff_json = "<div id='effecto_bar' style='text-align:center'></div>
 					<script>
@@ -252,22 +253,82 @@
 							'effectoPagetitle':'preview', 
 							'effectoPageurl':'', 
 						};
-					</script><script src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
+					</script><script src='http://localhost:8888/p-js/mye-wp.js' type='text/javascript' async='true'></script>";
+		
+		$mye_plugin_visib = get_option('mye_plugin_visib');
+		$isOnPost = "checked";
+		$isOnPage = "";
+		
+		if (isset($mye_plugin_visib) && $mye_plugin_visib) {
+			$mye_plugin_visib = json_decode($mye_plugin_visib, true);
 
+			if($mye_plugin_visib['isOnPost']){$isOnPost = "checked";}else{$isOnPost="";}
+			if($mye_plugin_visib['isOnPage']){$isOnPage = "checked";}
+		}
+		
+		
 		echo '<h2>
 				<center>
 					<a href="'.$hostString.'/dashboard-overview" target="_blank">Visit Dashboard</a> <br /><br />
+					
 					(PREVIEW-ONLY) <br>
 					Your default emotion set is 
 				</center>
 			</h2> '.$eff_json;
 		echo '<h2>
 				<center>
-					<a class="effectoConfig button-primary" style="cursor:pointer;font-weight:bold;font-size: 20px;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Default emotion set appears on all posts.">Change default set</a>
+					<a class="effectoConfig button-primary" style="cursor:pointer;font-weight:bold;font-size: 20px;margin-bottom: 10px;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Default emotion set appears on all posts.">Change default set</a>
 				</center>
-			</h2>';
+			</h2>
+			<hr style="border-color: #917F7F;">
+			<h3>
+				<center>
+					<h5 id="eff_p_opt" style="margin: 0;">Show plugin on :-
+						&nbsp;&nbsp;
+						<input type="checkbox" class="posts" name="postType" '.$isOnPost.' />Posts
+						&nbsp;&nbsp;
+						<input type="checkbox" class="pages" name="postType" '.$isOnPage.' />Pages/ Articles
+						&nbsp;&nbsp;
+						<button style="font-size: 15px;margin-top:10px;cursor:pointer;" id="eff_visib">Save</button>
+					</h5>
+					<p id="eff_msg" style="display:none;font-size: 14px;"></p>
+					<br />
+				</center>
+			</h3>';
 			
-	}
+		?>
+			<script type="text/javascript" >
+				jQuery("#eff_visib").click(function() {
+					var eff_isPost = jQuery("#eff_p_opt .posts").is(":checked");
+					var eff_isPage = jQuery("#eff_p_opt .pages").is(":checked");
+					var eff_msg_ele = jQuery("#eff_msg");
+					// console.log(eff_isPost + ", " + eff_isPage);
+					
+					eff_msg_ele.show();
+					eff_msg_ele.html("Saving......");
+					var data = {
+						'action': 'mye_update_view',
+						'isPost': eff_isPost,
+						'isPage': eff_isPage
+					};
 
+					// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+					jQuery.post(ajaxurl, data, function(response) {
+						eff_msg_ele.html("Settings Saved");
+					});
+				});
+			</script>
+		<?php
+	}
 	add_action( 'save_post', 'updateEff_title' );
+	
+	add_action( 'wp_ajax_mye_update_view', 'mye_visibUpdt_callback' );
+	function mye_visibUpdt_callback() {
+		$isOnPost = $_POST['isPost'];
+		$isOnPage = $_POST['isPage'];
+		
+		update_option('mye_plugin_visib', '{"isOnPost":'.$isOnPost.', "isOnPage":'.$isOnPage.'}');
+
+		wp_die(); // this is required to terminate immediately and return a proper response
+	}
 ?>

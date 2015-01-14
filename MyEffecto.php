@@ -328,7 +328,18 @@ function myeffecto_admin() {
 		global $hostString;
 		global $eff_ssl_host;
 
-		if (is_single())
+		$mye_plugin_visib = get_option('mye_plugin_visib');
+		$isOnPost = true;
+		$isOnPage = false;
+		
+		if (isset($mye_plugin_visib) && $mye_plugin_visib) {
+			$mye_plugin_visib = json_decode($mye_plugin_visib, true);
+
+			if($mye_plugin_visib['isOnPost']){$isOnPost = true;}else{$isOnPost = false;}
+			if($mye_plugin_visib['isOnPage']){$isOnPage = true;}
+		}
+		
+		if ((is_single() && $isOnPost) || (is_page() && $isOnPage))
 		{
 			wp_enqueue_script("wp-mye-load","//cdn-files.appspot.com/js/mye-wp-load.js",null,null,false);
 			$postId = get_the_ID();
@@ -456,6 +467,7 @@ function myeffecto_admin() {
         global $wpdb;
         $table = $wpdb->prefix."effecto";
 		delete_option("effecto_db_version");
+		delete_option('mye_plugin_visib');
 		$wpdb->query("DROP TABLE IF EXISTS $table");
 	}
 	register_uninstall_hook( __FILE__, 'eff_pluginUninstall' );
