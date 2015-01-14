@@ -192,6 +192,9 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 
 == Changelog ==
+= 1.0.39 =
+* Added new setting for plugin visibility on Admin page -> Settings -> MyEffecto. User can now control whether the plugin should be shown on post or pages/articles.
+
 = 1.0.38 =
 * Some UI changes on plugin meta box on post edit page
 
