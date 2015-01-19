@@ -49,9 +49,19 @@ MyEffecto helps in increasing  engagement and drives traffic of your blogs via a
 
 = Language =
 
-MyEffecto is currently only available in English. If you'd like to help us to
-translate our emoticon nomenclature into your local language, 
-please let us know on support@myeffecto.com
+MyEffecto currently support following languages:-
+
+* **English**
+* **Italian**
+* **Spanish**
+* **French**
+* **हिन्दी**
+* **Portuguese**
+* **Indonesia**
+* **Turkish**
+* **Danish**
+* **Russian**
+* **Deutsch**
 
 = Support =
 

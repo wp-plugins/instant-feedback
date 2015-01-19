@@ -2,8 +2,21 @@
 	add_action( 'add_meta_boxes', 'effectoBox' );  
 
 	function effectoBox() {
-		add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration (Open for more options)', 'showEffectoBox', 'post', 'normal', 'core' ); 
-		add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration (Open for more options)', 'showEffectoBox', 'page', 'normal', 'core' ); 
+		if (isset($mye_plugin_visib) && $mye_plugin_visib) {
+			$mye_plugin_visib = json_decode($mye_plugin_visib, true);
+
+			if($mye_plugin_visib['isOnPost']){
+				add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration (Open for more options)', 'showEffectoBox', 'post', 'normal', 'core' );
+			} else {
+				$isOnPost="";
+				return;
+			}
+			if($mye_plugin_visib['isOnPage']){
+				add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration (Open for more options)', 'showEffectoBox', 'page', 'normal', 'core' ); 
+			}
+		} else {
+			add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration (Open for more options)', 'showEffectoBox', 'post', 'normal', 'core' );
+		}
 	}
 	
 	function eff_applyMinHeight() {
