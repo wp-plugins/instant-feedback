@@ -50,7 +50,6 @@ MyEffecto helps in increasing  engagement and drives traffic of your blogs via a
 = Language =
 
 MyEffecto currently support following languages:-
-
 * **English**
 * **Italian**
 * **Spanish**
