@@ -3,7 +3,7 @@
 Plugin Name: MyEffecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.39
+Version: 1.0.40
 Author: MyEffecto
 Author URI: www.myeffecto.com
 */
@@ -18,7 +18,7 @@ add_filter( 'the_content', 'echoEndUserPlugin');
 $embedCode = null;
 $hostString="http://www.myeffecto.com";
 $eff_ssl_host = "https://myeffecto.appspot.com";
-//$hostString="http://localhost:8888";
+// $hostString="http://localhost:8888";
 $eff_settings_page = "eff_conf_nav";
 
 if (is_ssl()) {
@@ -321,8 +321,6 @@ function myeffecto_admin() {
 	  return preg_match("/<[^<]+>/",$string,$m) != 0;
 	}
 
-
-	
 	/* Show plugin in posts. */
 	function echoEndUserPlugin($text) {
 		global $hostString;
@@ -389,11 +387,8 @@ function myeffecto_admin() {
 			$eff_user_display = str_replace("'","\'", $current_user->display_name);
 			$eff_user_fname = str_replace("'","\'", $current_user->user_firstname);
 			$eff_user_lname = str_replace("'","\'", $current_user->user_lastname);
-
 			$eff_json = "<div id='effecto_bar' V='1.6' style='text-align:center;'></div>
-						<script>
-							var eff_json = {
-								'ext_path':'".plugins_url( '' , __FILE__ )."',
+						<script>var eff_json={'ext_path':'".plugins_url( '' , __FILE__ )."',
 								'effecto_uniquename':'".$p_shortname."', 
 								'effectoPostId':'".$postId."',  
 								'effectoPreview': '".$effectoPreview."', 
@@ -402,8 +397,7 @@ function myeffecto_admin() {
 								'effectoPublDate':'".$effDate_published."', 
 								'effectoAuthorName':'".$effectoAuthor."', 
 								'effectoCategory':'".$eff_category."', 
-								'effUserInfo': {
-									'isLoggedIn': '".$eff_cur_loggedIn."',
+								'effUserInfo': {'isLoggedIn': '".$eff_cur_loggedIn."',
 									'loginAs': '".$eff_user_role."',
 									'email': '".$eff_user_email."',
 									'dpName': '".$eff_user_display."',
@@ -411,8 +405,7 @@ function myeffecto_admin() {
 									'lName': '".$eff_user_lname."'
 								}
 							};
-						</script><script id='effectp-code' src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>
-						";
+						</script><script id='effectp-code' src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
 			// return $apiEmbedArray.$text;
 			return $text.$eff_json;
 		} else {
@@ -421,7 +414,7 @@ function myeffecto_admin() {
 	}
 
 	function getEffectoCustomTag(){
-	return "<div id='effecto_bar' style='text-align:center;'></div>";
+	return "<div id='effecto_cust_bar' style='text-align:center;'></div>";
 	}
 	function register_effectoTag(){
 	   add_shortcode('effecto-bar', 'getEffectoCustomTag');
@@ -471,6 +464,4 @@ function myeffecto_admin() {
 		$wpdb->query("DROP TABLE IF EXISTS $table");
 	}
 	register_uninstall_hook( __FILE__, 'eff_pluginUninstall' );
-
-	
 ?>
