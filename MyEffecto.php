@@ -13,7 +13,8 @@ require('PostConfiguration.php');
 
 /* Add MyEffecto link to Setting Tab. */
 add_action('admin_menu', 'myeffecto_admin_actions');
-add_filter( 'the_content', 'echoEndUserPlugin');
+add_filter('the_content', 'echoEndUserPlugin');
+add_action('wp_footer', 'echo_eff_plugin_homepage');
 
 $embedCode = null;
 $hostString="http://www.myeffecto.com";
@@ -367,13 +368,6 @@ function myeffecto_admin() {
 			if (is_ssl()) {
 				$hostString = $eff_ssl_host;
 			}
-			/* $apiEmbedArray = str_replace("var effectoPostId=''","var effectoPostId='".$postId."'", $apiEmbedArray);
-			$apiEmbedArray = str_replace("var effectoPreview=''","var effectoPreview='".$effectoPreview."'", $apiEmbedArray);
-			$apiEmbedArray = str_replace("var effectoPagetitle = ''","var effectoPagetitle='".$getPostTitle."'", $apiEmbedArray);
-			$apiEmbedArray = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$postId."'", $apiEmbedArray);
-			$apiEmbedArray = str_replace("var effectoPublDate = ''","var effectoPublDate='".$effDate_published."'", $apiEmbedArray);
-			$apiEmbedArray = str_replace("var effectoAuthorName = ''","var effectoAuthorName='".$effectoAuthor."'", $apiEmbedArray);
-			$apiEmbedArray = str_replace("var effectoCategory = ''","var effectoCategory='".$eff_category."'", $apiEmbedArray); */
 
 			$getPostTitle = str_replace("'","\'", $getPostTitle);
 			$eff_category = str_replace("'","\'", $eff_category);
@@ -406,10 +400,31 @@ function myeffecto_admin() {
 								}
 							};
 						</script><script id='effectp-code' src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
-			// return $apiEmbedArray.$text;
+
 			return $text.$eff_json;
 		} else {
 			return $text;
+		}
+	}
+	
+	function echo_eff_plugin_homepage() {
+		$mye_plugin_visib = get_option('mye_plugin_visib');
+		$isOnHome = false;
+		if (isset($mye_plugin_visib) && $mye_plugin_visib) {
+			$mye_plugin_visib = json_decode($mye_plugin_visib, true);
+			if($mye_plugin_visib['isOnHome']){$isOnHome = true;}
+		}
+
+		if ($isOnHome && is_front_page()) {
+			$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
+			$p_shortname="";
+			foreach($apiPluginDetailsArray as $detail) {
+				$p_shortname = $detail -> shortname;
+			}
+
+			$effe_ele = do_shortcode( '[effecto-bar]' );
+			echo "<script>var eff_json={'effecto_uniquename':'".$p_shortname."'};</script>
+			<script id='effectp-code' src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
 		}
 	}
 
