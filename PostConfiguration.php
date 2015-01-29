@@ -271,12 +271,14 @@
 		$mye_plugin_visib = get_option('mye_plugin_visib');
 		$isOnPost = "checked";
 		$isOnPage = "";
+		$isOnHome = "";
 		
 		if (isset($mye_plugin_visib) && $mye_plugin_visib) {
 			$mye_plugin_visib = json_decode($mye_plugin_visib, true);
 
 			if($mye_plugin_visib['isOnPost']){$isOnPost = "checked";}else{$isOnPost="";}
 			if($mye_plugin_visib['isOnPage']){$isOnPage = "checked";}
+			if($mye_plugin_visib['isOnHome']){$isOnHome = "checked";}
 		}
 		
 		
@@ -298,22 +300,25 @@
 				<center>
 					<h5 id="eff_p_opt" style="margin: 0;">Show plugin on :-
 						&nbsp;&nbsp;
-						<input type="checkbox" class="posts" name="postType" '.$isOnPost.' />Posts
+						<input type="checkbox" id="posts" name="postType" '.$isOnPost.' />Posts
 						&nbsp;&nbsp;
-						<input type="checkbox" class="pages" name="postType" '.$isOnPage.' />Pages/ Articles
+						<input type="checkbox" id="pages" name="postType" '.$isOnPage.' />Pages/ Articles
+						&nbsp;&nbsp;
+						<input type="checkbox" id="home" name="postType" '.$isOnHome.' />Home Page
 						&nbsp;&nbsp;
 						<button style="font-size: 15px;margin-top:10px;cursor:pointer;" id="eff_visib">Save</button>
 					</h5>
 					<p id="eff_msg" style="display:none;font-size: 14px;"></p>
+					<p id="eff_shCode" style="display:none;">Copy <span style="font-size: 18px;background-color: #fff;padding: 6px;color: rgb(127, 128, 124);">[effecto-bar]</span> shortcode and paste in homepage where required</p>
 					<br />
 				</center>
 			</h3>';
-			
 		?>
 			<script type="text/javascript" >
 				jQuery("#eff_visib").click(function() {
-					var eff_isPost = jQuery("#eff_p_opt .posts").is(":checked");
-					var eff_isPage = jQuery("#eff_p_opt .pages").is(":checked");
+					var eff_isPost = jQuery("#posts").is(":checked");
+					var eff_isPage = jQuery("#pages").is(":checked");
+					var eff_isHome = jQuery("#home").is(":checked");
 					var eff_msg_ele = jQuery("#eff_msg");
 					// console.log(eff_isPost + ", " + eff_isPage);
 					
@@ -322,12 +327,14 @@
 					var data = {
 						'action': 'mye_update_view',
 						'isPost': eff_isPost,
-						'isPage': eff_isPage
+						'isPage': eff_isPage,
+						'isHome': eff_isHome
 					};
-
+					
 					// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
 					jQuery.post(ajaxurl, data, function(response) {
 						eff_msg_ele.html("Settings Saved");
+						if (eff_isHome) {jQuery("#eff_shCode").show();} else {jQuery("#eff_shCode").hide();}
 					});
 				});
 			</script>
@@ -339,8 +346,9 @@
 	function mye_visibUpdt_callback() {
 		$isOnPost = $_POST['isPost'];
 		$isOnPage = $_POST['isPage'];
-		
-		update_option('mye_plugin_visib', '{"isOnPost":'.$isOnPost.', "isOnPage":'.$isOnPage.'}');
+		$isOnHome = $_POST['isHome'];
+
+		update_option('mye_plugin_visib', '{"isOnPost":'.$isOnPost.', "isOnPage":'.$isOnPage.', "isOnHome":'.$isOnHome.'}');
 
 		wp_die(); // this is required to terminate immediately and return a proper response
 	}
