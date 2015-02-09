@@ -202,6 +202,8 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 
 == Changelog ==
+= 1.0.41 =
+Updated bugfix, removed inline script from plugin
 = 1.0.39 =
 Place plugin anywhere inside post using [effecto-bar] shortcode
 
