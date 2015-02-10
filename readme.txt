@@ -1,4 +1,4 @@
-=== MyEffecto-Instant Visual Feedback ===
+﻿=== MyEffecto-Instant Visual Feedback ===
 Contributors: MyEffecto
 Author URI: http://www.myeffecto.com
 Plugin URL: https://wordpress.org/plugins/instant-feedback/
@@ -202,8 +202,10 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 
 == Changelog ==
-= 1.0.41 =
+
+= 1.0.42 =
 Updated bugfix, removed inline script from plugin
+
 = 1.0.39 =
 Place plugin anywhere inside post using [effecto-bar] shortcode
 

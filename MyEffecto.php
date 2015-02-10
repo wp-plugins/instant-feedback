@@ -3,7 +3,7 @@
 Plugin Name: MyEffecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.41
+Version: 1.0.42
 Author: MyEffecto
 Author URI: www.myeffecto.com
 */
@@ -16,10 +16,18 @@ add_action('admin_menu', 'myeffecto_admin_actions');
 add_filter('the_content', 'echoEndUserPlugin');
 add_action('wp_footer', 'echo_eff_plugin_homepage');
 
-$embedCode = null;
+
 $hostString="http://www.myeffecto.com";
+$myeJSLoc="js";
+$myeCDN ="//cdn-files.appspot.com";
+
+//$hostString="http://localhost:8888";
+//$myeCDN =$hostString;
+//$myeJSLoc="p-js";
+
+$embedCode = null;
 $eff_ssl_host = "https://myeffecto.appspot.com";
-// $hostString="http://localhost:8888";
+
 $eff_settings_page = "eff_conf_nav";
 
 if (is_ssl()) {
@@ -285,7 +293,6 @@ function myeffecto_admin() {
 
 	function echoUserScript() {
 		global $hostString;
-
 		$shortname = null;
 		if (isset($_GET['shortname'])) {
 			$shortname = $_GET['shortname'];
@@ -326,6 +333,8 @@ function myeffecto_admin() {
 	function echoEndUserPlugin($text) {
 		global $hostString;
 		global $eff_ssl_host;
+		global $myeCDN;
+		global $myeJSLoc;
 
 		$mye_plugin_visib = get_option('mye_plugin_visib');
 		$isOnPost = true;
@@ -340,7 +349,7 @@ function myeffecto_admin() {
 		
 		if ((is_single() && $isOnPost) || (is_page() && $isOnPage))
 		{
-			wp_enqueue_script("wp-mye-load","//cdn-files.appspot.com/js/mye-wp-load.js",null,null,false);
+			//wp_enqueue_script("wp-mye-load",$myeCDN."/".$myeJSLoc."/mye-wp-load.js",null,null,false);
 			$postId = get_the_ID();
 			$getPostTitle = get_the_title();
 			$wpSite = get_site_url();
@@ -369,21 +378,23 @@ function myeffecto_admin() {
 				$hostString = $eff_ssl_host;
 			}
 
-			$getPostTitle = str_replace("'","\'", $getPostTitle);
-			$eff_category = str_replace("'","\'", $eff_category);
+			$getPostTitle = str_replace("'",'\"', $getPostTitle);
+			$eff_category = str_replace("'",'\"', $eff_category);
 
 			//User Info
 			global $current_user;
+			global $myeCDN;
+			global $myeJSLoc;
 			get_currentuserinfo();
 			$eff_cur_loggedIn = is_user_logged_in();
 			$eff_user_role = $current_user->user_login;
 			$eff_user_email = $current_user->user_email;
-			$eff_user_display = str_replace("'","\'", $current_user->display_name);
-			$eff_user_fname = str_replace("'","\'", $current_user->user_firstname);
-			$eff_user_lname = str_replace("'","\'", $current_user->user_lastname);
+			$eff_user_display = str_replace("'",'\"', $current_user->display_name);
+			$eff_user_fname = str_replace("'",'\"', $current_user->user_firstname);
+			$eff_user_lname = str_replace("'",'\"', $current_user->user_lastname);
 			$myeJson = '{"ext_path":"'.plugins_url( '' , __FILE__ ).'","effecto_uniquename":"'.$p_shortname.'","effectoPostId":"'.$postId.'","effectoPreview": "'.$effectoPreview.'","effectoPagetitle":"'.$getPostTitle.'","effectoPageurl":"'.$wpSite."?p=".$postId.'", "effectoPublDate":"'.$effDate_published.'","effectoAuthorName":"'.$effectoAuthor.'","effectoCategory":"'.$eff_category.'","effUserInfo": {"isLoggedIn": "'.$eff_cur_loggedIn.'","loginAs": "'.$eff_user_role.'","email": "'.$eff_user_email.'","dpName": "'.$eff_user_display.'","fName": "'.$eff_user_fname.'","lName": "'.$eff_user_lname.'"}}';
 			$eff_json = "<div id='effecto_bar' V='1.6' style='text-align:center;' data-json='".$myeJson."'></div>
-						<script id='effectp-code' src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
+						<script id='effectp-code' src='".$myeCDN."/".$myeJSLoc."/mye-wp.js' type='text/javascript' async='true'></script>";
 
 			return $text.$eff_json;
 		} else {
@@ -405,10 +416,11 @@ function myeffecto_admin() {
 			foreach($apiPluginDetailsArray as $detail) {
 				$p_shortname = $detail -> shortname;
 			}
-
+			global $myeCDN;
+			global $myeJSLoc;
 			$effe_ele = do_shortcode( '[effecto-bar]' );
 			echo "<script>var eff_json={'effecto_uniquename':'".$p_shortname."'};</script>
-			<script id='effectp-code' src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
+			<script id='effectp-code' src='".$myeCDN."/".$myeJSLoc."/mye-wp.js' type='text/javascript' async='true'></script>";
 		}
 	}
 
