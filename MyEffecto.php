@@ -381,23 +381,7 @@ function myeffecto_admin() {
 			$eff_user_display = str_replace("'","\'", $current_user->display_name);
 			$eff_user_fname = str_replace("'","\'", $current_user->user_firstname);
 			$eff_user_lname = str_replace("'","\'", $current_user->user_lastname);
-			$myeJson = '{"ext_path":"'.plugins_url( '' , __FILE__ ).'",
-								"effecto_uniquename":"'.$p_shortname.'", 
-								"effectoPostId":"'.$postId.'",  
-								"effectoPreview": "'.$effectoPreview.'", 
-								"effectoPagetitle":"'.$getPostTitle.'", 
-								"effectoPageurl":"'.$wpSite."?p=".$postId.'", 
-								"effectoPublDate":"'.$effDate_published.'", 
-								"effectoAuthorName":"'.$effectoAuthor.'", 
-								"effectoCategory":"'.$eff_category.'", 
-								"effUserInfo": {"isLoggedIn": "'.$eff_cur_loggedIn.'",
-									"loginAs": "'.$eff_user_role.'",
-									"email": "'.$eff_user_email.'",
-									"dpName": "'.$eff_user_display.'",
-									"fName": "'.$eff_user_fname.'",
-									"lName": "'.$eff_user_lname.'"
-								}
-							}';
+			$myeJson = '{"ext_path":"'.plugins_url( '' , __FILE__ ).'","effecto_uniquename":"'.$p_shortname.'","effectoPostId":"'.$postId.'","effectoPreview": "'.$effectoPreview.'","effectoPagetitle":"'.$getPostTitle.'","effectoPageurl":"'.$wpSite."?p=".$postId.'", "effectoPublDate":"'.$effDate_published.'","effectoAuthorName":"'.$effectoAuthor.'","effectoCategory":"'.$eff_category.'","effUserInfo": {"isLoggedIn": "'.$eff_cur_loggedIn.'","loginAs": "'.$eff_user_role.'","email": "'.$eff_user_email.'","dpName": "'.$eff_user_display.'","fName": "'.$eff_user_fname.'","lName": "'.$eff_user_lname.'"}}';
 			$eff_json = "<div id='effecto_bar' V='1.6' style='text-align:center;' data-json='".$myeJson."'></div>
 						<script id='effectp-code' src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
 
