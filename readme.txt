@@ -203,7 +203,7 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 == Changelog ==
 
-= 1.0.43 =
+= 1.0.44 =
 Updated bugfix, removed inline script from plugin
 
 = 1.0.39 =
