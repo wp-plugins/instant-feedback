@@ -3,7 +3,7 @@
 Plugin Name: MyEffecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.42
+Version: 1.0.43
 Author: MyEffecto
 Author URI: www.myeffecto.com
 */
@@ -12,18 +12,18 @@ require('DBFunctions.php');
 require('PostConfiguration.php');
 
 /* Add MyEffecto link to Setting Tab. */
-add_action('admin_menu', 'myeffecto_admin_actions');
-add_filter('the_content', 'echoEndUserPlugin');
-add_action('wp_footer', 'echo_eff_plugin_homepage');
+// add_action('admin_menu', 'myeffecto_admin_actions');
+// add_filter('the_content', 'echoEndUserPlugin');
+// add_action('wp_footer', 'echo_eff_plugin_homepage');
 
 
 $hostString="http://www.myeffecto.com";
 $myeJSLoc="js";
 $myeCDN ="//cdn-files.appspot.com";
 
-//$hostString="http://localhost:8888";
-//$myeCDN =$hostString;
-//$myeJSLoc="p-js";
+// $hostString="http://localhost:8888";
+// $myeCDN =$hostString;
+// $myeJSLoc="p-js";
 
 $embedCode = null;
 $eff_ssl_host = "https://myeffecto.appspot.com";
@@ -379,7 +379,9 @@ function myeffecto_admin() {
 			}
 
 			$getPostTitle = str_replace("'",'\"', $getPostTitle);
+			$getPostTitle = strip_tags($getPostTitle);
 			$eff_category = str_replace("'",'\"', $eff_category);
+			$eff_category = strip_tags($eff_category);
 
 			//User Info
 			global $current_user;
@@ -392,8 +394,9 @@ function myeffecto_admin() {
 			$eff_user_display = str_replace("'",'\"', $current_user->display_name);
 			$eff_user_fname = str_replace("'",'\"', $current_user->user_firstname);
 			$eff_user_lname = str_replace("'",'\"', $current_user->user_lastname);
+
 			$myeJson = '{"ext_path":"'.plugins_url( '' , __FILE__ ).'","effecto_uniquename":"'.$p_shortname.'","effectoPostId":"'.$postId.'","effectoPreview": "'.$effectoPreview.'","effectoPagetitle":"'.$getPostTitle.'","effectoPageurl":"'.$wpSite."?p=".$postId.'", "effectoPublDate":"'.$effDate_published.'","effectoAuthorName":"'.$effectoAuthor.'","effectoCategory":"'.$eff_category.'","effUserInfo": {"isLoggedIn": "'.$eff_cur_loggedIn.'","loginAs": "'.$eff_user_role.'","email": "'.$eff_user_email.'","dpName": "'.$eff_user_display.'","fName": "'.$eff_user_fname.'","lName": "'.$eff_user_lname.'"}}';
-			$eff_json = "<div id='effecto_bar' V='1.6' style='text-align:center;' data-json='".$myeJson."'></div>
+			$eff_json = "<div id='effecto_bar' V='1.7' style='text-align:center;' data-json='".$myeJson."'></div>
 						<script id='effectp-code' src='".$myeCDN."/".$myeJSLoc."/mye-wp.js' type='text/javascript' async='true'></script>";
 
 			return $text.$eff_json;
