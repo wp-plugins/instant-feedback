@@ -331,6 +331,7 @@ function myeffecto_admin() {
 
 
 	function getEffectoDataJSON(){
+		global $myeJson;
 		if(!isset($myeJson)){
 			$postId = get_the_ID();
 			$getPostTitle = get_the_title();
