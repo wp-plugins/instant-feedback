@@ -6,7 +6,7 @@ Donate link: http://www.myeffecto.com/contact
 Tags: comments,emotion,feedback,feeling,mood,sentiment,widget,traffic,rate,rating,engage,visitors,images,emoticons,recommendation,post,shortcode,SEO
 Requires at least: 3.5
 Tested up to: 4.1
-Stable tag: 1.0.39
+Stable tag: 1.0.45
 
 Getting customized and interactive feedback for your blog.
 
@@ -202,6 +202,8 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 
 == Changelog ==
+= 1.0.45 =
+Shortcode bugfixed
 
 = 1.0.44 =
 Updated bugfix, removed inline script from plugin

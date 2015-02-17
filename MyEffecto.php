@@ -3,7 +3,7 @@
 Plugin Name: MyEffecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.44
+Version: 1.0.45
 Author: MyEffecto
 Author URI: www.myeffecto.com
 */
@@ -21,15 +21,15 @@ $hostString="http://www.myeffecto.com";
 $myeJSLoc="js";
 $myeCDN ="//cdn-files.appspot.com";
 
-// $hostString="http://localhost:8888";
-// $myeCDN =$hostString;
-// $myeJSLoc="p-js";
+ //$hostString="http://localhost:8888";
+ //$myeCDN =$hostString;
+ //$myeJSLoc="p-js";
 /* ------------------------------------------------------------- */
 $embedCode = null;
 $eff_ssl_host = "https://myeffecto.appspot.com";
 
 $eff_settings_page = "eff_conf_nav";
-
+$myeJson=null;
 if (is_ssl()) {
 	$hostString = $eff_ssl_host;
 }
@@ -329,6 +329,50 @@ function myeffecto_admin() {
 	  return preg_match("/<[^<]+>/",$string,$m) != 0;
 	}
 
+
+	function getEffectoDataJSON(){
+		if(!isset($myeJson)){
+			$postId = get_the_ID();
+			$getPostTitle = get_the_title();
+			$wpSite = get_site_url();
+			$effectoPreview = "false";
+			$effectoAuthor = effecto_get_author();
+			$eff_category = effecto_get_category($postId);
+
+			$apiPluginDetailsArray = getMyEffectoPluginDetails($postId);
+			if ($apiPluginDetailsArray == null) {
+				$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
+			}
+			//$apiEmbedArray="";
+			$p_shortname="";
+			foreach($apiPluginDetailsArray as $detail) {
+				//$apiEmbedArray = $detail -> embedCode;
+				$p_shortname = $detail -> shortname;
+			}
+
+			$effDate_published = get_the_date("l,F d,Y");
+			if (is_preview()) {
+				$effectoPreview = "true";
+				$postId = 0;
+			}
+
+
+			$getPostTitle = str_replace("'",'\"', $getPostTitle);
+			$getPostTitle = strip_tags($getPostTitle);
+			$eff_category = str_replace("'",'\"', $eff_category);
+			$eff_category = strip_tags($eff_category);
+			get_currentuserinfo();
+			$eff_cur_loggedIn = is_user_logged_in();
+			$eff_user_role = $current_user->user_login;
+			$eff_user_email = $current_user->user_email;
+			$eff_user_display = str_replace("'",'\"', $current_user->display_name);
+			$eff_user_fname = str_replace("'",'\"', $current_user->user_firstname);
+			$eff_user_lname = str_replace("'",'\"', $current_user->user_lastname);	
+			$myeJson = '{"ext_path":"'.plugins_url( '' , __FILE__ ).'","effecto_uniquename":"'.$p_shortname.'","effectoPostId":"'.$postId.'","effectoPreview": "'.$effectoPreview.'","effectoPagetitle":"'.$getPostTitle.'","effectoPageurl":"'.$wpSite."?p=".$postId.'", "effectoPublDate":"'.$effDate_published.'","effectoAuthorName":"'.$effectoAuthor.'","effectoCategory":"'.$eff_category.'","effUserInfo": {"isLoggedIn": "'.$eff_cur_loggedIn.'","loginAs": "'.$eff_user_role.'","email": "'.$eff_user_email.'","dpName": "'.$eff_user_display.'","fName": "'.$eff_user_fname.'","lName": "'.$eff_user_lname.'"}}';
+		}
+	
+		return $myeJson;
+	}
 	/* Show plugin in posts. */
 	function echoEndUserPlugin($text) {
 		global $hostString;
@@ -350,52 +394,13 @@ function myeffecto_admin() {
 		if ((is_single() && $isOnPost) || (is_page() && $isOnPage))
 		{
 			//wp_enqueue_script("wp-mye-load",$myeCDN."/".$myeJSLoc."/mye-wp-load.js",null,null,false);
-			$postId = get_the_ID();
-			$getPostTitle = get_the_title();
-			$wpSite = get_site_url();
-			$effectoPreview = "false";
-			$effectoAuthor = effecto_get_author();
-			$eff_category = effecto_get_category($postId);
-
-			$apiPluginDetailsArray = getMyEffectoPluginDetails($postId);
-			if ($apiPluginDetailsArray == null) {
-				$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
-			}
-			$apiEmbedArray="";
-			$p_shortname="";
-			foreach($apiPluginDetailsArray as $detail) {
-				$apiEmbedArray = $detail -> embedCode;
-				$p_shortname = $detail -> shortname;
-			}
-
-			$effDate_published = get_the_date("l,F d,Y");
-			if (is_preview()) {
-				$effectoPreview = "true";
-				$postId = 0;
-			}
-
-			if (is_ssl()) {
-				$hostString = $eff_ssl_host;
-			}
-
-			$getPostTitle = str_replace("'",'\"', $getPostTitle);
-			$getPostTitle = strip_tags($getPostTitle);
-			$eff_category = str_replace("'",'\"', $eff_category);
-			$eff_category = strip_tags($eff_category);
 
 			//User Info
 			global $current_user;
 			global $myeCDN;
 			global $myeJSLoc;
-			get_currentuserinfo();
-			$eff_cur_loggedIn = is_user_logged_in();
-			$eff_user_role = $current_user->user_login;
-			$eff_user_email = $current_user->user_email;
-			$eff_user_display = str_replace("'",'\"', $current_user->display_name);
-			$eff_user_fname = str_replace("'",'\"', $current_user->user_firstname);
-			$eff_user_lname = str_replace("'",'\"', $current_user->user_lastname);
-
-			$myeJson = '{"ext_path":"'.plugins_url( '' , __FILE__ ).'","effecto_uniquename":"'.$p_shortname.'","effectoPostId":"'.$postId.'","effectoPreview": "'.$effectoPreview.'","effectoPagetitle":"'.$getPostTitle.'","effectoPageurl":"'.$wpSite."?p=".$postId.'", "effectoPublDate":"'.$effDate_published.'","effectoAuthorName":"'.$effectoAuthor.'","effectoCategory":"'.$eff_category.'","effUserInfo": {"isLoggedIn": "'.$eff_cur_loggedIn.'","loginAs": "'.$eff_user_role.'","email": "'.$eff_user_email.'","dpName": "'.$eff_user_display.'","fName": "'.$eff_user_fname.'","lName": "'.$eff_user_lname.'"}}';
+						
+			$myeJson =getEffectoDataJSON();
 			$eff_json = "<div id='effecto_bar' V='1.7' style='text-align:center;' data-json='".$myeJson."'></div>
 						<script id='effectp-code' src='".$myeCDN."/".$myeJSLoc."/mye-wp.js' type='text/javascript' async='true'></script>";
 
@@ -428,7 +433,8 @@ function myeffecto_admin() {
 	}
 
 	function getEffectoCustomTag(){
-	return "<div id='effecto_cust_bar' style='text-align:center;'></div>";
+	$data_val=getEffectoDataJSON();
+	return "<div id='effecto_cust_bar' data-json='".$data_val."' style='text-align:center;'></div>";
 	}
 	function register_effectoTag(){
 	   add_shortcode('effecto-bar', 'getEffectoCustomTag');
