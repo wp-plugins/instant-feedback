@@ -309,6 +309,7 @@ function myeffecto_admin() {
 		}
 
 		configurationScript($shortname, $globalPostID, $postname);
+		/* src ="'.$hostString.'/register?callback=confgEmoji&outside=true&postTitle="+postTitle */
 		echo '	var ifrm= null;
 				window.onload=function(){
 					ifrm = document.getElementById("effectoFrame");
@@ -322,7 +323,7 @@ function myeffecto_admin() {
 				};
 			</script>
 			<div id="load" style="display:none;"></div>
-			<iframe id="effectoFrame" src ="'.$hostString.'/register?callback=confgEmoji&outside=true&postTitle="+postTitle width="100%" height="500"/>';
+			<iframe id="effectoFrame" width="100%" height="500"/>';
 	}
 	
 	function eff_is_html($string) {
