@@ -202,6 +202,9 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 
 == Changelog ==
+= 1.0.47 =
+Add new option to update plugin style like Emoticon type, size, color, etc.
+
 = 1.0.46 =
 Increased plugin loadspeed by adding google pagespeed cdn for javascript
 
