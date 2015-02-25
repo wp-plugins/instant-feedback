@@ -297,7 +297,7 @@
 					
 					<span style="font-size:15px;padding:0px 10px;">OR</span> 
 					
-					<a class="effectoConfig button-primary" style="cursor:pointer;font-weight:bold;font-size: 20px;margin-bottom: 10px;" href="'.$hostString.'/login?callback=plugin_editor" target="_blank" title="Edit plugin styles">Edit</a>
+					<a class="effectoConfig button-primary" style="cursor:pointer;font-weight:bold;font-size: 20px;margin-bottom: 10px;" href="'.$hostString.'/login?callback=plugin_editor&sname='.$shortname.'" target="_blank" title="Edit plugin styles">Edit</a>
 				</center>
 			</h2>
 			<hr style="border-color: #917F7F;">
