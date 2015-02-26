@@ -202,6 +202,9 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 
 == Changelog ==
+= 1.0.48 =
+Plugin loading issue on https protocol sites solved.
+
 = 1.0.47 =
 Add new option to update plugin style like Emoticon type, size, color, etc.
 
