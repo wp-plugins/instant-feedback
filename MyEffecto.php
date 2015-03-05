@@ -3,7 +3,7 @@
 Plugin Name: MyEffecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.48
+Version: 1.0.49
 Author: MyEffecto
 Author URI: www.myeffecto.com
 */
@@ -395,18 +395,21 @@ function myeffecto_admin() {
 		
 		if ((is_single() && $isOnPost) || (is_page() && $isOnPage))
 		{
-			//wp_enqueue_script("wp-mye-load",$myeCDN."/".$myeJSLoc."/mye-wp-load.js",null,null,false);
+			$cur_post_typ=get_post_type(get_the_ID());
+			if($cur_post_typ==="post" || $cur_post_typ==="page"){
+				//wp_enqueue_script("wp-mye-load",$myeCDN."/".$myeJSLoc."/mye-wp-load.js",null,null,false);
 
-			//User Info
-			global $current_user;
-			global $myeCDN;
-			global $myeJSLoc;
-						
-			$myeJson =getEffectoDataJSON();
-			$eff_json = "<div id='effecto_bar' V='1.7' style='text-align:center;' data-json='".$myeJson."'></div>
-						<script id='effectp-code' src='https://1-ps.googleusercontent.com/xk/L66fZog1l-dbbe1GxD7gjIXP94/s.cdn-files.appspot.com/cdn-files.appspot.com/js/mye-wp.js.pagespeed.jm.7QLAn0uD4Dg9RsZl1qc9.js' onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"' type='text/javascript' async='true'></script>";
+				//User Info
+				global $current_user;
+				global $myeCDN;
+				global $myeJSLoc;
+							
+				$myeJson =getEffectoDataJSON();
+				$eff_json = "<div id='effecto_bar' V='1.7' style='text-align:center;' data-json='".$myeJson."'></div>
+							<script id='effectp-code' src='https://1-ps.googleusercontent.com/xk/L66fZog1l-dbbe1GxD7gjIXP94/s.cdn-files.appspot.com/cdn-files.appspot.com/js/mye-wp.js.pagespeed.jm.7QLAn0uD4Dg9RsZl1qc9.js' onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"' type='text/javascript' async='true'></script>";
 
-			return $text.$eff_json;
+				return $text.$eff_json;
+			}
 		} else {
 			return $text;
 		}
