@@ -202,6 +202,9 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 
 == Changelog ==
+= 1.0.51 =
+Custom Post issue fixed
+
 = 1.0.50 =
 Disable Plugin on custom post type
 
