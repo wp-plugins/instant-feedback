@@ -202,11 +202,14 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 
 == Changelog ==
+= 1.0.52 =
+New Disable Setting for 'Custom Posts' has been added in Admin page -> Settings -> MyEffecto.
+
 = 1.0.51 =
 Custom Post issue fixed
 
 = 1.0.50 =
-Disable Plugin on custom post type
+Disabled Plugin on custom post type
 
 = 1.0.48 =
 Plugin loading issue on https protocol sites solved.
