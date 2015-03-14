@@ -383,29 +383,56 @@ function myeffecto_admin() {
 		global $myeJSLoc;
 
 		$mye_plugin_visib = get_option('mye_plugin_visib');
-		$isOnPost = true;
-		$isOnPage = false;
+		$eff_isOnPost = true;
+		$eff_isOnPage = false;
+		$eff_isOnCustom = false;
+		$eff_isPreview = is_preview();
+
+		$eff_height = "";
+		if ($eff_isPreview) {
+			eff_applyMinHeight();
+		}
 		
 		if (isset($mye_plugin_visib) && $mye_plugin_visib) {
 			$mye_plugin_visib = json_decode($mye_plugin_visib, true);
 
-			if($mye_plugin_visib['isOnPost']){$isOnPost = true;}else{$isOnPost = false;}
-			if($mye_plugin_visib['isOnPage']){$isOnPage = true;}
+			if($mye_plugin_visib['isOnPost']){$eff_isOnPost = true;}else{$eff_isOnPost = false;}
+			if($mye_plugin_visib['isOnPage']){$eff_isOnPage = true;}
+			if($mye_plugin_visib['isOnCustom']){$eff_isOnCustom = true;}
 		}
-		
-		if ((is_single() && $isOnPost) || (is_page() && $isOnPage))
+
+		$cur_post_typ = get_post_type(get_the_ID());
+		$effisPageOrPost = $cur_post_typ==="post" || $cur_post_typ==="page";
+
+		if (is_single() || is_page())
 		{
-			$cur_post_typ=get_post_type(get_the_ID());
-			if($cur_post_typ==="post" || $cur_post_typ==="page"){
-				//wp_enqueue_script("wp-mye-load",$myeCDN."/".$myeJSLoc."/mye-wp-load.js",null,null,false);
+
+			if ($effisPageOrPost) {
+				if ($cur_post_typ==="post" && $eff_isOnPost) {
+					$effisPageOrPost = true;
+				} else if ($cur_post_typ==="page" && $eff_isOnPage) {
+					$effisPageOrPost = true;
+				} else {
+					$effisPageOrPost = false;
+				}
+			} else {
+				if ($eff_isOnCustom) {
+					$effisPageOrPost = true;
+				} else {
+					$effisPageOrPost = false;
+				}
+			}
+
+			if($effisPageOrPost) {
+				// wp_enqueue_script("wp-mye-load",$myeCDN."/".$myeJSLoc."/mye-wp-load.js",null,null,false);
 
 				//User Info
 				global $current_user;
 				global $myeCDN;
 				global $myeJSLoc;
-							
-				$myeJson =getEffectoDataJSON();
-				$eff_json = "<div id='effecto_bar' V='1.7' style='text-align:center;' data-json='".$myeJson."'></div>
+
+				$myeJson = getEffectoDataJSON();
+				$eff_json = "<div id='effecto_bar' V='1.7' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>
 							<script id='effectp-code' src='https://1-ps.googleusercontent.com/xk/L66fZog1l-dbbe1GxD7gjIXP94/s.cdn-files.appspot.com/cdn-files.appspot.com/js/mye-wp.js.pagespeed.jm.7QLAn0uD4Dg9RsZl1qc9.js' onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"' type='text/javascript' async='true'></script>";
 
 				return $text.$eff_json;

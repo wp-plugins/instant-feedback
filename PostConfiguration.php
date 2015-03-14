@@ -269,17 +269,19 @@
 					</script><script src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
 		
 		$mye_plugin_visib = get_option('mye_plugin_visib');
-		$isOnPost = "checked";
-		$isOnPage = "";
-		$isOnHome = "";
+		$eff_isOnPost = "checked";
+		$eff_isOnPage = "";
+		$eff_isOnHome = "";
+		$eff_isCustom = "";
 		$eff_shCode_style = "display:none;";
 		
 		if (isset($mye_plugin_visib) && $mye_plugin_visib) {
 			$mye_plugin_visib = json_decode($mye_plugin_visib, true);
 
-			if($mye_plugin_visib['isOnPost']){$isOnPost = "checked";}else{$isOnPost="";}
-			if($mye_plugin_visib['isOnPage']){$isOnPage = "checked";}
-			if($mye_plugin_visib['isOnHome']){$isOnHome = "checked";$eff_shCode_style="";}
+			if($mye_plugin_visib['isOnPost']){$eff_isOnPost = "checked";}else{$eff_isOnPost="";}
+			if($mye_plugin_visib['isOnPage']){$eff_isOnPage = "checked";}
+			if($mye_plugin_visib['isOnHome']){$eff_isOnHome = "checked";$eff_shCode_style="";}
+			if($mye_plugin_visib['isOnCustom']){$eff_isCustom = "checked";}
 		}
 		
 		
@@ -305,11 +307,13 @@
 				<center>
 					<h5 id="eff_p_opt" style="margin: 0;">Show plugin on :-
 						&nbsp;&nbsp;
-						<input type="checkbox" id="posts" name="postType" '.$isOnPost.' />Posts
+						<input type="checkbox" id="posts" name="postType" '.$eff_isOnPost.' />Posts
 						&nbsp;&nbsp;
-						<input type="checkbox" id="pages" name="postType" '.$isOnPage.' />Pages/ Articles
+						<input type="checkbox" id="pages" name="postType" '.$eff_isOnPage.' />Pages/ Articles
 						&nbsp;&nbsp;
-						<input type="checkbox" id="home" name="postType" '.$isOnHome.' />Home Page
+						<input type="checkbox" id="home" name="postType" '.$eff_isOnHome.' />Home Page
+						&nbsp;&nbsp;
+						<input type="checkbox" id="custom" name="postType" '.$eff_isCustom.' />Custom Posts
 						&nbsp;&nbsp;
 						<button style="font-size: 15px;margin-top:10px;cursor:pointer;" id="eff_visib">Save</button>
 					</h5>
@@ -324,18 +328,20 @@
 					var eff_isPost = jQuery("#posts").is(":checked");
 					var eff_isPage = jQuery("#pages").is(":checked");
 					var eff_isHome = jQuery("#home").is(":checked");
+					var eff_isCustom = jQuery("#custom").is(":checked");
 					var eff_msg_ele = jQuery("#eff_msg");
 					// console.log(eff_isPost + ", " + eff_isPage);
-					
+
 					eff_msg_ele.show();
 					eff_msg_ele.html("Saving......");
 					var data = {
 						'action': 'mye_update_view',
 						'isPost': eff_isPost,
 						'isPage': eff_isPage,
-						'isHome': eff_isHome
+						'isHome': eff_isHome,
+						'isCustom': eff_isCustom
 					};
-					
+
 					// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
 					jQuery.post(ajaxurl, data, function(response) {
 						eff_msg_ele.html("Settings Saved");
@@ -350,11 +356,12 @@
 	
 	add_action( 'wp_ajax_mye_update_view', 'mye_visibUpdt_callback' );
 	function mye_visibUpdt_callback() {
-		$isOnPost = $_POST['isPost'];
-		$isOnPage = $_POST['isPage'];
-		$isOnHome = $_POST['isHome'];
+		$eff_isOnPost = $_POST['isPost'];
+		$eff_isOnPage = $_POST['isPage'];
+		$eff_isOnHome = $_POST['isHome'];
+		$eff_isCustom = $_POST['isCustom'];
 
-		update_option('mye_plugin_visib', '{"isOnPost":'.$isOnPost.', "isOnPage":'.$isOnPage.', "isOnHome":'.$isOnHome.'}');
+		update_option('mye_plugin_visib', '{"isOnPost":'.$eff_isOnPost.', "isOnPage":'.$eff_isOnPage.', "isOnHome":'.$eff_isOnHome.', "isOnCustom":'.$eff_isCustom.'}');
 
 		wp_die(); // this is required to terminate immediately and return a proper response
 	}
