@@ -202,6 +202,9 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 
 == Changelog ==
+= 1.0.53 =
+BugFix : Myeffecto Wp-login issue. Submitted by user - IAN
+
 = 1.0.52 =
 New Disable Setting for 'Custom Posts' has been added in Admin page -> Settings -> MyEffecto.
 
