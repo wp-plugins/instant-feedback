@@ -3,7 +3,7 @@
 Plugin Name: MyEffecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.53
+Version: 1.0.54
 Author: MyEffecto
 Author URI: www.myeffecto.com
 */
