@@ -202,6 +202,9 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 
 == Changelog ==
+= 1.0.54 =
+Choose on which custom post the plugin is to be disabled on Admin page -> Settings -> MyEffecto..
+
 = 1.0.53 =
 BugFix : Myeffecto Wp-login issue. Submitted by user - IAN
 

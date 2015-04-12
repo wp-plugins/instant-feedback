@@ -418,7 +418,11 @@ function myeffecto_admin() {
 				}
 			} else {
 				if ($eff_isOnCustom) {
-					$effisPageOrPost = true;
+					if (array_key_exists($cur_post_typ, $mye_plugin_visib['isOnCustomList'])) {
+						$effisPageOrPost = true;
+					} else {
+						$effisPageOrPost = false;
+					}
 				} else {
 					$effisPageOrPost = false;
 				}

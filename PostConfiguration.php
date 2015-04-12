@@ -273,15 +273,41 @@
 		$eff_isOnPage = "";
 		$eff_isOnHome = "";
 		$eff_isCustom = "";
+		$eff_custom_list = "";
 		$eff_shCode_style = "display:none;";
 		
+		// print_r($mye_plugin_visib);
+		$eff_custom_post_html = "";
 		if (isset($mye_plugin_visib) && $mye_plugin_visib) {
 			$mye_plugin_visib = json_decode($mye_plugin_visib, true);
+			$eff_should_be_disabled = "style='display:none'";
 
 			if($mye_plugin_visib['isOnPost']){$eff_isOnPost = "checked";}else{$eff_isOnPost="";}
 			if($mye_plugin_visib['isOnPage']){$eff_isOnPage = "checked";}
 			if($mye_plugin_visib['isOnHome']){$eff_isOnHome = "checked";$eff_shCode_style="";}
-			if($mye_plugin_visib['isOnCustom']){$eff_isCustom = "checked";}
+			if($mye_plugin_visib['isOnCustom']){$eff_isCustom = "checked";$eff_should_be_disabled="";}
+
+			$args = array(
+			   'public'   => true,
+			   '_builtin' => false
+			);
+			
+			$output = 'objects'; // names or objects
+			$eff_custom_post_html_first = "<br /><span id='eff_customPostList' ".$eff_should_be_disabled.">";
+			$eff_custom_post_html = $eff_custom_post_html_first;
+			$post_types = get_post_types( $args, $output );
+
+			foreach ( $post_types  as $post_type ) {
+				$eff_cName = $post_type->label;
+				$checked = "";
+				
+				if (array_key_exists($eff_cName, $mye_plugin_visib['isOnCustomList'])) {
+					$checked = "checked";
+				}
+				
+				$eff_custom_post_html .= '<input type="checkbox" c-name="'.$post_type->name.'" '.$checked.' class="eff_customPostList"  />'.$eff_cName.'&nbsp;&nbsp;';
+			}
+			$eff_custom_post_html .= "</span>";
 		}
 		
 		
@@ -315,6 +341,7 @@
 						&nbsp;&nbsp;
 						<input type="checkbox" id="custom" name="postType" '.$eff_isCustom.' />Custom Posts
 						&nbsp;&nbsp;
+						'.$eff_custom_post_html.'
 						<button style="font-size: 15px;margin-top:10px;cursor:pointer;" id="eff_visib">Save</button>
 					</h5>
 					<p id="eff_msg" style="display:none;font-size: 14px;"></p>
@@ -329,6 +356,17 @@
 					var eff_isPage = jQuery("#pages").is(":checked");
 					var eff_isHome = jQuery("#home").is(":checked");
 					var eff_isCustom = jQuery("#custom").is(":checked");
+
+					var eff_custom_list = {};
+					if (eff_isCustom) {
+						jQuery("input[class=eff_customPostList]:checked").each(function() {
+							eff_custom_list[jQuery(this).attr('c-name')] = true;
+						});
+					}
+					//alert(JSON.stringify(eff_custom_list));
+					
+					eff_custom_list = JSON.stringify(eff_custom_list);
+					
 					var eff_msg_ele = jQuery("#eff_msg");
 					// console.log(eff_isPost + ", " + eff_isPage);
 
@@ -339,7 +377,8 @@
 						'isPost': eff_isPost,
 						'isPage': eff_isPage,
 						'isHome': eff_isHome,
-						'isCustom': eff_isCustom
+						'isCustom': eff_isCustom,
+						'eff_custom_list': eff_custom_list,
 					};
 
 					// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
@@ -348,20 +387,34 @@
 						if (eff_isHome) {jQuery("#eff_shCode").show();} else {jQuery("#eff_shCode").hide();}
 					});
 				});
-
+				
+				jQuery("#custom").click(function() {
+					if (jQuery(this).is(":checked")) {
+						jQuery("#eff_customPostList").show();
+					} else {
+						jQuery("#eff_customPostList").hide();
+					}
+				});
 			</script>
 		<?php
 	}
-	add_action( 'save_post', 'updateEff_title' );
-	
+	// add_action( 'save_post', 'updateEff_title' );	
 	add_action( 'wp_ajax_mye_update_view', 'mye_visibUpdt_callback' );
 	function mye_visibUpdt_callback() {
 		$eff_isOnPost = $_POST['isPost'];
 		$eff_isOnPage = $_POST['isPage'];
 		$eff_isOnHome = $_POST['isHome'];
 		$eff_isCustom = $_POST['isCustom'];
+		$eff_custom_list = $_POST['eff_custom_list'];
+		
+		$escapers = array("\\");
+		$replacements = array("");
+		$eff_custom_list = str_replace($escapers, $replacements, $eff_custom_list);
+		
+		// error_log($eff_custom_list." and ".$result);
+		
 
-		update_option('mye_plugin_visib', '{"isOnPost":'.$eff_isOnPost.', "isOnPage":'.$eff_isOnPage.', "isOnHome":'.$eff_isOnHome.', "isOnCustom":'.$eff_isCustom.'}');
+		update_option('mye_plugin_visib', '{"isOnPost":'.$eff_isOnPost.', "isOnPage":'.$eff_isOnPage.', "isOnHome":'.$eff_isOnHome.', "isOnCustom":'.$eff_isCustom.', "isOnCustomList":'.$eff_custom_list.'}');
 
 		wp_die(); // this is required to terminate immediately and return a proper response
 	}
