@@ -287,29 +287,28 @@
 			if($mye_plugin_visib['isOnHome']){$eff_isOnHome = "checked";$eff_shCode_style="";}
 			if($mye_plugin_visib['isOnCustom']){$eff_isCustom = "checked";$eff_should_be_disabled="";}
 
-			$args = array(
-			   'public'   => true,
-			   '_builtin' => false
-			);
-			
-			$output = 'objects'; // names or objects
-			$eff_custom_post_html_first = "<br /><span id='eff_customPostList' ".$eff_should_be_disabled.">";
-			$eff_custom_post_html = $eff_custom_post_html_first;
-			$post_types = get_post_types( $args, $output );
-
-			foreach ( $post_types  as $post_type ) {
-				$eff_cName = $post_type->label;
-				$checked = "";
-				
-				if (array_key_exists($eff_cName, $mye_plugin_visib['isOnCustomList'])) {
-					$checked = "checked";
-				}
-				
-				$eff_custom_post_html .= '<input type="checkbox" c-name="'.$post_type->name.'" '.$checked.' class="eff_customPostList"  />'.$eff_cName.'&nbsp;&nbsp;';
-			}
-			$eff_custom_post_html .= "</span>";
 		}
+		$eff_cstm_args = array(
+		   'public'   => true,
+		   '_builtin' => false
+		);
 		
+		$eff_output = 'objects'; // names or objects
+		$eff_custom_post_html_first = "<br /><span id='eff_customPostList' ".$eff_should_be_disabled.">";
+		$eff_custom_post_html = $eff_custom_post_html_first;
+		$post_types = get_post_types( $eff_cstm_args, $eff_output );
+
+		foreach ( $post_types  as $post_type ) {
+			$eff_cName = $post_type->label;
+			$checked = "";
+			
+			if (array_key_exists($eff_cName, $mye_plugin_visib['isOnCustomList'])) {
+				$checked = "checked";
+			}
+			
+			$eff_custom_post_html .= '<input type="checkbox" c-name="'.$post_type->name.'" '.$checked.' class="eff_customPostList"  />'.$eff_cName.'&nbsp;&nbsp;';
+		}
+		$eff_custom_post_html .= "</span>";
 		
 		echo '<h2>
 				<center>
