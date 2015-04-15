@@ -269,18 +269,20 @@
 					</script><script src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
 		
 		$mye_plugin_visib = get_option('mye_plugin_visib');
+		$eff_isJsonPresent = false;
 		$eff_isOnPost = "checked";
 		$eff_isOnPage = "";
 		$eff_isOnHome = "";
 		$eff_isCustom = "";
 		$eff_custom_list = "";
 		$eff_shCode_style = "display:none;";
-		
+		$eff_should_be_disabled = "style='display:none'";
 		// print_r($mye_plugin_visib);
 		$eff_custom_post_html = "";
 		if (isset($mye_plugin_visib) && $mye_plugin_visib) {
+			$eff_isJsonPresent = true;
 			$mye_plugin_visib = json_decode($mye_plugin_visib, true);
-			$eff_should_be_disabled = "style='display:none'";
+			
 
 			if($mye_plugin_visib['isOnPost']){$eff_isOnPost = "checked";}else{$eff_isOnPost="";}
 			if($mye_plugin_visib['isOnPage']){$eff_isOnPage = "checked";}
@@ -299,14 +301,14 @@
 		$post_types = get_post_types( $eff_cstm_args, $eff_output );
 
 		foreach ( $post_types  as $post_type ) {
-			$eff_cName = $post_type->label;
+			$eff_cName = $post_type->name;
 			$checked = "";
 			
-			if (array_key_exists($eff_cName, $mye_plugin_visib['isOnCustomList'])) {
+			if ($eff_isJsonPresent && array_key_exists($eff_cName, $mye_plugin_visib['isOnCustomList'])) {
 				$checked = "checked";
 			}
 			
-			$eff_custom_post_html .= '<input type="checkbox" c-name="'.$post_type->name.'" '.$checked.' class="eff_customPostList"  />'.$eff_cName.'&nbsp;&nbsp;';
+			$eff_custom_post_html .= '<input type="checkbox" c-name="'.$eff_cName.'" '.$checked.' class="eff_customPostList"  />'.$post_type->label.'&nbsp;&nbsp;';
 		}
 		$eff_custom_post_html .= "</span>";
 		
