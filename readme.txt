@@ -52,16 +52,16 @@ MyEffecto helps in increasing  engagement and drives traffic of your blogs via a
 MyEffecto currently support following languages:-
 
 * **English**
-* **Italian**
-* **Spanish**
-* **French**
-* **हिन्दी**
+* **Italiano**
+* **Español (Spanish)**
+* **Français (French)**
+* **हिन्दी (Hindi)**
 * **Portuguese**
 * **Indonesia**
-* **Turkish**
-* **Danish**
-* **Russian**
-* **Deutsch**
+* **Türk (Turkish)**
+* **Dansk (Danish)**
+* **русский (Russian)**
+* **Deutsch (German)**
 * **עברית (Hebrew)**
 
 = Support =
