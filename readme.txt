@@ -62,6 +62,7 @@ MyEffecto currently support following languages:-
 * **Danish**
 * **Russian**
 * **Deutsch**
+* **עברית (Hebrew)**
 
 = Support =
 
