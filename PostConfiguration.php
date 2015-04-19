@@ -279,7 +279,7 @@
 		$eff_should_be_disabled = "style='display:none'";
 		// print_r($mye_plugin_visib);
 		$eff_custom_post_html = "";
-		if (isset($mye_plugin_visib) && $mye_plugin_visib) {
+		if (isset($mye_plugin_visib) && $mye_plugin_visib != null) {
 			$eff_isJsonPresent = true;
 			$mye_plugin_visib = json_decode($mye_plugin_visib, true);
 			
