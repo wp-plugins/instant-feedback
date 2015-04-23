@@ -377,7 +377,7 @@ function myeffecto_admin() {
 				$timg = wp_get_attachment_image_src( get_post_thumbnail_id(get_the_ID()));
 				$thumb_img = $timg[0];
 			}
-			$myeJson = '{"t_img":"'.$thumb_img.'","ext_path":"'.plugins_url( '' , __FILE__ ).'","effecto_uniquename":"'.$p_shortname.'","effectoPostId":"'.$postId.'","effectoPreview": "'.$effectoPreview.'","effectoPagetitle":"'.$getPostTitle.'","effectoPageurl":"'.$postUrl.'", "effectoPublDate":"'.$effDate_published.'","effectoAuthorName":"'.$effectoAuthor.'","effectoCategory":"'.$eff_category.'","effUserInfo": {"isLoggedIn": "'.$eff_cur_loggedIn.'","loginAs": "'.$eff_user_role.'","email": "'.$eff_user_email.'","dpName": "'.$eff_user_display.'","fName": "'.$eff_user_fname.'","lName": "'.$eff_user_lname.'"}}';
+			$myeJson = '{"t_img":"'.$thumb_img.'","effecto_uniquename":"'.$p_shortname.'","effectoPostId":"'.$postId.'","effectoPreview": "'.$effectoPreview.'","effectoPagetitle":"'.$getPostTitle.'","effectoPageurl":"'.$postUrl.'", "effectoPublDate":"'.$effDate_published.'","effectoAuthorName":"'.$effectoAuthor.'","effectoCategory":"'.$eff_category.'","effUserInfo": {"isLoggedIn": "'.$eff_cur_loggedIn.'","loginAs": "'.$eff_user_role.'","email": "'.$eff_user_email.'","dpName": "'.$eff_user_display.'","fName": "'.$eff_user_fname.'","lName": "'.$eff_user_lname.'"}}';
 		}
 	
 		return $myeJson;
@@ -442,7 +442,7 @@ function myeffecto_admin() {
 				global $myeJSLoc;
 
 				$myeJson = getEffectoDataJSON();
-				$eff_json = "<div id='effecto_bar' V='1.7' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>
+				$eff_json = "<div id='effecto_bar' V='1.8' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>
 							<script id='effectp-code' src='https://1-ps.googleusercontent.com/xk/L66fZog1l-dbbe1GxD7gjIXP94/s.cdn-files.appspot.com/cdn-files.appspot.com/js/mye-wp.js.pagespeed.jm.7QLAn0uD4Dg9RsZl1qc9.js' onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"' type='text/javascript' async='true'></script>";
 
 				return $text.$eff_json;
