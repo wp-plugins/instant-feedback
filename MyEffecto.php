@@ -3,11 +3,11 @@
 Plugin Name: MyEffecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.57
+Version: 1.0.58
 Author: MyEffecto
 Author URI: www.myeffecto.com
 */
-
+//$eff_trending_url=null;
 require('DBFunctions.php');
 require('PostConfiguration.php');
 
@@ -17,19 +17,21 @@ add_filter('the_content', 'echoEndUserPlugin');
 add_action('wp_footer', 'echo_eff_plugin_homepage');
 
 /* ------------------------------------------------------------- */
-$hostString="http://www.myeffecto.com";
-$myeJSLoc="js";
-$myeCDN ="//cdn-files.appspot.com";
+  $hostString="http://www.myeffecto.com";
+  $myeJSLoc="js";
+ $myeCDN ="//cdn-files.appspot.com";
 
- //$hostString="http://localhost:8888";
- //$myeCDN =$hostString;
- //$myeJSLoc="p-js";
+/* $hostString="http://localhost:8888";
+ $myeCDN =$hostString;
+ $myeJSLoc="p-js";*/
 /* ------------------------------------------------------------- */
 $embedCode = null;
 $eff_ssl_host = "https://myeffecto.appspot.com";
 
 $eff_settings_page = "eff_conf_nav";
+$widget_page="";
 $myeJson=null;
+
 if (is_ssl()) {
 	$hostString = $eff_ssl_host;
 }
@@ -64,7 +66,11 @@ function myeffecto_admin() {
 	if (isset($_POST['dataToSend'])) {
 		$data=$_POST['dataToSend'];
 	}
-
+        $eff_trending_url=null;
+        if (isset($_POST['url'])) {  //for trending widget
+            $eff_trending_url=$_POST['url'];
+        }
+        
 	$eff_shortname = null;
 	if (isset($_POST['eff_shortname'])) {
 		$eff_shortname = $_POST['eff_shortname'];
@@ -96,6 +102,11 @@ function myeffecto_admin() {
 		<input name="eff_shortname" id="eff_shortname" type="hidden"/>
 		<input type='submit'/>
 	</form>
+
+        <form id="submitWidgetForm" action="" method="post" style="display:none;">
+		<input name="url" value="" id="url" type="hidden"/>
+	</form>
+
 	<form id="reloadForm" action="" method="post" style="display:none;"><input type='submit'/></form>
 <?php
 	if(isset($data) && !empty($data)) {
@@ -147,14 +158,20 @@ function myeffecto_admin() {
 			if ($addType == "postEdit") {
 					
 					updateMyeffectoEmbedCode($data, $postID, $eff_shortname);
-				?>
-					<script type="text/javascript">
-						window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
-					</script>
-				<?php
+				
+					//refresh code
+				
 			}
 		}
-	 } else {
+	 }else if(isset($eff_trending_url) && !empty($eff_trending_url)) {
+             update_option("trending_url", $eff_trending_url);
+             ?>
+            <script type="text/javascript">
+                    window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
+            </script>
+                 <?php
+         }
+         else {
 ?>
 <style type="text/css">
 	#load {
@@ -244,8 +261,9 @@ function myeffecto_admin() {
 
 				function receiveMessage(event) {
 					var rcvdMsg = event.data;
+                                        //alert(rcvdMsg);
 					var msg = rcvdMsg.split("#~#");
-
+                                        //alert(msg);
 					if (msg[0] == "save") {
 						postIframeCode(msg[1]);
 						jQuery(\'#load\').show();
@@ -255,9 +273,17 @@ function myeffecto_admin() {
 						alert("Error occured");
 					} else if (msg[0] == "pluginLoggedIn") {
 						showButtonCode(shortname);
-					} else if (msg[0] == "validated") {
+					} else if (msg[0] == "") { 
+						showButtonCode(shortname);
+					}
+                                        else if (msg[0] == "validated") {
 						jQuery(\'#load\').show();
-					} /*else if(msg[0] == "apiKey") {
+					}else if (msg[0] == "saveWidget") {
+                                                //alert(msg[1]);
+                                                postWidgetForm(msg[1]);
+                                                jQuery(\'#generate\').remove();
+					}
+                                        /*else if(msg[0] == "apiKey") {
 						addKey(msg[1]);
 					}*/
 				}
@@ -269,6 +295,12 @@ function myeffecto_admin() {
 					jQuery("#eff_shortname").val(test.shortName);
 					jQuery(\'#submitForm\').submit();
 				}
+                                
+                                function postWidgetForm(json)
+                                {   jQuery("#url").val(json);
+                                    //alert("val"+jQuery("#url").val());
+                                    jQuery(\'#submitWidgetForm\').submit();
+                                }
 
 				function showButtonCode(shortname) {
 					jQuery(\'#generate\').remove();
@@ -276,7 +308,9 @@ function myeffecto_admin() {
 					if (shortname === null) {
 					    shortname="";
 						jQuery(\'#effectoFrame\').after(jQuery(\'<center><h3><input type="button" id="generate"  value="Apply Emotion Set" style="font-size : 22px; padding-top : 7px; padding-bottom : 30px;" class="button-primary" /></h3></center>\'));
-					} else {
+					}
+                                        else if(shortname === "no"){return;}
+                                        else {
 						jQuery(\'#effectoFrame\').after(jQuery(\'<center><h3><input type="button" id="generate" value="Apply Emotion Set" style="font-size : 22px; padding-top : 7px; padding-bottom : 30px;" class="button-primary" /></h3></center>\'));
 					}
 					
@@ -312,8 +346,17 @@ function myeffecto_admin() {
 		/* src ="'.$hostString.'/register?callback=confgEmoji&outside=true&postTitle="+postTitle */
 		echo '	var ifrm= null;
 				window.onload=function(){
+                                        var url=location.href;
 					ifrm = document.getElementById("effectoFrame");
-					ifrm.setAttribute("src", "'.$hostString.'/register?callback=confgEmoji&outside=true&postTitle="+postTitle);
+                                        if(url.indexOf("true")>0){
+                                            ifrm.setAttribute("src", "'.$hostString.'/register?wp=1&callback=config_trend&outside=true&postTitle="+postTitle);
+                                            ifrm.onload=function(){ 
+                                            ifrm.contentWindow.postMessage("init_effecto","'.$hostString.'"); 
+                                            }
+                                        }
+                                        else{
+                                            ifrm.setAttribute("src", "'.$hostString.'/register?callback=confgEmoji&outside=true&postTitle="+postTitle);
+                                        }
 					ifrm.setAttribute("frameborder","0");
 					ifrm.setAttribute("allowtransparency","true");
 
@@ -444,6 +487,14 @@ function myeffecto_admin() {
 				$myeJson = getEffectoDataJSON();
 				$eff_json = "<div id='effecto_bar' V='1.8' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>
 							<script id='effectp-code' src='https://1-ps.googleusercontent.com/xk/L66fZog1l-dbbe1GxD7gjIXP94/s.cdn-files.appspot.com/cdn-files.appspot.com/js/mye-wp.js.pagespeed.jm.7QLAn0uD4Dg9RsZl1qc9.js' onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"' type='text/javascript' async='true'></script>";
+                                
+                               /* $trend=get_option("trending_url");
+                                if(isset($trend) && !empty($trend)){
+                                    $arr=  explode("#@#",$trend);
+                                        if($arr[1]!="false"){
+                                            $eff_json.="<img src='".plugins_url( 'loading.gif' , __FILE__ )."' title='Activity Feed' alt=''/><h2>Activity Feed</h2><iframe id='effWidget' src='".$trend."' style='width:100%;height:300px;border:none;'></iframe>";
+                                        }
+                                }*/
 
 				return $text.$eff_json;
 			}
@@ -478,11 +529,24 @@ function myeffecto_admin() {
 	}
 
 	function getEffectoCustomTag(){
-	$data_val=getEffectoDataJSON();
-	return "<div id='effecto_cust_bar' data-json='".$data_val."' style='text-align:center;'></div>";
+		$data_val=getEffectoDataJSON();
+		return "<div id='effecto_cust_bar' data-json='".$data_val."' style='text-align:center;'></div>";
 	}
+	 function getEffectoTrendTag(){
+		//$data_val=getEffectoDataJSON();
+                $trendyFrame="";
+         
+                $trendy=get_option("trending_url");
+				// error_log("trendy ".$trendy);
+				if(isset($trendy) && !empty($trendy)){
+					$trendyFrame="<iframe id='effWidget' src='".$trendy."' style='width:100%;height:300px;border:none;overflow: hidden;' scrolling='no'></iframe>";
+                }
+		return $trendyFrame;
+	 } 
+	
 	function register_effectoTag(){
 	   add_shortcode('effecto-bar', 'getEffectoCustomTag');
+	   add_shortcode('effecto-trend', 'getEffectoTrendTag');
 	}
 	add_action( 'init', 'register_effectoTag');
 

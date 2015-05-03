@@ -304,7 +304,7 @@
 			$eff_cName = $post_type->name;
 			$checked = "";
 			
-			if ($eff_isJsonPresent && array_key_exists($eff_cName, $mye_plugin_visib['isOnCustomList'])) {
+			if ($eff_isJsonPresent && !is_null($mye_plugin_visib['isOnCustomList']) &&array_key_exists($eff_cName, $mye_plugin_visib['isOnCustomList'])) {
 				$checked = "checked";
 			}
 			
@@ -327,6 +327,10 @@
 					<span style="font-size:15px;padding:0px 10px;">OR</span> 
 					
 					<a class="effectoConfig button-primary" style="cursor:pointer;font-weight:bold;font-size: 20px;margin-bottom: 10px;" href="'.$hostString.'/login?callback=plugin_editor&sname='.$shortname.'" target="_blank" title="Edit plugin styles">Edit</a>
+					
+					<span style="font-size:15px;padding:0px 10px;"> | </span>
+
+					<a class="effectoConfig button-primary" style="cursor:pointer;font-weight:bold;font-size: 20px;margin-bottom: 10px;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'&isWidget=true" title="Default emotion set appears on all posts.">Add Trending Widget</a>
 				</center>
 			</h2>
 			<hr style="border-color: #917F7F;">

@@ -33,20 +33,33 @@
 							'apiKey' => $apiKey, 
 							'embedCode' => $code, 
 							'postID' => $postID,
-							'shortname' => $eff_shortname, 
+							'shortname' => $eff_shortname,
 						),
 						array(
 							'%d', 
 							'%s', 
 							'%s', 
 							'%d',
-							'%s', 
+							'%s',
 						)
 					);
 
 	}
 
 	/* Update effecto table */
+        
+//        function alterTable($col_name)
+//        {
+//            global $wpdb;
+//            global $table_name;
+//            $wpdb->query("ALTER TABLE $table_name ADD settings AFTER embedCode");
+//        }
+        
+        function addTrendingUrl($trending_url)// is added to wp_options table
+        {
+            update_option('trending_url', $trending_url);
+        }
+        
 	function updateMyeffectoEmbedCode($data, $postID, $eff_shortname) {
 		$data = stripcslashes($data);
 
@@ -66,6 +79,8 @@
 			), 
 			array( '%d' )
 		);
+               
+                
 	}
 
 	function updateNewMyeffectoEmbedCode($data, $eff_shortname) {
@@ -85,7 +100,8 @@
 			), 
 			array( '%s' )
 		);
-
+//                 $settings="{url:'http://abc.com'}";
+//                 update_option('settings', $settings);
 	}
 
 	/* Select pluginCode by userID */
