@@ -17,9 +17,9 @@ add_filter('the_content', 'echoEndUserPlugin');
 add_action('wp_footer', 'echo_eff_plugin_homepage');
 
 /* ------------------------------------------------------------- */
-  $hostString="http://www.myeffecto.com";
-  $myeJSLoc="js";
- $myeCDN ="//cdn-files.appspot.com";
+ $hostString="http://www.myeffecto.com";
+ $myeJSLoc="js";
+$myeCDN ="//cdn-files.appspot.com";
 
 /* $hostString="http://localhost:8888";
  $myeCDN =$hostString;
@@ -385,7 +385,7 @@ function myeffecto_admin() {
 			$effectoPreview = "false";
 			$effectoAuthor = effecto_get_author();
 			$eff_category = effecto_get_category($postId);
-
+			$eff_tags = effecto_get_tags($postId);
 			$apiPluginDetailsArray = getMyEffectoPluginDetails($postId);
 			if ($apiPluginDetailsArray == null) {
 				$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
@@ -408,6 +408,8 @@ function myeffecto_admin() {
 			$getPostTitle = strip_tags($getPostTitle);
 			$eff_category = str_replace("'",'\"', $eff_category);
 			$eff_category = strip_tags($eff_category);
+			$eff_tags = str_replace("'",'\"', $eff_tags);
+			$eff_tags = strip_tags($eff_tags);
 			get_currentuserinfo();
 			$eff_cur_loggedIn = is_user_logged_in();
 			$eff_user_role = $current_user->user_login;
@@ -420,7 +422,7 @@ function myeffecto_admin() {
 				$timg = wp_get_attachment_image_src( get_post_thumbnail_id(get_the_ID()));
 				$thumb_img = $timg[0];
 			}
-			$myeJson = '{"t_img":"'.$thumb_img.'","effecto_uniquename":"'.$p_shortname.'","effectoPostId":"'.$postId.'","effectoPreview": "'.$effectoPreview.'","effectoPagetitle":"'.$getPostTitle.'","effectoPageurl":"'.$postUrl.'", "effectoPublDate":"'.$effDate_published.'","effectoAuthorName":"'.$effectoAuthor.'","effectoCategory":"'.$eff_category.'","effUserInfo": {"isLoggedIn": "'.$eff_cur_loggedIn.'","loginAs": "'.$eff_user_role.'","email": "'.$eff_user_email.'","dpName": "'.$eff_user_display.'","fName": "'.$eff_user_fname.'","lName": "'.$eff_user_lname.'"}}';
+			$myeJson = '{"t_img":"'.$thumb_img.'","effecto_uniquename":"'.$p_shortname.'","effectoPostId":"'.$postId.'","effectoPreview": "'.$effectoPreview.'","effectoPagetitle":"'.$getPostTitle.'","effectoPageurl":"'.$postUrl.'", "effectoPublDate":"'.$effDate_published.'","effectoAuthorName":"'.$effectoAuthor.'","effectoTag":"'.$eff_tags.'","effectoCategory":"'.$eff_category.'","effUserInfo": {"isLoggedIn": "'.$eff_cur_loggedIn.'","loginAs": "'.$eff_user_role.'","email": "'.$eff_user_email.'","dpName": "'.$eff_user_display.'","fName": "'.$eff_user_fname.'","lName": "'.$eff_user_lname.'"}}';
 		}
 	
 		return $myeJson;

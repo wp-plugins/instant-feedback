@@ -89,6 +89,7 @@
 					}
 
 					$eff_category = effecto_get_category(get_the_ID());
+					$eff_tags = effecto_get_tags(get_the_ID());
 					$effectoAuthor = effecto_get_author();
 
 					/* $allPostCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $allPostCode);
@@ -100,7 +101,8 @@
 					
 					$getPostTitle = str_replace("'","\'", $getPostTitle);
 					$eff_category = str_replace("'","\'", $eff_category);
-
+					$eff_tags = str_replace("'","\'", $eff_tags);
+					
 					$eff_json = "<div id='effecto_bar' style='text-align:center;'></div>
 						<script>
 							var eff_json = {
@@ -113,6 +115,7 @@
 								'effectoPublDate':'".$effDate_published."', 
 								'effectoAuthorName':'".$effectoAuthor."', 
 								'effectoCategory':'".$eff_category."', 
+								'effectoTags':'".$eff_tags."'
 							};
 						</script><script src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
 					
@@ -143,6 +146,7 @@
 				</h2>';
 		} else {
 			$eff_category = effecto_get_category(get_the_ID());
+			$eff_tags = effecto_get_tags(get_the_ID());
 			$effectoAuthor = effecto_get_author();
 
 			/* $postCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $postCode);
@@ -154,6 +158,7 @@
 			
 			$getPostTitle = str_replace("'","\'", $getPostTitle);
 			$eff_category = str_replace("'","\'", $eff_category);
+			$eff_tags = str_replace("'","\'", $eff_tags);
 
 				$eff_json = "<div id='effecto_bar' style='text-align:center;'></div>
 						<script>
@@ -192,6 +197,18 @@
 		}
 		
 		return $eff_category;
+	}
+	
+	function effecto_get_tags($postId) {
+		$effectoposttags = wp_get_post_tags($postId);
+		$eff_tags = "";
+		if($effectoposttags){
+			foreach($effectoposttags as $effposttag) {
+				$eff_tags .= $effposttag->name . ",";
+			}
+		}
+		
+		return $eff_tags;
 	}
 	
 	function effecto_get_author() {
