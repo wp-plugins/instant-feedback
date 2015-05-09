@@ -204,6 +204,9 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 
 == Changelog ==
+= 1.0.59 =
+Homepage shortcode fixed.
+
 = 1.0.58 =
 NEW Feature! Activity Widget Released
 

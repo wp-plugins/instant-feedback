@@ -3,7 +3,7 @@
 Plugin Name: MyEffecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.58
+Version: 1.0.59
 Author: MyEffecto
 Author URI: www.myeffecto.com
 */
@@ -524,7 +524,7 @@ function myeffecto_admin() {
 			}
 			global $myeCDN;
 			global $myeJSLoc;
-			$effe_ele = do_shortcode( '[effecto-bar]' );
+			echo do_shortcode( '[effecto-bar]' );
 			echo "<script>var eff_json={'effecto_uniquename':'".$p_shortname."'};</script>
 			<script id='effectp-code' src='".$myeCDN."/".$myeJSLoc."/mye-wp.js' type='text/javascript' async='true'></script>";
 		}
