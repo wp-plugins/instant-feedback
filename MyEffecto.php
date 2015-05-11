@@ -385,7 +385,7 @@ function myeffecto_admin() {
 			$effectoPreview = "false";
 			$effectoAuthor = effecto_get_author();
 			$eff_category = effecto_get_category($postId);
-			$eff_tags = effecto_get_tags($postId);
+			$eff_tags = "";/*effecto_get_tags($postId);*/
 			$apiPluginDetailsArray = getMyEffectoPluginDetails($postId);
 			if ($apiPluginDetailsArray == null) {
 				$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
