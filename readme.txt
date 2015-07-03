@@ -8,7 +8,7 @@ Requires at least: 3.5
 Tested up to: 4.1.1
 Stable tag: 1.0.46
 
-Myeffecto provide an emotion-based widgets, which increase Blog Engagement and Traffic simulatenously.
+Myeffecto provide an emotion-based widgets, which helps to increase Blog Engagement and Traffic simulatenously.
 
 == Description ==
 
