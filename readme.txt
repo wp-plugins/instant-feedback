@@ -8,7 +8,7 @@ Requires at least: 3.5
 Tested up to: 4.1.1
 Stable tag: 1.0.46
 
-Getting customized and interactive feedback for your blog.
+Myeffecto provide an emotion-based widgets, which increase Blog Engagement and Traffic simulatenously.
 
 == Description ==
 
