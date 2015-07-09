@@ -3,7 +3,7 @@
 Plugin Name: MyEffecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 1.0.59
+Version: 1.0.60
 Author: MyEffecto
 Author URI: www.myeffecto.com
 */
@@ -25,7 +25,7 @@ function ttt_wpmdr_add_action_plugin( $actions, $plugin_file )
 		$plugin = plugin_basename(__FILE__);
 	if ($plugin == $plugin_file) {
 		$settings = array('settings' => '<a href="'. admin_url( 'options-general.php?page=eff_conf_nav' ).'" >Settings</a>');
-		$site_link = array('support' => '<a href="http://www.myeffecto.com/contact" target="_blank">Help</a>');
+		$site_link = array('support' => '<a href="http://www.myeffecto.com/contact" target="_blank">Support</a>');
 		$actions = array_merge($site_link, $actions);
 		$actions = array_merge($settings, $actions);
 	}	
