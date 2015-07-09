@@ -13,12 +13,28 @@ require('PostConfiguration.php');
 
 /* Add MyEffecto link to Setting Tab. */
 add_action('admin_menu', 'myeffecto_admin_actions');
+
 add_filter('the_content', 'echoEndUserPlugin');
 add_action('wp_footer', 'echo_eff_plugin_homepage');
 
+add_filter( 'plugin_action_links', 'ttt_wpmdr_add_action_plugin', 10, 5 );
+function ttt_wpmdr_add_action_plugin( $actions, $plugin_file ) 
+{
+	static $plugin;
+	if (!isset($plugin))
+		$plugin = plugin_basename(__FILE__);
+	if ($plugin == $plugin_file) {
+		$settings = array('settings' => '<a href="'. admin_url( 'options-general.php?page=eff_conf_nav' ).'" >Settings</a>');
+		$site_link = array('support' => '<a href="http://www.myeffecto.com/contact" target="_blank">Help</a>');
+		$actions = array_merge($site_link, $actions);
+		$actions = array_merge($settings, $actions);
+	}	
+	return $actions;
+}
+
 /* ------------------------------------------------------------- */
- $hostString="http://www.myeffecto.com";
- $myeJSLoc="js";
+$hostString="http://www.myeffecto.com";
+$myeJSLoc="js";
 $myeCDN ="//cdn-files.appspot.com";
 
 /* $hostString="http://localhost:8888";
@@ -188,7 +204,7 @@ function myeffecto_admin() {
 </style>
 
 		<div class="wrap" style="overflow-x : hidden; position : relative;">
-			<h2>MyEffecto Admin</h2>
+			<h2>MyEffecto Configure</h2>
 	<?php
 			global $embedCode;
 			$apiKey=null;
@@ -259,33 +275,31 @@ function myeffecto_admin() {
 					}
 				}
 
-				function receiveMessage(event) {
-					var rcvdMsg = event.data;
-                                        //alert(rcvdMsg);
-					var msg = rcvdMsg.split("#~#");
-                                        //alert(msg);
-					if (msg[0] == "save") {
-						postIframeCode(msg[1]);
-						jQuery(\'#load\').show();
-					} else if(msg[0] == "loggedIn") {
-						afterLoginSuccess();
-					} else if (msg[0] == "error") {
-						alert("Error occured");
-					} else if (msg[0] == "pluginLoggedIn") {
-						showButtonCode(shortname);
-					} else if (msg[0] == "") { 
-						showButtonCode(shortname);
-					}
-                                        else if (msg[0] == "validated") {
-						jQuery(\'#load\').show();
-					}else if (msg[0] == "saveWidget") {
-                                                //alert(msg[1]);
-                                                postWidgetForm(msg[1]);
-                                                jQuery(\'#generate\').remove();
-					}
-                                        /*else if(msg[0] == "apiKey") {
-						addKey(msg[1]);
-					}*/
+				function rcvMyeMsg(event) {
+					if(event.origin==="'.$hostString.'"){
+						var rcvdMsg = event.data;
+						var msg = rcvdMsg.split("#~#");	
+						if(msg[0]==="setHt") {
+							ifrm.style.height=msg[1];
+							ifrm.height=msg[1];
+						} else if (msg[0] === "save") {
+							postIframeCode(msg[1]);
+							jQuery(\'#load\').show();
+						} else if(msg[0] === "loggedIn") {
+							afterLoginSuccess();
+						} else if (msg[0] === "error") {
+							alert("Error occured");
+						} else if (msg[0] === "pluginLoggedIn") {
+							showButtonCode(shortname);
+						} else if (msg[0] === "") { 
+							showButtonCode(shortname);
+						} else if (msg[0] === "validated") {
+							jQuery(\'#load\').show();
+						}else if (msg[0] === "saveWidget") {
+                            postWidgetForm(msg[1]);
+                            jQuery(\'#generate\').remove();
+						}
+					}                  
 				}
 
 				function postIframeCode(rcvdMsg) {
@@ -346,7 +360,7 @@ function myeffecto_admin() {
 		/* src ="'.$hostString.'/register?callback=confgEmoji&outside=true&postTitle="+postTitle */
 		echo '	var ifrm= null;
 				window.onload=function(){
-                                        var url=location.href;
+                    var url=location.href;
 					ifrm = document.getElementById("effectoFrame");
                                         if(url.indexOf("true")>0){
                                             ifrm.setAttribute("src", "'.$hostString.'/register?wp=1&callback=config_trend&outside=true&postTitle="+postTitle);
@@ -357,16 +371,11 @@ function myeffecto_admin() {
                                         else{
                                             ifrm.setAttribute("src", "'.$hostString.'/register?callback=confgEmoji&outside=true&postTitle="+postTitle);
                                         }
-					ifrm.setAttribute("frameborder","0");
-					ifrm.setAttribute("allowtransparency","true");
-
-					ifrm.style.width = "100%";
-					ifrm.style.height = "500";
-					window.addEventListener("message", receiveMessage, false);
+					window.addEventListener("message", rcvMyeMsg, false);
 				};
 			</script>
 			<div id="load" style="display:none;"></div>
-			<iframe id="effectoFrame" width="100%" height="500"/>';
+			<iframe id="effectoFrame" width="100%" height="500"  seamless scrolling="no" frameborder="0" allowtransparency="true"/>';
 	}
 	
 	function eff_is_html($string) {
