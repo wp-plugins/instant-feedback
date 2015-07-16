@@ -33,13 +33,13 @@ function ttt_wpmdr_add_action_plugin( $actions, $plugin_file )
 }
 
 /* ------------------------------------------------------------- */
-/*$hostString="http://www.myeffecto.com";
+$hostString="http://www.myeffecto.com";
 $myeJSLoc="js";
-$myeCDN ="//cdn-files.appspot.com";*/
+$myeCDN ="//cdn-files.appspot.com";
 
-$hostString="http://localhost:8888";
+/*$hostString="http://localhost:8888";
 $myeCDN =$hostString;
-$myeJSLoc="p-js";
+$myeJSLoc="p-js";*/
 /* ------------------------------------------------------------- */
 $embedCode = null;
 $eff_ssl_host = "https://myeffecto.appspot.com";
