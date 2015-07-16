@@ -92,7 +92,7 @@
 					$eff_category = str_replace("'","\'", $eff_category);
 					$eff_tags = str_replace("'","\'", $eff_tags);
 					
-					$eff_json = "<div id='effecto_bar' style='text-align:center;min-height:175px;'></div>
+					$eff_json = "<div id='effecto_bar' 1 style='text-align:center;min-height:175px;'></div>
 						<script>
 							var eff_json = {
 								'ext_path':'".plugins_url( '' , __FILE__ )."',
@@ -148,7 +148,7 @@
 			$eff_category = str_replace("'","\'", $eff_category);
 			$eff_tags = str_replace("'","\'", $eff_tags);
 
-				$eff_json = "<div id='effecto_bar' style='text-align:center;min-height:175px;'></div>
+				$eff_json = "<div id='effecto_bar' 2 style='text-align:center;min-height:175px;'></div>
 						<script>
 							var eff_json = {
 								'ext_path':'".plugins_url( '' , __FILE__ )."',
@@ -258,7 +258,7 @@
 			$shortname = $detail -> shortname;
 		}
 
-		$eff_json = "<div id='effecto_bar' style='text-align:center;min-height:175px;'></div>
+		$eff_json = "<style>#effecto_bar{min-height:175px;}</style><div id='effecto_bar' 3 style='text-align:center;min-height:175px;'></div>
 					<script>
 						var eff_json = {
 							'ext_path':'".plugins_url( '' , __FILE__ )."',
