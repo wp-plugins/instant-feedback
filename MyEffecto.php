@@ -511,7 +511,7 @@ function myeffecto_admin() {
 					})()</script>';
 				}else if($eff_loadtype=="async"){
 					$eff_json=$eff_json."<script type='text/javascript'>window.onload=function(){var s=document.createElement('script');
-					s.type='text/javascript';s.src ='".$pageSpeed_script."'";
+					s.type='text/javascript';s.src ='".$pageSpeed_script."';";
 					$eff_json=$eff_json."s.onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"';";
 					$eff_json=$eff_json.'var a=document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0];a.appendChild(s);
 					}</script>';
