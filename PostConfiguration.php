@@ -257,19 +257,7 @@
 		foreach($eff_details as $detail) {
 			$shortname = $detail -> shortname;
 		}
-
-		$eff_json = "<style>#effecto_bar{min-height:175px;}</style><div id='effecto_bar' 3 style='text-align:center;min-height:175px;'></div>
-					<script>
-						var eff_json = {
-							'ext_path':'".plugins_url( '' , __FILE__ )."',
-							'effecto_uniquename':'".$shortname."', 
-							'effectoPostId':'0',  
-							'effectoPreview': 'true', 
-							'effectoPagetitle':'preview', 
-							'effectoPageurl':'', 
-						};
-					</script><script src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
-		
+		$eff_json = "<div id='effecto_bar'style='text-align:center;max-height:175px;'><iframe src='http://www.myeffecto.com/ep?s=".$shortname."&amp;ty=preview&amp;p=0' width='100%' id='mye-OIH4MBCB7F-239550' frameborder='0' scrolling='no' style='min-height:175px;width: 100%; border: 0px; overflow: hidden; clear: both; margin: 0px; background: transparent;'></iframe></div>";
 		$mye_plugin_visib = get_option('mye_plugin_visib');
 		$eff_isJsonPresent = false;
 		$eff_isOnPost = "checked";
