@@ -19,16 +19,6 @@
 		}
 	}
 	
-	function eff_applyMinHeight() {
-		echo "<style>
-				#effecto_bar{
-					min-height:200px;
-				}
-				#effecto_bar > iframe {
-					min-height:200px;
-				}
-			</style>";
-	}
 
 	$p_shortname = null;
 	function showEffectoBox() {
@@ -39,7 +29,6 @@
 				});
 			</script>";
 
-		eff_applyMinHeight();
 		$pluginStatus = $_GET["plugin"];
 		if ($pluginStatus == 'success') {
 			addAlert($pluginStatus);
@@ -103,7 +92,7 @@
 					$eff_category = str_replace("'","\'", $eff_category);
 					$eff_tags = str_replace("'","\'", $eff_tags);
 					
-					$eff_json = "<div id='effecto_bar' style='text-align:center;'></div>
+					$eff_json = "<div id='effecto_bar' style='text-align:center;min-height:175px;'></div>
 						<script>
 							var eff_json = {
 								'ext_path':'".plugins_url( '' , __FILE__ )."',
@@ -122,8 +111,7 @@
 
 					echo '<h2>
 						<center>
-							(PREVIEW-ONLY)<br />
-							Your default emotion set is 
+							Your Default Emotion-Set (Preview Mode)
 						</center>
 					</h2> '.$eff_json;
 			} else {
@@ -160,7 +148,7 @@
 			$eff_category = str_replace("'","\'", $eff_category);
 			$eff_tags = str_replace("'","\'", $eff_tags);
 
-				$eff_json = "<div id='effecto_bar' style='text-align:center;'></div>
+				$eff_json = "<div id='effecto_bar' style='text-align:center;min-height:175px;'></div>
 						<script>
 							var eff_json = {
 								'ext_path':'".plugins_url( '' , __FILE__ )."',
@@ -175,9 +163,7 @@
 							};
 						</script><script src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
 					
-			echo '<h2>
-					<center>(PREVIEW-ONLY) <br>Your current emotion set for this post is </center>
-				</h2> '.$eff_json;
+			echo '<h2><center>Your Default Emotion-Set (Preview Mode)</center></h2>'.$eff_json;
 			echo '<h2>
 					<center>
 						<a class="effectoConfig" style="cursor:pointer;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postID='.$getPostID.'&postName='.$wpSite.'&pluginType=postEdit&postURL='.$_SERVER['REQUEST_URI'].'?post_id='.$getPostID.'&shortname='.$p_shortname.'">Change emotion set of this post</a>
@@ -272,8 +258,7 @@
 			$shortname = $detail -> shortname;
 		}
 
-		eff_applyMinHeight();
-		$eff_json = "<div id='effecto_bar' style='text-align:center'></div>
+		$eff_json = "<div id='effecto_bar' style='text-align:center;min-height:175px;'></div>
 					<script>
 						var eff_json = {
 							'ext_path':'".plugins_url( '' , __FILE__ )."',
@@ -288,6 +273,9 @@
 		$mye_plugin_visib = get_option('mye_plugin_visib');
 		$eff_isJsonPresent = false;
 		$eff_isOnPost = "checked";
+		$eff_Load="checked";
+		$eff_dom_load="";
+		$eff_asyncLoad="";
 		$eff_isOnPage = "";
 		$eff_isOnHome = "";
 		$eff_isCustom = "";
@@ -300,7 +288,14 @@
 			$eff_isJsonPresent = true;
 			$mye_plugin_visib = json_decode($mye_plugin_visib, true);
 			
-
+			if($mye_plugin_visib['load_on']){
+				if($mye_plugin_visib['load_on']=="async"){
+					$eff_asyncLoad="checked"; $eff_Load=""; $eff_dom_load="";
+				}
+				else if($mye_plugin_visib['load_on']=="dom"){
+					$eff_asyncLoad="";$eff_Load="";$eff_dom_load="checked";
+				}
+			}
 			if($mye_plugin_visib['isOnPost']){$eff_isOnPost = "checked";}else{$eff_isOnPost="";}
 			if($mye_plugin_visib['isOnPage']){$eff_isOnPage = "checked";}
 			if($mye_plugin_visib['isOnHome']){$eff_isOnHome = "checked";$eff_shCode_style="";}
@@ -329,14 +324,7 @@
 		}
 		$eff_custom_post_html .= "</span>";
 		
-		echo '<h2>
-				<center>
-					<a href="'.$hostString.'/dashboard-overview" target="_blank">Visit Dashboard</a> <br /><br />
-					
-					(PREVIEW-ONLY) <br>
-					Your default emotion set is 
-				</center>
-			</h2> '.$eff_json;
+		echo '<h2><center>Your Default Emotion-Set (Preview Mode)</center></h2>'.$eff_json;
 		echo '<h2>
 				<center>
 					<a class="effectoConfig button-primary" style="cursor:pointer;font-weight:bold;font-size: 20px;margin-bottom: 10px;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Default emotion set appears on all posts.">Reset</a>
@@ -350,27 +338,31 @@
 					<a class="effectoConfig button-primary" style="cursor:pointer;font-weight:bold;font-size: 20px;margin-bottom: 10px;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'&isWidget=true" title="Default emotion set appears on all posts.">Add Trending Widget</a>
 				</center>
 			</h2>
-			<hr style="border-color: #917F7F;">
-			<h3>
-				<center>
-					<h5 id="eff_p_opt" style="margin: 0;">Show plugin on :-
-						&nbsp;&nbsp;
-						<input type="checkbox" id="posts" name="postType" '.$eff_isOnPost.' />Posts
-						&nbsp;&nbsp;
-						<input type="checkbox" id="pages" name="postType" '.$eff_isOnPage.' />Pages/ Articles
-						&nbsp;&nbsp;
-						<input type="checkbox" id="home" name="postType" '.$eff_isOnHome.' />Home Page
-						&nbsp;&nbsp;
-						<input type="checkbox" id="custom" name="postType" '.$eff_isCustom.' />Custom Posts
-						&nbsp;&nbsp;
+			<hr style="border-color: #B3B3B3;">
+			<h2 align="center">More Settings</h2>
+				<div style="margin-top:5px;"><style>.m_hp{cursor:pointer;margin-left:5px;} mye_chk{margin-right:8px;} .mye_fset > span{margin-right:35px;} .mye_fset{border: 1px solid #DBDBDB;padding: 15px;} .mye_leg{font-weight:600;width:auto;font-size:15px;}</style>
+					<form>
+						<fieldset class="mye_fset" style="margin-bottom:20px">
+							<legend class="mye_leg">Show plugin on</legend>
+							<span><input class="mye_chk" type="checkbox" id="posts" name="postType" '.$eff_isOnPost.' />Posts</span>
+							<span><input class="mye_chk" type="checkbox" id="pages" name="postType" '.$eff_isOnPage.' />Pages/ Articles</span>
+							<span><input class="mye_chk" type="checkbox" id="home" name="postType" '.$eff_isOnHome.' />Home Page</span>
+							<span><input class="mye_chk" type="checkbox" id="custom" name="postType" '.$eff_isCustom.' />Custom Posts</span>
+						</fieldset>
+						<fieldset class="mye_fset">
+							<legend class="mye_leg">Plugin Loading</legend>
+							<span><input class="mye_chk m_lod" type="radio" value="sync" name="p_load" '.$eff_Load.' />With Page Load<a onclick="alert(\'Note : Loads plugin along with post/page.\nWith minimum delay in page load.\')" class="m_hp">(?)</a></span>
+							<span><input class="mye_chk m_lod" type="radio" value="dom" name="p_load" '.$eff_dom_load.' />After HTML Load<a onclick="alert(\'Note : Loads plugin after HTML content in page has loaded. With partial delay in plugin load.\')" class="m_hp">(?)</a></span>
+							<span><input class="mye_chk m_lod" type="radio" value="async" name="p_load" '.$eff_asyncLoad.' />After Full Page Load<a onclick="alert(\'Note : Enabling this option gives priority to page/post load.\ni.e loads plugin after page is loaded\')" class="m_hp">(?)</a></span>
+						</fieldset>
+					</form>
 						'.$eff_custom_post_html.'
-						<button style="font-size: 15px;margin-top:10px;cursor:pointer;" id="eff_visib">Save</button>
-					</h5>
+					<center>
+					<button style="font-size: 15px;margin-top:10px;cursor:pointer;" class="button-primary" id="eff_visib">Save Settings</button>
 					<p id="eff_msg" style="display:none;font-size: 14px;"></p>
 					<p id="eff_shCode" style="'.$eff_shCode_style.'">Copy <span style="font-size: 18px;background-color: #fff;padding: 6px;color: rgb(127, 128, 124);">[effecto-bar]</span> shortcode and paste in homepage where required</p>
-					<br />
-				</center>
-			</h3>';
+					</center>					
+			</div>';
 		?>
 			<script type="text/javascript" >
 				jQuery("#eff_visib").click(function() {
@@ -378,7 +370,7 @@
 					var eff_isPage = jQuery("#pages").is(":checked");
 					var eff_isHome = jQuery("#home").is(":checked");
 					var eff_isCustom = jQuery("#custom").is(":checked");
-
+					var lod_on=jQuery(".m_lod:checked").val();
 					var eff_custom_list = {};
 					if (eff_isCustom) {
 						jQuery("input[class=eff_customPostList]:checked").each(function() {
@@ -394,13 +386,13 @@
 
 					eff_msg_ele.show();
 					eff_msg_ele.html("Saving......");
-					var data = {
-						'action': 'mye_update_view',
+					var data = {'action': 'mye_update_view',
 						'isPost': eff_isPost,
 						'isPage': eff_isPage,
 						'isHome': eff_isHome,
 						'isCustom': eff_isCustom,
 						'eff_custom_list': eff_custom_list,
+						'load_on':lod_on,
 					};
 
 					// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
@@ -428,6 +420,7 @@
 		$eff_isOnHome = $_POST['isHome'];
 		$eff_isCustom = $_POST['isCustom'];
 		$eff_custom_list = $_POST['eff_custom_list'];
+		$load_on=$_POST['load_on'];
 		
 		$escapers = array("\\");
 		$replacements = array("");
@@ -436,7 +429,7 @@
 		// error_log($eff_custom_list." and ".$result);
 		
 
-		update_option('mye_plugin_visib', '{"isOnPost":'.$eff_isOnPost.', "isOnPage":'.$eff_isOnPage.', "isOnHome":'.$eff_isOnHome.', "isOnCustom":'.$eff_isCustom.', "isOnCustomList":'.$eff_custom_list.'}');
+		update_option('mye_plugin_visib', '{"load_on":"'.$load_on.'","isOnPost":'.$eff_isOnPost.', "isOnPage":'.$eff_isOnPage.', "isOnHome":'.$eff_isOnHome.', "isOnCustom":'.$eff_isCustom.', "isOnCustomList":'.$eff_custom_list.'}');
 
 		wp_die(); // this is required to terminate immediately and return a proper response
 	}

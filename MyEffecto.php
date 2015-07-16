@@ -33,13 +33,13 @@ function ttt_wpmdr_add_action_plugin( $actions, $plugin_file )
 }
 
 /* ------------------------------------------------------------- */
-$hostString="http://www.myeffecto.com";
+/*$hostString="http://www.myeffecto.com";
 $myeJSLoc="js";
-$myeCDN ="//cdn-files.appspot.com";
+$myeCDN ="//cdn-files.appspot.com";*/
 
-/* $hostString="http://localhost:8888";
- $myeCDN =$hostString;
- $myeJSLoc="p-js";*/
+$hostString="http://localhost:8888";
+$myeCDN =$hostString;
+$myeJSLoc="p-js";
 /* ------------------------------------------------------------- */
 $embedCode = null;
 $eff_ssl_host = "https://myeffecto.appspot.com";
@@ -451,7 +451,7 @@ function myeffecto_admin() {
 		$eff_isOnPage = false;
 		$eff_isOnCustom = false;
 		$eff_isPreview = is_preview();
-
+		$eff_loadtype = "";
 		$eff_height = "";
 		if ($eff_isPreview) {
 			eff_applyMinHeight();
@@ -459,10 +459,10 @@ function myeffecto_admin() {
 		
 		if (isset($mye_plugin_visib) && $mye_plugin_visib) {
 			$mye_plugin_visib = json_decode($mye_plugin_visib, true);
-
 			if($mye_plugin_visib['isOnPost']){$eff_isOnPost = true;}else{$eff_isOnPost = false;}
 			if($mye_plugin_visib['isOnPage']){$eff_isOnPage = true;}
 			if($mye_plugin_visib['isOnCustom']){$eff_isOnCustom = true;}
+			if($mye_plugin_visib['load_on']){$eff_loadtype=$mye_plugin_visib['load_on'];}
 		}
 
 		$cur_post_typ = get_post_type(get_the_ID());
@@ -492,24 +492,34 @@ function myeffecto_admin() {
 			}
 
 			if($effisPageOrPost) {
-				// wp_enqueue_script("wp-mye-load",$myeCDN."/".$myeJSLoc."/mye-wp-load.js",null,null,false);
-
 				//User Info
 				global $myeCDN;
 				global $myeJSLoc;
-
-				$myeJson = getEffectoDataJSON();
-				$eff_json = "<div id='effecto_bar' V='1.8' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>
-							<script id='effectp-code' src='https://1-ps.googleusercontent.com/xk/L66fZog1l-dbbe1GxD7gjIXP94/s.cdn-files.appspot.com/cdn-files.appspot.com/js/mye-wp.js.pagespeed.jm.7QLAn0uD4Dg9RsZl1qc9.js' onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"' type='text/javascript' async='true'></script>";
-                                
-                               /* $trend=get_option("trending_url");
-                                if(isset($trend) && !empty($trend)){
-                                    $arr=  explode("#@#",$trend);
-                                        if($arr[1]!="false"){
-                                            $eff_json.="<img src='".plugins_url( 'loading.gif' , __FILE__ )."' title='Activity Feed' alt=''/><h2>Activity Feed</h2><iframe id='effWidget' src='".$trend."' style='width:100%;height:300px;border:none;'></iframe>";
-                                        }
-                                }*/
-
+				$pageSpeed_script="https://1-ps.googleusercontent.com/xk/L66fZog1l-dbbe1GxD7gjIXP94/s.cdn-files.appspot.com/cdn-files.appspot.com/js/mye-wp.js.pagespeed.jm.7QLAn0uD4Dg9RsZl1qc9.js";
+				$myeJson=getEffectoDataJSON();
+				$eff_json="<div id='effecto_bar' V='1.8' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>";
+				if($eff_loadtype=="dom"){
+					$eff_json=$eff_json.'<script type="text/javascript">(function(){
+							var eMeth = window.addEventListener ? "addEventListener" : "attachEvent";
+							var loadEv = eMeth == "attachEvent" ? "onload" : "DOMContentLoaded";
+							window[eMeth](loadEv,function(){ var s=document.createElement("script");s.async = "true";
+							s.type = "text/javascript";';
+					$eff_json=$eff_json."s.src='".$pageSpeed_script."'; s.onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"';";
+					$eff_json=$eff_json.'var a=document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0];
+						a.appendChild(s);
+						},false);
+					})()</script>';
+				}else if($eff_loadtype=="async"){
+					$eff_json=$eff_json."<script type='text/javascript'>window.onload=function(){var s=document.createElement('script');
+					s.type='text/javascript';s.src ='".$pageSpeed_script."'";
+					$eff_json=$eff_json."s.onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"';";
+					$eff_json=$eff_json.'var a=document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0];a.appendChild(s);
+					}</script>';
+				}
+				else{
+					$eff_json=$eff_json."<script id='effectp-code' src='".$pageSpeed_script."' type='text/javascript' async='true'></script>";
+				}
+				
 				return $text.$eff_json;
 			}
 			else{
