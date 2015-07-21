@@ -32,7 +32,7 @@ MyEffecto helps in increasing  engagement and drives traffic of your blogs via a
 	1. **Blog Promotion :**
 	Blog promotion is done on our communities at social networking site based on blog categories we maintain communities on different 
 	verticals like startup,fashion,health,technology,sports and so on. User can also promote the blog post on their own social network 
-	by configuring the setting at [myefecto.com](http://www.myeffecto.com/login)
+	by configuring the setting at [myeffecto.com](http://www.myeffecto.com/login)
 	2. **Hashtag Marketing :**
 	We also do hashtag marketing of your blog post by running an alogrithem and identifying the best hast tag for your blog
 	before posting it into our communities
