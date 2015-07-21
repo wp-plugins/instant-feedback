@@ -205,8 +205,8 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 == Changelog ==
 = 1.0.61 =
-Advance Script non-blocking code, Enables to control the speed of the plugin without hindering other plugins
-Goto myeffecto setting to set plugin load speed
+Advance Script non-blocking code, Enables to control the speed of the plugin without hindering other plugins.
+Go to myeffecto setting to set plugin load speed.
 
 = 1.0.59 =
 Homepage shortcode fixed.
