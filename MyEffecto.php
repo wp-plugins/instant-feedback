@@ -48,6 +48,10 @@ function my_plugin_redirect() {
     }
 }
 
+function myplugin_update_db_check() {
+	createDefaultPlugin();
+}
+add_action( 'plugins_loaded', 'myplugin_update_db_check' );
 
 /* ------------------------------------------------------------- */
 $hostString="http://www.myeffecto.com";
