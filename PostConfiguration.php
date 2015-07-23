@@ -233,8 +233,15 @@
 		}
 	}
 
-	function createDefaultPlugin($embed){
-		if($embed==null || !isset($embed)){
+	function createDefaultPlugin(){
+		$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
+			$p_shortname="";
+			foreach($apiPluginDetailsArray as $detail) {
+				$p_shortname = $detail -> shortname;
+			}
+
+		if($p_shortname==null || !isset($p_shortname)){
+
 			global $hostString;
 			$args = array(
 				'body' => array('action' => 'defaultContent', 'email' => get_option( 'admin_email' ), 'site' => get_site_url()),
@@ -256,7 +263,7 @@
 	}
 
 	function allSetCode($allPostCode, $getPostTitle) {
-		createDefaultPlugin($allPostCode);
+		createDefaultPlugin();
 
 	    global $hostString, $eff_settings_page;
 
