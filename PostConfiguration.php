@@ -92,23 +92,7 @@
 					$eff_category = str_replace("'","\'", $eff_category);
 					$eff_tags = str_replace("'","\'", $eff_tags);
 					
-					$eff_json = "<div id='effecto_bar' 1 style='text-align:center;min-height:175px;'></div>
-						<script>
-							var eff_json = {
-								'ext_path':'".plugins_url( '' , __FILE__ )."',
-								'effecto_uniquename':'".$p_shortname."', 
-								'effectoPostId':'0',  
-								'effectoPreview': 'true', 
-								'effectoPagetitle':'".$getPostTitle."', 
-								'effectoPageurl':'".$wpSite.'?p='.$getPostID."', 
-								'effectoPublDate':'".$effDate_published."', 
-								'effectoAuthorName':'".$effectoAuthor."', 
-								'effectoCategory':'".$eff_category."', 
-								'effectoTags':'".$eff_tags."'
-							};
-						</script><script src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
-					
-
+					$eff_json = "<iframe src='".$hostString."/ep?s=".$p_shortname."&amp;ty=preview&amp;p=0&amp;post=".$getPostID."' width='100%' id='mye-E1C6TMQC8A-1121' frameborder='0' scrolling='no' style='width: 100%; border: 0px; overflow: hidden; clear: both; margin: 0px; height: 177px; background: transparent;' height='177px'></iframe>";
 					echo '<h2>
 						<center>
 							Your Default Emotion-Set (Preview Mode)
@@ -249,7 +233,31 @@
 		}
 	}
 
+	function createDefaultPlugin($embed){
+		if($embed==null || !isset($embed)){
+			global $hostString;
+			$args = array(
+				'body' => array('action' => 'defaultContent', 'email' => get_option( 'admin_email' ), 'site' => get_site_url()),
+			);
+			$resp = wp_remote_post($hostString.'/contentdetails', $args);
+			if ( is_wp_error( $resp ) ) {
+				echo print_r($resp);
+			}
+			else{
+				$eff_shortname= $resp["body"];
+				if(isset($eff_shortname) && !empty($eff_shortname)){
+					insertInMyEffectoDb('1', null, "<div>", null, $eff_shortname);		
+				}		
+			
+			}
+			
+			
+		}
+	}
+
 	function allSetCode($allPostCode, $getPostTitle) {
+		createDefaultPlugin($allPostCode);
+
 	    global $hostString, $eff_settings_page;
 
 		$shortname = "";
@@ -257,7 +265,8 @@
 		foreach($eff_details as $detail) {
 			$shortname = $detail -> shortname;
 		}
-		$eff_json = "<div id='effecto_bar'style='text-align:center;max-height:175px;'><iframe src='http://www.myeffecto.com/ep?s=".$shortname."&amp;ty=preview&amp;p=0' width='100%' id='mye-OIH4MBCB7F-239550' frameborder='0' scrolling='no' style='min-height:175px;width: 100%; border: 0px; overflow: hidden; clear: both; margin: 0px; background: transparent;'></iframe></div>";
+		$eff_json = "<div id='effecto_bar'style='text-align:center;max-height:175px;'>
+		<iframe src='".$hostString."/ep?s=".$shortname."&amp;ty=preview' width='100%' id='mye-OIH4MBCB7F-239550' frameborder='0' scrolling='no' style='min-height:175px;width: 100%; border: 0px; overflow: hidden; clear: both; margin: 0px; background: transparent;'></iframe></div>";
 		$mye_plugin_visib = get_option('mye_plugin_visib');
 		$eff_isJsonPresent = false;
 		$eff_isOnPost = "checked";
@@ -313,17 +322,19 @@
 		$eff_custom_post_html .= "</span>";
 		
 		echo '<h2><center>Your Default Emotion-Set (Preview Mode)</center></h2>'.$eff_json;
-		echo '<h2>
+		echo '<h2><style>.mye_btn{font-weight:bold;font-size: 18px !important;margin-bottom: 10px !important;padding-top: 5px !important;padding-bottom: 31px !important;}</style>
 				<center>
-					<a class="effectoConfig button-primary" style="cursor:pointer;font-weight:bold;font-size: 20px;margin-bottom: 10px;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Default emotion set appears on all posts.">Reset</a>
+					<a class="effectoConfig button-primary mye_btn" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Default emotion set appears on all posts.">New</a>
 					
 					<span style="font-size:15px;padding:0px 10px;">OR</span> 
 					
-					<a class="effectoConfig button-primary" style="cursor:pointer;font-weight:bold;font-size: 20px;margin-bottom: 10px;" href="'.$hostString.'/login?callback=plugin_editor&sname='.$shortname.'" target="_blank" title="Edit plugin styles">Edit</a>
+					<a class="effectoConfig button-primary mye_btn" href="'.$hostString.'/login?callback=plugin_editor&sname='.$shortname.'" target="_blank" title="Edit plugin styles">Edit-Exisiting</a>
 					
 					<span style="font-size:15px;padding:0px 10px;"> | </span>
 
-					<a class="effectoConfig button-primary" style="cursor:pointer;font-weight:bold;font-size: 20px;margin-bottom: 10px;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'&isWidget=true" title="Default emotion set appears on all posts.">Add Trending Widget</a>
+					<a class="effectoConfig button-primary mye_btn" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'&isWidget=true" title="Default emotion set appears on all posts.">Add Trending Widget</a>
+					<span style="font-size:15px;padding:0px 10px;"> | </span>
+					<a class="effectoConfig button-primary mye_btn" href="'.$hostString.'/dashboard-overview" target="_blank" title="Myeffecto Dashboard">Dashboard</a>
 				</center>
 			</h2>
 			<hr style="border-color: #B3B3B3;">
@@ -338,15 +349,15 @@
 							<span><input class="mye_chk" type="checkbox" id="custom" name="postType" '.$eff_isCustom.' />Custom Posts</span>
 						</fieldset>
 						<fieldset class="mye_fset">
-							<legend class="mye_leg">Plugin Loading</legend>
-							<span><input class="mye_chk m_lod" type="radio" value="sync" name="p_load" '.$eff_Load.' />With Page Load<a onclick="alert(\'Note : Loads plugin along with post/page.\nWith minimum delay in page load.\')" class="m_hp">(?)</a></span>
-							<span><input class="mye_chk m_lod" type="radio" value="dom" name="p_load" '.$eff_dom_load.' />After HTML Load<a onclick="alert(\'Note : Loads plugin after HTML content in page has loaded. With partial delay in plugin load.\')" class="m_hp">(?)</a></span>
-							<span><input class="mye_chk m_lod" type="radio" value="async" name="p_load" '.$eff_asyncLoad.' />After Full Page Load<a onclick="alert(\'Note : Enabling this option gives priority to page/post load.\ni.e loads plugin after page is loaded\')" class="m_hp">(?)</a></span>
+							<legend class="mye_leg">Plugin Performance</legend>
+							<span><input class="mye_chk m_lod" type="radio" value="sync" name="p_load" '.$eff_Load.' />Fast<a onclick="alert(\'Note : Loads plugin along with post/page.\nWith minimum delay in page load.\')" class="m_hp">(?)</a></span>
+							<span><input class="mye_chk m_lod" type="radio" value="dom" name="p_load" '.$eff_dom_load.' />Medium<a onclick="alert(\'Note : Loads plugin after HTML content in page has loaded. With partial delay in plugin load.\')" class="m_hp">(?)</a></span>
+							<span><input class="mye_chk m_lod" type="radio" value="async" name="p_load" '.$eff_asyncLoad.' />Slow<a onclick="alert(\'Note : Enabling this option gives priority to page/post load.\ni.e loads plugin after page is loaded\')" class="m_hp">(?)</a></span>
 						</fieldset>
 					</form>
 						'.$eff_custom_post_html.'
 					<center>
-					<button style="font-size: 15px;margin-top:10px;cursor:pointer;" class="button-primary" id="eff_visib">Save Settings</button>
+					<a href="#eff_msg" style="font-size: 15px;margin-top:10px;cursor:pointer;" class="button-primary" id="eff_visib">Save Settings</a>
 					<p id="eff_msg" style="display:none;font-size: 14px;"></p>
 					<p id="eff_shCode" style="'.$eff_shCode_style.'">Copy <span style="font-size: 18px;background-color: #fff;padding: 6px;color: rgb(127, 128, 124);">[effecto-bar]</span> shortcode and paste in homepage where required</p>
 					</center>					

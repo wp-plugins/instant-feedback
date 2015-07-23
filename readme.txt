@@ -32,7 +32,7 @@ MyEffecto helps in increasing  engagement and drives traffic of your blogs via a
 	1. **Blog Promotion :**
 	Blog promotion is done on our communities at social networking site based on blog categories we maintain communities on different 
 	verticals like startup,fashion,health,technology,sports and so on. User can also promote the blog post on their own social network 
-	by configuring the setting at [myeffecto.com](http://www.myeffecto.com/login)
+	by configuring the setting at [myefecto.com](http://www.myeffecto.com/login)
 	2. **Hashtag Marketing :**
 	We also do hashtag marketing of your blog post by running an alogrithem and identifying the best hast tag for your blog
 	before posting it into our communities
@@ -205,8 +205,8 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 == Changelog ==
 = 1.0.61 =
-Advance Script non-blocking code, Enables to control the speed of the plugin without hindering other plugins.
-Go to myeffecto setting to set plugin load speed.
+Advance Script non-blocking code, Enables to control the speed of the plugin without hindering other plugins
+Goto myeffecto setting to set plugin load speed
 
 = 1.0.59 =
 Homepage shortcode fixed.

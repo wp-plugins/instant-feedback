@@ -156,7 +156,8 @@ function myeffecto_admin() {
 							   </script>
 							<?php
 						} else {
-							echo "<h1><center>Your emoticon set has been added on your posts successfully.<br><br>Go to your post to see the effect.</center></h1>";
+							// After Plugin Config
+							exit( wp_redirect( admin_url( 'options-general.php?page=eff_conf_nav')));
 						}
 					}
 			} else {
@@ -202,8 +203,7 @@ function myeffecto_admin() {
 		z-index: 1000;
 	}
 </style>
-
-		<div class="wrap" style="overflow-x : hidden; position : relative;">
+	<div class="wrap" style="overflow-x : hidden; position : relative;">
 			<h2>MyEffecto Configure</h2>
 	<?php
 			global $embedCode;
@@ -232,7 +232,7 @@ function myeffecto_admin() {
 					$embedCode=$apiEmbedArray;
 
 					if (!isset($embedCode) || empty($embedCode)) {
-						$isFirstUser=true;
+						$isFirstUser=false;
 					} else {
 						$myeffectoArray['userID']=$user_id ;
 						//$myeffectoArray['apiKey']=$apiEmbedArray->apiKey;
@@ -241,17 +241,16 @@ function myeffecto_admin() {
 					}
 				}
 
-				if ($isFirstUser) {
+				if ($isFirstUser ||  $_GET['pluginType']=='defaultEdit') {
 					echoUserScript();
 					return;
 				}
+				else{
+					allSetCode($embedCode, null);
+				}
 			}
 
-			if (isset($embedCode) && !empty($embedCode) && (!isset($postURL) || empty($postURL))) {
-				allSetCode($embedCode, null);
-			} else {
-				echoUserScript();
-			}
+		
 	?>
 		</div>
 	<?php
@@ -357,19 +356,19 @@ function myeffecto_admin() {
 		}
 
 		configurationScript($shortname, $globalPostID, $postname);
-		/* src ="'.$hostString.'/register?callback=confgEmoji&outside=true&postTitle="+postTitle */
+		
 		echo '	var ifrm= null;
 				window.onload=function(){
                     var url=location.href;
 					ifrm = document.getElementById("effectoFrame");
                                         if(url.indexOf("true")>0){
-                                            ifrm.setAttribute("src", "'.$hostString.'/register?wp=1&callback=config_trend&outside=true&postTitle="+postTitle);
+                                            ifrm.setAttribute("src", "'.$hostString.'/auth?action=extAcess&from=wp&callback=config_trend");
                                             ifrm.onload=function(){ 
                                             ifrm.contentWindow.postMessage("init_effecto","'.$hostString.'"); 
                                             }
                                         }
                                         else{
-                                            ifrm.setAttribute("src", "'.$hostString.'/register?callback=confgEmoji&outside=true&postTitle="+postTitle);
+                                            ifrm.setAttribute("src", "'.$hostString.'/auth?action=extAcess&from=wp&callback=confgEmoji&l='.get_option('siteurl').'&email='.get_option('admin_email').'&uname='.get_option('blogname').'");
                                         }
 					window.addEventListener("message", rcvMyeMsg, false);
 				};
@@ -453,9 +452,6 @@ function myeffecto_admin() {
 		$eff_isPreview = is_preview();
 		$eff_loadtype = "";
 		$eff_height = "";
-		if ($eff_isPreview) {
-			eff_applyMinHeight();
-		}
 		
 		if (isset($mye_plugin_visib) && $mye_plugin_visib) {
 			$mye_plugin_visib = json_decode($mye_plugin_visib, true);
