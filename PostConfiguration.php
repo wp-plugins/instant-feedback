@@ -320,7 +320,9 @@
 			$eff_custom_post_html .= '<input type="checkbox" c-name="'.$eff_cName.'" '.$checked.' class="eff_customPostList"  />'.$post_type->label.'&nbsp;&nbsp;';
 		}
 		$eff_custom_post_html .= "</span>";
-		
+		/*<span style="font-size:15px;padding:0px 10px;"> | </span>
+
+					<a class="effectoConfig button-primary mye_btn" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'&isWidget=true" title="Default emotion set appears on all posts.">Add Trending Widget</a>*/
 		echo '<h2><center>Your Default Emotion-Set (Preview Mode)</center></h2>'.$eff_json;
 		echo '<h2><style>.mye_btn{font-weight:bold;font-size: 18px !important;margin-bottom: 10px !important;padding-top: 5px !important;padding-bottom: 31px !important;}</style>
 				<center>
@@ -329,10 +331,6 @@
 					<span style="font-size:15px;padding:0px 10px;">OR</span> 
 					
 					<a class="effectoConfig button-primary mye_btn" href="'.$hostString.'/login?callback=plugin_editor&sname='.$shortname.'" target="_blank" title="Edit plugin styles">Edit-Exisiting</a>
-					
-					<span style="font-size:15px;padding:0px 10px;"> | </span>
-
-					<a class="effectoConfig button-primary mye_btn" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'&isWidget=true" title="Default emotion set appears on all posts.">Add Trending Widget</a>
 					<span style="font-size:15px;padding:0px 10px;"> | </span>
 					<a class="effectoConfig button-primary mye_btn" href="'.$hostString.'/dashboard-overview" target="_blank" title="Myeffecto Dashboard">Dashboard</a>
 				</center>
