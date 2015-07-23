@@ -204,6 +204,9 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 
 == Changelog ==
+= 2.0 =
+Critcal update. Login removed for new myeffecto users.
+
 = 1.0.61 =
 Advance Script non-blocking code, Enables to control the speed of the plugin without hindering other plugins
 Goto myeffecto setting to set plugin load speed
