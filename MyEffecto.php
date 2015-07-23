@@ -32,6 +32,23 @@ function ttt_wpmdr_add_action_plugin( $actions, $plugin_file )
 	return $actions;
 }
 
+register_activation_hook(__FILE__, 'my_plugin_activate');
+add_action('admin_init', 'my_plugin_redirect');
+
+function my_plugin_activate() {
+    add_option('my_plugin_do_activation_redirect', true);
+}
+
+function my_plugin_redirect() {
+    if (get_option('my_plugin_do_activation_redirect', false)) {
+        delete_option('my_plugin_do_activation_redirect');
+         wp_redirect("options-general.php?page=eff_conf_nav");
+         //wp_redirect() does not exit automatically and should almost always be followed by exit.
+         exit;
+    }
+}
+
+
 /* ------------------------------------------------------------- */
 $hostString="http://www.myeffecto.com";
 $myeJSLoc="js";
