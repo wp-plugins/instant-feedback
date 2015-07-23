@@ -493,7 +493,7 @@ function myeffecto_admin() {
 				global $myeJSLoc;
 				$pageSpeed_script="https://1-ps.googleusercontent.com/xk/L66fZog1l-dbbe1GxD7gjIXP94/s.cdn-files.appspot.com/cdn-files.appspot.com/js/mye-wp.js.pagespeed.jm.7QLAn0uD4Dg9RsZl1qc9.js";
 				$myeJson=getEffectoDataJSON();
-				$eff_json="<div id='effecto_bar' V='1.8' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>";
+				$eff_json="<div id='effecto_bar' V='2.0' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>";
 				if($eff_loadtype=="dom"){
 					$eff_json=$eff_json.'<script type="text/javascript">(function(){
 							var eMeth = window.addEventListener ? "addEventListener" : "attachEvent";
