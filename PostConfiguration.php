@@ -92,7 +92,7 @@
 					$eff_category = str_replace("'","\'", $eff_category);
 					$eff_tags = str_replace("'","\'", $eff_tags);
 					
-					$eff_json = "<iframe src='".$hostString."/ep?s=".$p_shortname."&amp;ty=preview&amp;p=0&amp;post=".$getPostID."' width='100%' id='mye-E1C6TMQC8A-1121' frameborder='0' scrolling='no' style='width: 100%; border: 0px; overflow: hidden; clear: both; margin: 0px; height: 177px; background: transparent;' height='177px'></iframe>";
+					$eff_json = "<iframe src='".$hostString."/ep?s=".$p_shortname."&amp;ty=preview&amp;p=".$getPostID."' width='100%' id='mye-E1C6TMQC8A-1121' frameborder='0' scrolling='no' style='width: 100%; border: 0px; overflow: hidden; clear: both; margin: 0px; height: 177px; background: transparent;' height='177px'></iframe>";
 					echo '<h2>
 						<center>
 							Your Default Emotion-Set (Preview Mode)
@@ -113,7 +113,7 @@
 			}
 			echo '<h2 style="margin-top:-16px;">
 					<center>
-						<a class="effectoConfig" style="cursor:pointer;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postID='.$getPostID.'&postName='.$wpSite.'&shortname='.$p_shortname.'&pluginType=postAdd&postURL='.$postUrl.'?post='.$getPostID.'">You can aslo configure different set for this post.</a>
+						<a class="effectoConfig button-primary" style="font-size: 20px;padding: 5px 15px;padding-bottom: 30px;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postID='.$getPostID.'&postName='.$wpSite.'&shortname='.$p_shortname.'&pluginType=postAdd&postURL='.$postUrl.'?post='.$getPostID.'">Confiure New Plugin For this Post</a>
 					</center>
 				</h2>';
 		} else {
@@ -131,27 +131,14 @@
 			$getPostTitle = str_replace("'","\'", $getPostTitle);
 			$eff_category = str_replace("'","\'", $eff_category);
 			$eff_tags = str_replace("'","\'", $eff_tags);
-
-				$eff_json = "<div id='effecto_bar' 2 style='text-align:center;min-height:175px;'></div>
-						<script>
-							var eff_json = {
-								'ext_path':'".plugins_url( '' , __FILE__ )."',
-								'effecto_uniquename':'".$p_shortname."', 
-								'effectoPostId':'0',  
-								'effectoPreview': 'true', 
-								'effectoPagetitle':'".$getPostTitle."', 
-								'effectoPageurl':'".$wpSite.'?p='.$getPostID."', 
-								'effectoPublDate':'".$effDate_published."', 
-								'effectoAuthorName':'".$effectoAuthor."', 
-								'effectoCategory':'".$eff_category."', 
-							};
-						</script><script src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
+			$eff_json = $eff_json."<iframe src='".$hostString."/ep?s=".$p_shortname."&amp;ty=preview&amp;p=".$getPostID."' width='100%' id='mye-E1C6TMQC8A-1121' frameborder='0' scrolling='no' style='width: 100%; border: 0px; overflow: hidden; clear: both; margin: 0px; height: 177px; background: transparent;' height='177px'></iframe>";
+				
 					
-			echo '<h2><center>Your Default Emotion-Set (Preview Mode)</center></h2>'.$eff_json;
+			echo '<h2><center>Emotion-Set Configured only for this post</center></h2>'.$eff_json;
 			echo '<h2>
 					<center>
-						<a class="effectoConfig" style="cursor:pointer;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postID='.$getPostID.'&postName='.$wpSite.'&pluginType=postEdit&postURL='.$_SERVER['REQUEST_URI'].'?post_id='.$getPostID.'&shortname='.$p_shortname.'">Change emotion set of this post</a>
-					<center>
+						<a class="effectoConfig button-primary" style="font-size: 20px;padding: 5px 15px;padding-bottom: 30px;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postID='.$getPostID.'&postName='.$wpSite.'&shortname='.$p_shortname.'&pluginType=postAdd&postURL='.$postUrl.'?post='.$getPostID.'">Confiure New Plugin For this Post</a>
+					</center>
 				</h2>';
 		}
 		//showEffModal();
@@ -253,6 +240,7 @@
 			else{
 				$eff_shortname= $resp["body"];
 				if(isset($eff_shortname) && !empty($eff_shortname)){
+					$eff_shortname=trim($eff_shortname);
 					insertInMyEffectoDb('1', null, "<div>", null, $eff_shortname);		
 				}		
 			
@@ -273,9 +261,15 @@
 			$shortname = $detail -> shortname;
 		}
 		
-
-		$eff_json = "<div id='effecto_bar'style='text-align:center;max-height:175px;'>
-		<iframe src='".$hostString."/ep?s=".$shortname."&amp;ty=preview&amp;admin=1&amp;email=".get_option('admin_email')."&amp;l=".get_option('siteurl')."' width='100%' id='mye-OIH4MBCB7F-239550' frameborder='0' scrolling='no' style='min-height:175px;width: 100%; border: 0px; overflow: hidden; clear: both; margin: 0px; background: transparent;'></iframe></div>";
+		$eff_json = "<div id='effecto_bar'style='text-align:center;max-height:175px;position:relative;'>";
+		if(isset($hostString) && !empty($hostString)){
+		$eff_json = $eff_json."<div id='load'></div><script>function delLoad(){var i=document.getElementById('load'); i.parentNode.removeChild(i);}</script><iframe onload='delLoad();' src='".$hostString."/ep?s=".$shortname."&amp;ty=preview&amp;admin=1&amp;email=".get_option('admin_email')."&amp;l=".get_option('siteurl')."' width='100%' id='mye-OIH4MBCB7F-239550' frameborder='0' scrolling='no' style='min-height:175px;width: 100%; border: 0px; overflow: hidden; clear: both; margin: 0px; background: transparent;'></iframe>";	
+		}
+		else{
+		$eff_json = $eff_json.'<div style="padding: 15px 0px;font-size: 21px;border: 1px solid;border-color: #D6D6D6;color: #B3B1B1;margin: 15px 0px;line-height: 32px;">No Default Plugin Found.<br>Please Create New Plugin!</div>';	
+		}
+		
+		$eff_json = $eff_json."</div>";
 		$mye_plugin_visib = get_option('mye_plugin_visib');
 		$eff_isJsonPresent = false;
 		$eff_isOnPost = "checked";

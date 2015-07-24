@@ -3,7 +3,7 @@
 Plugin Name: MyEffecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 2.0
+Version: 1.0.61
 Author: MyEffecto
 Author URI: www.myeffecto.com
 */
@@ -220,9 +220,10 @@ function myeffecto_admin() {
 		z-index: 1000;
 	}
 </style>
+
 	<div class="wrap" style="overflow-x : hidden; position : relative;">
-			<h2>MyEffecto Configure</h2>
-	<?php
+<h2 style="float:left;">MyEffecto Configure</h2>
+		<?php
 			global $embedCode;
 			$apiKey=null;
 			$myeffectoArray = array();
@@ -258,7 +259,7 @@ function myeffecto_admin() {
 					}
 				}
 
-				if ($isFirstUser ||  $_GET['pluginType']=='defaultEdit') {
+				if ($isFirstUser ||  $_GET['pluginType']=='defaultEdit' || $_GET['pluginType']=='postAdd' ) {
 					echoUserScript();
 					return;
 				}
@@ -333,22 +334,22 @@ function myeffecto_admin() {
                                 }
 
 				function showButtonCode(shortname) {
-					jQuery(\'#generate\').remove();
+                    jQuery(\'#generate\').remove();
 
-					if (shortname === null) {
-					    shortname="";
-						jQuery(\'#effectoFrame\').after(jQuery(\'<center><h3><input type="button" id="generate"  value="Apply Emotion Set" style="font-size : 22px; padding-top : 7px; padding-bottom : 30px;" class="button-primary" /></h3></center>\'));
-					}
+                    if (shortname === null) {
+                        shortname="";
+                        jQuery(\'#effectoFrame\').before(jQuery(\'<h3 style="float:right;"><input type="button" id="generate" 1  value="Done!" style="font-size: 22px;margin-right: 15px;margin-top: -15px;;padding: 7px 28px;padding-bottom: 34px;" class="button-primary" /></h3>\'));
+                    }
                                         else if(shortname === "no"){return;}
                                         else {
-						jQuery(\'#effectoFrame\').after(jQuery(\'<center><h3><input type="button" id="generate" value="Apply Emotion Set" style="font-size : 22px; padding-top : 7px; padding-bottom : 30px;" class="button-primary" /></h3></center>\'));
-					}
-					
-					jQuery("#generate").click(function(){
-							save(shortname);
-						
-					});
-				}
+                        jQuery(\'#effectoFrame\').before(jQuery(\'<h3 style="float:right;"><input type="button" id="generate" 2 value="Done!" style="font-size: 22px;margin-right: 15px;margin-top: -15px;;padding: 5px 25px;padding-bottom: 33px;" class="button-primary" /></h3>\'));
+                    }
+                    
+                    jQuery("#generate").click(function(){
+                            save(shortname);
+                        
+                    });
+                }
 
 				function afterLoginSuccess() {
 					ifrm.setAttribute("src", "'.$hostString.'/confgEmoji?outside=true&postTitle=" + postTitle);
