@@ -181,20 +181,20 @@ function myeffecto_admin() {
 				insertInMyEffectoDb($user_id, null, $data, $postID, $eff_shortname);
 				?>
 					<script type="text/javascript">
-				   <!--
+				  
 						window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
-				   //-->
+				   
 				   </script>
 				<?php
 			}
 		} else {
 			$addType = $_GET['pluginType'];
-			if ($addType == "postEdit") {
-					
-					updateMyeffectoEmbedCode($data, $postID, $eff_shortname);
-				
-					//refresh code
-				
+			if ($addType == "postAdd") {
+					updateMyeffectoEmbedCode(null, $postID, $eff_shortname);
+					?>
+					<script type="text/javascript">
+						window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;</script>
+				<?php
 			}
 		}
 	 }else if(isset($eff_trending_url) && !empty($eff_trending_url)) {
@@ -352,7 +352,7 @@ function myeffecto_admin() {
                 }
 
 				function afterLoginSuccess() {
-					ifrm.setAttribute("src", "'.$hostString.'/confgEmoji?outside=true&postTitle=" + postTitle);
+					ifrm.setAttribute("src", "'.$hostString.'/confgEmoji?l='.get_option('siteurl').'outside=true&postTitle=" + postTitle);
 				}';
 	}
 
@@ -576,7 +576,6 @@ function myeffecto_admin() {
                 $trendyFrame="";
          
                 $trendy=get_option("trending_url");
-				// error_log("trendy ".$trendy);
 				if(isset($trendy) && !empty($trendy)){
 					$trendyFrame="<iframe id='effWidget' src='".$trendy."' style='width:100%;height:300px;border:none;overflow: hidden;' scrolling='no'></iframe>";
                 }

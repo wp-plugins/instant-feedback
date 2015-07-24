@@ -5,7 +5,7 @@ Plugin URL: https://wordpress.org/plugins/instant-feedback/
 Donate link: http://www.myeffecto.com/contact
 Tags: comments,emotion,feedback,feeling,mood,sentiment,widget,traffic,rate,rating,engage,visitors,images,emoticons,recommendation,post,shortcode,SEO
 Requires at least: 3.5
-Tested up to: 4.2.2
+Tested up to: 4.1.1
 Stable tag: 1.0.46
 
 Myeffecto provides an emotion-based widget, which helps to increase the Blog Engagement and Traffic simultaneously.

@@ -113,7 +113,7 @@
 			}
 			echo '<h2 style="margin-top:-16px;">
 					<center>
-						<a class="effectoConfig button-primary" style="font-size: 20px;padding: 5px 15px;padding-bottom: 30px;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postID='.$getPostID.'&postName='.$wpSite.'&shortname='.$p_shortname.'&pluginType=postAdd&postURL='.$postUrl.'?post='.$getPostID.'">Confiure New Plugin For this Post</a>
+						<a class="effectoConfig button-primary" style="font-size: 20px;padding: 5px 15px;padding-bottom: 30px;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postID='.$getPostID.'&postName='.$wpSite.'&shortname='.$p_shortname.'&pluginType=postAdd&postURL='.urlencode($postUrl).'?post='.$getPostID.'">Confiure New Plugin For this Post</a>
 					</center>
 				</h2>';
 		} else {
@@ -137,7 +137,7 @@
 			echo '<h2><center>Emotion-Set Configured only for this post</center></h2>'.$eff_json;
 			echo '<h2>
 					<center>
-						<a class="effectoConfig button-primary" style="font-size: 20px;padding: 5px 15px;padding-bottom: 30px;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postID='.$getPostID.'&postName='.$wpSite.'&shortname='.$p_shortname.'&pluginType=postAdd&postURL='.$postUrl.'?post='.$getPostID.'">Confiure New Plugin For this Post</a>
+						<a class="effectoConfig button-primary" style="font-size: 20px;padding: 5px 15px;padding-bottom: 30px;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postID='.$getPostID.'&postName='.$wpSite.'&shortname='.$p_shortname.'&pluginType=postAdd&postURL='.urlencode($postUrl).'?post='.$getPostID.'">Confiure New Plugin For this Post</a>
 					</center>
 				</h2>';
 		}
