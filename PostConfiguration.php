@@ -272,8 +272,10 @@
 		foreach($eff_details as $detail) {
 			$shortname = $detail -> shortname;
 		}
+		
+
 		$eff_json = "<div id='effecto_bar'style='text-align:center;max-height:175px;'>
-		<iframe src='".$hostString."/ep?s=".$shortname."&amp;ty=preview' width='100%' id='mye-OIH4MBCB7F-239550' frameborder='0' scrolling='no' style='min-height:175px;width: 100%; border: 0px; overflow: hidden; clear: both; margin: 0px; background: transparent;'></iframe></div>";
+		<iframe src='".$hostString."/ep?s=".$shortname."&amp;ty=preview&amp;admin=1&amp;email=".get_option('admin_email')."&amp;l=".get_option('siteurl')."' width='100%' id='mye-OIH4MBCB7F-239550' frameborder='0' scrolling='no' style='min-height:175px;width: 100%; border: 0px; overflow: hidden; clear: both; margin: 0px; background: transparent;'></iframe></div>";
 		$mye_plugin_visib = get_option('mye_plugin_visib');
 		$eff_isJsonPresent = false;
 		$eff_isOnPost = "checked";
@@ -330,14 +332,15 @@
 		/*<span style="font-size:15px;padding:0px 10px;"> | </span>
 
 					<a class="effectoConfig button-primary mye_btn" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'&isWidget=true" title="Default emotion set appears on all posts.">Add Trending Widget</a>*/
+			
 		echo '<h2><center>Your Default Emotion-Set (Preview Mode)</center></h2>'.$eff_json;
 		echo '<h2><style>.mye_btn{font-weight:bold;font-size: 18px !important;margin-bottom: 10px !important;padding-top: 5px !important;padding-bottom: 31px !important;}</style>
 				<center>
-					<a class="effectoConfig button-primary mye_btn" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Default emotion set appears on all posts.">Create New</a>
+					<a class="effectoConfig button-primary mye_btn" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Configure New Plugin for your blog">Create New</a>
 					
 					<span style="font-size:15px;padding:0px 10px;">OR</span> 
 					
-					<a class="effectoConfig button-primary mye_btn" href="'.$hostString.'/login?callback=plugin_editor&sname='.$shortname.'" target="_blank" title="Edit plugin styles">Edit-Exisiting</a>
+					<a class="effectoConfig button-primary mye_btn" href="'.$hostString.'/login?callback=plugin_editor&sname='.$shortname.'" target="_blank" title="Edit/Update existing default Emotion-Set">Edit-Exisiting</a>
 					<span style="font-size:15px;padding:0px 10px;"> | </span>
 					<a class="effectoConfig button-primary mye_btn" href="'.$hostString.'/dashboard-overview" target="_blank" title="Myeffecto Dashboard">Dashboard</a>
 				</center>
@@ -369,7 +372,7 @@
 			</div>';
 		?>
 			<script type="text/javascript" >
-				jQuery("#eff_visib").click(function() {
+			jQuery("#eff_visib").click(function() {
 					var eff_isPost = jQuery("#posts").is(":checked");
 					var eff_isPage = jQuery("#pages").is(":checked");
 					var eff_isHome = jQuery("#home").is(":checked");
