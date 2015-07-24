@@ -333,7 +333,7 @@
 		echo '<h2><center>Your Default Emotion-Set (Preview Mode)</center></h2>'.$eff_json;
 		echo '<h2><style>.mye_btn{font-weight:bold;font-size: 18px !important;margin-bottom: 10px !important;padding-top: 5px !important;padding-bottom: 31px !important;}</style>
 				<center>
-					<a class="effectoConfig button-primary mye_btn" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Default emotion set appears on all posts.">New</a>
+					<a class="effectoConfig button-primary mye_btn" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Default emotion set appears on all posts.">Create New</a>
 					
 					<span style="font-size:15px;padding:0px 10px;">OR</span> 
 					
