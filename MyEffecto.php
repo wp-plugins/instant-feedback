@@ -3,7 +3,7 @@
 Plugin Name: MyEffecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 2.0
+Version: 2.1
 Author: MyEffecto
 Author URI: www.myeffecto.com
 */
@@ -148,7 +148,7 @@ function myeffecto_admin() {
 		
 		if (isset($isCodeExistArray)) {
 			foreach($isCodeExistArray as $detail) {
-				$isCodeExist = $detail -> embedCode;
+				$isCodeExist = $detail -> shortname;
 			}
 		}
 		if ($isCodeExist == null) {
@@ -222,7 +222,6 @@ function myeffecto_admin() {
 </style>
 
 	<div class="wrap" style="overflow-x : hidden; position : relative;">
-<h2 style="float:left;">MyEffecto Configure</h2>
 		<?php
 			global $embedCode;
 			$apiKey=null;
@@ -335,20 +334,18 @@ function myeffecto_admin() {
 
 				function showButtonCode(shortname) {
                     jQuery(\'#generate\').remove();
-
-                    if (shortname === null) {
-                        shortname="";
-                        jQuery(\'#effectoFrame\').before(jQuery(\'<h3 style="float:right;"><input type="button" id="generate" 1  value="Done!" style="font-size: 22px;margin-right: 15px;margin-top: -15px;;padding: 7px 28px;padding-bottom: 34px;" class="button-primary" /></h3>\'));
+                    var efrm=jQuery(\'#effectoFrame\');
+                    var init=efrm.attr("w-init")!="1";
+                    if (shortname === "no") {
+                     return;
+                	 }else {
+                	 	if(init){
+                        efrm.before(jQuery(\'<h2 style="float:left;">Myeffecto Configure</h2>\'));
+                        efrm.attr("w-init","1"); 
+                    	}
+                     efrm.before(jQuery(\'<h3 style="float:right;"><input type="button" id="generate" 2 value="Finish!" style="font-size: 22px;margin-right: 15px;margin-top: -15px;;padding: 5px 25px;padding-bottom: 33px;" class="button-primary" /></h3>\'));
+                     jQuery("#generate").click(function(){save(shortname);});
                     }
-                                        else if(shortname === "no"){return;}
-                                        else {
-                        jQuery(\'#effectoFrame\').before(jQuery(\'<h3 style="float:right;"><input type="button" id="generate" 2 value="Done!" style="font-size: 22px;margin-right: 15px;margin-top: -15px;;padding: 5px 25px;padding-bottom: 33px;" class="button-primary" /></h3>\'));
-                    }
-                    
-                    jQuery("#generate").click(function(){
-                            save(shortname);
-                        
-                    });
                 }
 
 				function afterLoginSuccess() {
@@ -510,9 +507,9 @@ function myeffecto_admin() {
 				//User Info
 				global $myeCDN;
 				global $myeJSLoc;
-				$pageSpeed_script="https://1-ps.googleusercontent.com/xk/L66fZog1l-dbbe1GxD7gjIXP94/s.cdn-files.appspot.com/cdn-files.appspot.com/js/mye-wp.js.pagespeed.jm.7QLAn0uD4Dg9RsZl1qc9.js";
+				$pageSpeed_script="//1-ps.googleusercontent.com/xk/L66fZog1l-dbbe1GxD7gjIXP94/s.cdn-files.appspot.com/cdn-files.appspot.com/js/mye-wp.js.pagespeed.jm.7QLAn0uD4Dg9RsZl1qc9.js";
 				$myeJson=getEffectoDataJSON();
-				$eff_json="<div id='effecto_bar' V='2.0' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>";
+				$eff_json="<div id='effecto_bar' V='2.1' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>";
 				if($eff_loadtype=="dom"){
 					$eff_json=$eff_json.'<script type="text/javascript">(function(){
 							var eMeth = window.addEventListener ? "addEventListener" : "attachEvent";

@@ -204,6 +204,9 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 
 == Changelog ==
+= 2.1
+Bug Fixes and small UI changes
+
 = 2.0 =
 Critcal update. Login removed for new myeffecto users.
 
@@ -299,33 +302,7 @@ Place plugin anywhere inside post using [effecto-bar] shortcode
 
 * Plugin load optimized.
 
-= 1.0.20 =
 
-* Bug Fixes done.
-
-= 1.0.19 =
-
-* Recommends contents according to your post category.
-
-= 1.0.18 =
-
-* Removed unnecessary included scripts and styles from posts and other pages.
-
-= 1.0.17 =
-
-* Minor Bug Fixes.
-
-= 1.0.16 =
-
-* Plugin creation for posts with published date before 1st Dec., 2012 is disabled for now.
-
-= 1.0.15 =
-
-* Some minor bug fixes.
-
-= 1.0.14 =
-
-* Some login related issued fixes.
 
 == Upgrade notice ==
 
