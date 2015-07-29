@@ -189,7 +189,7 @@
 		}
 	}
 
-	function createDefaultPlugin(){
+/*	function createDefaultPlugin(){
 		$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
 			$p_shortname="";
 			foreach($apiPluginDetailsArray as $detail) {
@@ -214,29 +214,46 @@
 				}		
 			
 			}
-			
-			
 		}
-	}
+	}*/
 
 	function allSetCode($allPostCode, $getPostTitle) {
-		createDefaultPlugin();
-
-	    global $hostString, $eff_settings_page;
+		global $hostString, $eff_settings_page;
 
 		$shortname = "";
 		$eff_details = getMyEffectoPluginDetails(0);
 		foreach($eff_details as $detail) {
-			$shortname = $detail -> shortname;
+			$shortname=$detail -> shortname;
 		}
+
+		$prev_ifrm_url=$hostString."/ep?ty=preview&s=";
+		if($shortname==null || !isset($shortname)){
+			echo "<script type='text/javascript'>
+			var eMeth=window.addEventListener ? 'addEventListener':'attachEvent';
+			var msgEv = eMeth == 'attachEvent' ? 'onmessage' : 'message';var detect = window[eMeth];
+			 detect(msgEv,mye_logHandle,false);
+			 function mye_logHandle(e){
+			 	 var m = e.data;
+			 	 if(e.origin=='".$hostString."' && m.indexOf('mye_log')>-1){
+			 	 	m=m.split('#');
+			 	 	jQuery('#load').css('display','');
+			 	 	document.getElementById('mye_prev_frame').src='".$prev_ifrm_url."'+m[1]; 
+			 	 	var data = {'action': 'mye_sname_store','s':m[1]};
+			 	 	jQuery.post(ajaxurl, data);
+			 	 }
+			 }
+			</script>";
+	    }
+		$ad_email=urlencode (get_option('admin_email'));
+		$b_url=urlencode (get_option('siteurl'));
+		echo "<div style='display:none;'><iframe id='mye_logHandle' src='".$hostString."/mye_log?s=".$shortname."&amp;email=".$ad_email."&amp;l=".$b_url."'></iframe></div>";
 		
-		$eff_json = "<div id='effecto_bar'style='text-align:center;max-height:175px;position:relative;'>";
-		if(isset($shortname) && !empty($shortname)){
-		$eff_json = $eff_json."<div id='load'></div><script>function delLoad(){var i=document.getElementById('load'); i.parentNode.removeChild(i);}</script><iframe onload='delLoad();' src='".$hostString."/ep?s=".$shortname."&amp;ty=preview&amp;admin=1&amp;email=".get_option('admin_email')."&amp;l=".get_option('siteurl')."' width='100%' id='mye-OIH4MBCB7F-239550' frameborder='0' scrolling='no' style='min-height:175px;width: 100%; border: 0px; overflow: hidden; clear: both; margin: 0px; background: transparent;'></iframe>";	
-		}
-		else{
-		$eff_json = $eff_json.'<div style="padding: 15px 0px;font-size: 21px;border: 1px solid;border-color: #D6D6D6;color: #B3B1B1;margin: 15px 0px;line-height: 32px;">No Default Plugin Found.<br>Please Create New Plugin!</div>';	
-		}
+		$eff_json ="<div id='effecto_bar'style='text-align:center;max-height:175px;position:relative;'>";
+		
+		$eff_json = $eff_json."<div id='wp_mye_preview'><div id='load'></div><script>function delLoad(){jQuery('#load').css('display','none');}</script>
+				<iframe id='mye_prev_frame' onload='delLoad();' src='".$prev_ifrm_url.$shortname."' width='100%' frameborder='0' scrolling='no' style='min-height:175px;width: 100%; border: 0px; overflow: hidden; clear: both; margin: 0px; background: transparent;'></iframe></div>";	
+		
+		
 		
 		$eff_json = $eff_json."</div>";
 		$mye_plugin_visib = get_option('mye_plugin_visib');
@@ -303,7 +320,7 @@
 					
 					<span style="font-size:15px;padding:0px 10px;">OR</span> 
 					
-					<a class="effectoConfig button mye_btn" href="'.$hostString.'/login?callback=plugin_editor&sname='.$shortname.'" target="_blank" title="Edit/Update existing default Emotion-Set">Edit this</a>
+					<a class="effectoConfig button mye_btn" href="'.$hostString.'/login?callback=plugin_editor&sname='.$shortname.'" target="_blank" title="Edit/Update existing default Emotion-Set">Edit</a>
 					<span style="font-size:15px;padding:0px 10px;"> | </span>
 					<a class="effectoConfig mye_btn" href="'.$hostString.'/dashboard-overview" target="_blank" title="Myeffecto Dashboard">Dashboard</a>
 				</center>
@@ -382,6 +399,19 @@
 			</script>
 		<?php
 	}
+
+
+	add_action( 'wp_ajax_mye_sname_store', 'mye_sname_store' );
+	function mye_sname_store() {
+		$eff_shortname = $_POST['s'];
+		if(isset($eff_shortname) && !empty($eff_shortname)){
+			$eff_shortname=trim($eff_shortname);
+			insertInMyEffectoDb('1', null, "<div>", null, $eff_shortname);		
+		}
+		wp_die(); // this is required to terminate immediately and return a proper response
+	}
+
+
 	// add_action( 'save_post', 'updateEff_title' );	
 	add_action( 'wp_ajax_mye_update_view', 'mye_visibUpdt_callback' );
 	function mye_visibUpdt_callback() {
@@ -395,9 +425,6 @@
 		$escapers = array("\\");
 		$replacements = array("");
 		$eff_custom_list = str_replace($escapers, $replacements, $eff_custom_list);
-		
-		// error_log($eff_custom_list." and ".$result);
-		
 
 		update_option('mye_plugin_visib', '{"load_on":"'.$load_on.'","isOnPost":'.$eff_isOnPost.', "isOnPage":'.$eff_isOnPage.', "isOnHome":'.$eff_isOnHome.', "isOnCustom":'.$eff_isCustom.', "isOnCustomList":'.$eff_custom_list.'}');
 

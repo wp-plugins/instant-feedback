@@ -7,7 +7,7 @@ Version: 2.1
 Author: MyEffecto
 Author URI: www.myeffecto.com
 */
-//$eff_trending_url=null;
+
 require('DBFunctions.php');
 require('PostConfiguration.php');
 
@@ -159,11 +159,11 @@ function myeffecto_admin() {
 					}
 				    if (isset($defaultEdit) && $defaultEdit == "defaultEdit") {
 						updateMyeffectoEmbedCode($data, 0, $eff_shortname);
-					?>
-						<script type="text/javascript">
-								window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
-						</script>
-				<?php
+					
+					?><script type="text/javascript">
+						window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
+					</script><?php
+
 					} else {
 						insertInMyEffectoDb($user_id, null, $data, null, $eff_shortname);
 						if (isset($postURL) && !empty($postURL)) {
@@ -396,6 +396,23 @@ function myeffecto_admin() {
 	  return preg_match("/<[^<]+>/",$string,$m) != 0;
 	}
 
+	$this_page_shortname="";
+	function getThisPageShortName(){
+		global $this_page_shortname;
+		if(empty($this_page_shortname)){
+			$apiPluginDetailsArray = getMyEffectoPluginDetails($postId);
+			if ($apiPluginDetailsArray == null) {
+				$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
+			}
+			$p_shortname="";
+			foreach($apiPluginDetailsArray as $detail) {
+				$p_shortname = $detail -> shortname;
+			}
+			$p_shortname=trim($p_shortname);
+			$this_page_shortname=$p_shortname;
+		}
+		return $this_page_shortname;
+	}
 
 	function getEffectoDataJSON(){
 		global $current_user;
@@ -412,16 +429,8 @@ function myeffecto_admin() {
 			if(function_exists('effecto_get_tags')){
 				$eff_tags=effecto_get_tags($postId);
 			}
-			$apiPluginDetailsArray = getMyEffectoPluginDetails($postId);
-			if ($apiPluginDetailsArray == null) {
-				$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
-			}
-			//$apiEmbedArray="";
-			$p_shortname="";
-			foreach($apiPluginDetailsArray as $detail) {
-				//$apiEmbedArray = $detail -> embedCode;
-				$p_shortname = $detail -> shortname;
-			}
+			
+			$p_shortname=getThisPageShortName();
 
 			$effDate_published = get_the_date("l,F d,Y");
 			if (is_preview()) {
@@ -448,7 +457,7 @@ function myeffecto_admin() {
 				$timg = wp_get_attachment_image_src( get_post_thumbnail_id(get_the_ID()));
 				$thumb_img = $timg[0];
 			}
-			$p_shortname=trim($p_shortname);
+			
 			$myeJson = '{"t_img":"'.$thumb_img.'","effecto_uniquename":"'.$p_shortname.'","effectoPostId":"'.$postId.'","effectoPreview":"'.$effectoPreview.'","effectoPagetitle":"'.$getPostTitle.'","effectoPageurl":"'.$postUrl.'", "effectoPublDate":"'.$effDate_published.'","effectoAuthorName":"'.$effectoAuthor.'","effectoTag":"'.$eff_tags.'","effectoCategory":"'.$eff_category.'","effUserInfo": {"isLoggedIn": "'.$eff_cur_loggedIn.'","loginAs": "'.$eff_user_role.'","email": "'.$eff_user_email.'","dpName": "'.$eff_user_display.'","fName": "'.$eff_user_fname.'","lName": "'.$eff_user_lname.'"}}';
 		}
 	
@@ -508,30 +517,36 @@ function myeffecto_admin() {
 				global $myeCDN;
 				global $myeJSLoc;
 				$pageSpeed_script="//1-ps.googleusercontent.com/xk/L66fZog1l-dbbe1GxD7gjIXP94/s.cdn-files.appspot.com/cdn-files.appspot.com/js/mye-wp.js.pagespeed.jm.7QLAn0uD4Dg9RsZl1qc9.js";
-				$myeJson=getEffectoDataJSON();
-				$eff_json="<div id='effecto_bar' V='2.1' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>";
-				if($eff_loadtype=="dom"){
-					$eff_json=$eff_json.'<script type="text/javascript">(function(){
-							var eMeth = window.addEventListener ? "addEventListener" : "attachEvent";
-							var loadEv = eMeth == "attachEvent" ? "onload" : "DOMContentLoaded";
-							window[eMeth](loadEv,function(){ var s=document.createElement("script");s.async = "true";
-							s.type = "text/javascript";';
-					$eff_json=$eff_json."s.src='".$pageSpeed_script."'; s.onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"';";
-					$eff_json=$eff_json.'var a=document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0];
-						a.appendChild(s);
-						},false);
-					})()</script>';
-				}else if($eff_loadtype=="async"){
-					$eff_json=$eff_json."<script type='text/javascript'>window.onload=function(){var s=document.createElement('script');
-					s.type='text/javascript';s.src ='".$pageSpeed_script."';";
-					$eff_json=$eff_json."s.onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"';";
-					$eff_json=$eff_json.'var a=document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0];a.appendChild(s);
-					}</script>';
+				$p_shortname=getThisPageShortName();
+				if(isset($p_shortname) && !empty($p_shortname)){
+					$myeJson=getEffectoDataJSON();
+					$eff_json="<div id='effecto_bar' V='2.1' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>";
+					if($eff_loadtype=="dom"){
+						$eff_json=$eff_json.'<script type="text/javascript">(function(){
+								var eMeth = window.addEventListener ? "addEventListener" : "attachEvent";
+								var loadEv = eMeth == "attachEvent" ? "onload" : "DOMContentLoaded";
+								window[eMeth](loadEv,function(){ var s=document.createElement("script");s.async = "true";
+								s.type = "text/javascript";';
+						$eff_json=$eff_json."s.src='".$pageSpeed_script."'; s.onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"';";
+						$eff_json=$eff_json.'var a=document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0];
+							a.appendChild(s);
+							},false);
+						})()</script>';
+					}else if($eff_loadtype=="async"){
+						$eff_json=$eff_json."<script type='text/javascript'>window.onload=function(){var s=document.createElement('script');
+						s.type='text/javascript';s.src ='".$pageSpeed_script."';";
+						$eff_json=$eff_json."s.onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"';";
+						$eff_json=$eff_json.'var a=document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0];a.appendChild(s);
+						}</script>';
+					}
+					else{
+						$eff_json=$eff_json."<script id='effectp-code' src='".$pageSpeed_script."' type='text/javascript' async='true'></script>";
+					}
 				}
 				else{
-					$eff_json=$eff_json."<script id='effectp-code' src='".$pageSpeed_script."' type='text/javascript' async='true'></script>";
+					$eff_json=$eff_json."<div id='effecto_bar' V='2.1'></div>";
 				}
-				
+
 				return $text.$eff_json;
 			}
 			else{
@@ -594,14 +609,13 @@ function myeffecto_admin() {
 
 	function addAlert($pluginStatus) {
 		if (isset($pluginStatus) && !empty($pluginStatus)) {
-?>
-			<script type="text/javascript">
+?><script type="text/javascript">
 				$j = jQuery;
 				$j().ready(function() {
 					$j('.wrap > h2').parent().prev().after('<div class="update-nag"><h3>MYEFFECTO Emotion Set has been added. Check-out <strong>MyEffecto Configuration</strong> panel below.</h3><br/> Note: If you cannot see plugin OR if an error message appears OR number of emoticons are not the same as you saw on your selected set, refresh the page to see the set. </div>');
 				});
-			</script>
-<?php
+			</script><?php
+		
 		}
 	}
 
