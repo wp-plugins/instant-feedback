@@ -204,6 +204,9 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 
 == Changelog ==
+= 2.2
+error on external myeffecto login resolved
+
 = 2.1
 Bug Fixes and small UI changes
 
