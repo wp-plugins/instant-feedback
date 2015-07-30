@@ -258,8 +258,13 @@ function myeffecto_admin() {
 					}
 				}
 
-				if ($isFirstUser ||  $_GET['pluginType']=='defaultEdit' || $_GET['pluginType']=='postAdd' ) {
+				$p_type=$_GET['pluginType'];
+				if ($isFirstUser ||  $p_type=='defaultEdit' || $p_type=='postAdd' ) {
 					echoUserScript();
+					return;
+				}
+				else if($p_type=="editExist"){
+					include 'editExisting.php';
 					return;
 				}
 				else{
@@ -331,9 +336,9 @@ function myeffecto_admin() {
                                     //alert("val"+jQuery("#url").val());
                                     jQuery(\'#submitWidgetForm\').submit();
                                 }
-
+                 jQuery("#adminmenuwrap").attr("style","position: fixed; bottom: 0px;");               
 				function showButtonCode(shortname) {
-                    jQuery(\'#generate\').remove();
+                    jQuery(\'.generate\').remove();
                     var efrm=jQuery(\'#effectoFrame\');
                     var init=efrm.attr("w-init")!="1";
                     if (shortname === "no") {
@@ -343,8 +348,9 @@ function myeffecto_admin() {
                         efrm.before(jQuery(\'<h2 style="float:left;">Myeffecto Configure</h2>\'));
                         efrm.attr("w-init","1"); 
                     	}
-                     efrm.before(jQuery(\'<h3 style="float:right;"><input type="button" id="generate" 2 value="Finish!" style="font-size: 22px;margin-right: 15px;margin-top: -15px;;padding: 5px 25px;padding-bottom: 33px;" class="button-primary" /></h3>\'));
-                     jQuery("#generate").click(function(){save(shortname);});
+                     efrm.before(jQuery(\'<h3 style="float:right;"><input type="button" 2 value="Finish!" style="-font-size: 22px;margin-right: 15px;-margin-top: -15px;padding: 5px 25px;padding-bottom: 33px;" class="button-primary generate" /></h3>\'));
+                       efrm.after(jQuery(\'<h3 style="float:right;"><input type="button" 2 value="Finish!" style="-font-size: 22px;margin-right: 15px;-margin-top: -15px;padding: 5px 25px;padding-bottom: 33px;" class="button-primary generate" /></h3>\'));
+                     jQuery(".generate").click(function(){save(shortname);});
                     }
                 }
 
