@@ -226,7 +226,10 @@
 			$shortname=$detail -> shortname;
 		}
 
-		$prev_ifrm_url=$hostString."/ep?ty=preview&s=";
+		$ad_email=urlencode (get_option('admin_email'));
+		$b_url=urlencode (get_option('siteurl'));
+
+		$prev_ifrm_url=$hostString."/ep?ty=preview&wadm=1&email=".$ad_email."&l=".$b_url."&s=";
 		if($shortname==null || !isset($shortname)){
 			echo "<script type='text/javascript'>
 			var eMeth=window.addEventListener ? 'addEventListener':'attachEvent';
@@ -237,18 +240,15 @@
 			 	 if(e.origin=='".$hostString."' && m.indexOf('mye_log')>-1){
 			 	 	m=m.split('#');
 			 	 	jQuery('#load').css('display','');
-			 	 	document.getElementById('mye_prev_frame').src='".$prev_ifrm_url."'+m[1]; 
 			 	 	var data = {'action': 'mye_sname_store','s':m[1]};
 			 	 	jQuery.post(ajaxurl, data);
 			 	 }
 			 }
 			</script>";
 	    }
-		$ad_email=urlencode (get_option('admin_email'));
-		$b_url=urlencode (get_option('siteurl'));
-		echo "<div style='display:none;'><iframe id='mye_logHandle' src='".$hostString."/mye_log?s=".$shortname."&amp;email=".$ad_email."&amp;l=".$b_url."'></iframe></div>";
 		
-		$eff_json ="<div id='effecto_bar'style='text-align:center;max-height:175px;position:relative;'>";
+		
+		$eff_json ="<div id='effecto_bar'style='text-align:center;max-height:175px;position:;'>";
 		
 		$eff_json = $eff_json."<div id='wp_mye_preview'><div id='load'></div><script>function delLoad(){jQuery('#load').css('display','none');}</script>
 				<iframe id='mye_prev_frame' onload='delLoad();' src='".$prev_ifrm_url.$shortname."' width='100%' frameborder='0' scrolling='no' style='min-height:175px;width: 100%; border: 0px; overflow: hidden; clear: both; margin: 0px; background: transparent;'></iframe></div>";	
