@@ -407,7 +407,7 @@ function myeffecto_admin() {
                                             }
                                         }
                                         else{
-                                            ifrm.setAttribute("src", "'.$hostString.'/auth?action=extAcess&from=wp&callback=confgEmoji&l='.get_option('siteurl').'&email='.get_option('admin_email').'&uname='.get_option('blogname').'");
+                                            ifrm.setAttribute("src", "'.$hostString.'/auth?action=extAcess&from=wp&sname='.$shortname.'&l='.get_option('siteurl').'&email='.get_option('admin_email').'&uname='.get_option('blogname').'");
                                         }
 					window.addEventListener("message", rcvMyeMsg, false);
 				};
