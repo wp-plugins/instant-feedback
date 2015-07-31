@@ -98,6 +98,7 @@ function myeffecto_admin() {
 	 $data = null;
 	if (isset($_POST['dataToSend'])) {
 		$data=$_POST['dataToSend'];
+		error_log("message");
 	}
         $eff_trending_url=null;
         if (isset($_POST['url'])) {  //for trending widget
@@ -142,8 +143,11 @@ function myeffecto_admin() {
 
 	<form id="reloadForm" action="" method="post" style="display:none;"><input type='submit'/></form>
 <?php
+
 	if(isset($data) && !empty($data)) {
+		
 		$isCodeExistArray = getMyEffectoPluginDetails($postID);
+		
 		$isCodeExist=null;
 		
 		if (isset($isCodeExistArray)) {
@@ -151,8 +155,10 @@ function myeffecto_admin() {
 				$isCodeExist = $detail -> shortname;
 			}
 		}
+
 		if ($isCodeExist == null) {
 			if (!isset($postID) || empty($postID)) {
+		
 					$defaultEdit = null;
 					if (isset($_GET['pluginType'])) {
 						$defaultEdit = $_GET['pluginType'];
@@ -165,6 +171,7 @@ function myeffecto_admin() {
 					</script><?php
 
 					} else {
+					
 						insertInMyEffectoDb($user_id, null, $data, null, $eff_shortname);
 						if (isset($postURL) && !empty($postURL)) {
 							?>
@@ -195,7 +202,17 @@ function myeffecto_admin() {
 					<script type="text/javascript">
 						window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;</script>
 				<?php
-			}
+			}else {
+
+                $isToInsert = $_GET['isToInsert'];
+                error_log(message);
+                if(isset($isToInsert) && $isToInsert=="true")    {
+                    insertInMyEffectoDb($user_id, null, $data, $postID, $eff_shortname);    
+                    ?>
+                    <script type="text/javascript">window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;</script><?php return;
+                }
+            }
+
 		}
 	 }else if(isset($eff_trending_url) && !empty($eff_trending_url)) {
              update_option("trending_url", $eff_trending_url);
@@ -299,6 +316,7 @@ function myeffecto_admin() {
 				function rcvMyeMsg(event) {
 					if(event.origin==="'.$hostString.'"){
 						var rcvdMsg = event.data;
+					
 						var msg = rcvdMsg.split("#~#");	
 						if(msg[0]==="setHt") {
 							ifrm.style.height=msg[1];
@@ -406,7 +424,11 @@ function myeffecto_admin() {
 	function getThisPageShortName(){
 		global $this_page_shortname;
 		if(empty($this_page_shortname)){
+			$postId = get_the_ID();
 			$apiPluginDetailsArray = getMyEffectoPluginDetails($postId);
+
+			error_log($postId ." ".$apiPluginDetailsArray);
+
 			if ($apiPluginDetailsArray == null) {
 				$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
 			}
@@ -524,9 +546,9 @@ function myeffecto_admin() {
 				global $myeJSLoc;
 				$pageSpeed_script="//1-ps.googleusercontent.com/xk/L66fZog1l-dbbe1GxD7gjIXP94/s.cdn-files.appspot.com/cdn-files.appspot.com/js/mye-wp.js.pagespeed.jm.7QLAn0uD4Dg9RsZl1qc9.js";
 				$p_shortname=getThisPageShortName();
-				if(isset($p_shortname) && !empty($p_shortname)){
+			if(isset($p_shortname) && !empty($p_shortname)){
 					$myeJson=getEffectoDataJSON();
-					$eff_json="<div id='effecto_bar' V='2.1' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>";
+					$eff_json="<div id='effecto_bar' V='2.2.1' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>";
 					if($eff_loadtype=="dom"){
 						$eff_json=$eff_json.'<script type="text/javascript">(function(){
 								var eMeth = window.addEventListener ? "addEventListener" : "attachEvent";
@@ -548,9 +570,9 @@ function myeffecto_admin() {
 					else{
 						$eff_json=$eff_json."<script id='effectp-code' src='".$pageSpeed_script."' type='text/javascript' async='true'></script>";
 					}
-				}
+			}
 				else{
-					$eff_json=$eff_json."<div id='effecto_bar' V='2.1'></div>";
+					$eff_json=$eff_json."<div id='effecto_bar' V='2.2.1'></div>";
 				}
 
 				return $text.$eff_json;

@@ -1,6 +1,6 @@
 <?php
 
-	//add_action( 'add_meta_boxes', 'effectoBox' );  
+	add_action( 'add_meta_boxes', 'effectoBox' );  
 
 	function effectoBox() {
 		if (isset($mye_plugin_visib) && $mye_plugin_visib) {
