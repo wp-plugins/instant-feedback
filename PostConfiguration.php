@@ -244,7 +244,9 @@
 			 	 	var h=jQuery('#mye_editEmo').attr('href'); 
 			 	 	h=h+m[1]; jQuery('#mye_editEmo').attr('href',h);
 			 	 	var data = {'action': 'mye_sname_store','s':m[1]};
-			 	 	jQuery.post(ajaxurl, data);
+			 	 	jQuery.post(ajaxurl, data).always(function(){
+			 	 		jQuery('#load').css('display','none');
+			 	 	});
 			 	 }
 			 }
 			</script>";
@@ -327,7 +329,7 @@
 				</center>
 			</h2>
 			<hr style="border-color: #B3B3B3;">
-			<h2 align="center">More Settings</h2>
+			<h2 align="center">Advance Settings</h2>
 				<div style="margin-top:5px;"><style>.m_hp{cursor:pointer;margin-left:5px;} mye_chk{margin-right:8px;} .mye_fset > span{margin-right:35px;} .mye_fset{border: 1px solid #DBDBDB;padding: 15px;} .mye_leg{font-weight:600;width:auto;font-size:15px;}</style>
 					<form>
 						<fieldset class="mye_fset" style="margin-bottom:20px">

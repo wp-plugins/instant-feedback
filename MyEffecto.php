@@ -349,12 +349,11 @@ function myeffecto_admin() {
 					jQuery(\'#submitForm\').submit();
 				}
                                 
-                                function postWidgetForm(json)
-                                {   jQuery("#url").val(json);
-                                    //alert("val"+jQuery("#url").val());
-                                    jQuery(\'#submitWidgetForm\').submit();
-                                }
-                 jQuery("#adminmenuwrap").attr("style","position: fixed; bottom: 0px;");               
+                function postWidgetForm(json)
+                {   jQuery("#url").val(json);
+                    //alert("val"+jQuery("#url").val());
+                    jQuery(\'#submitWidgetForm\').submit();
+                }             
 				function showButtonCode(shortname) {
                     jQuery(\'.generate\').remove();
                     var efrm=jQuery(\'#effectoFrame\');
@@ -506,7 +505,7 @@ function myeffecto_admin() {
 		$eff_loadtype = "";
 		$eff_height = "";
 		
-		if (isset($mye_plugin_visib) && $mye_plugin_visib) {
+		if ($mye_plugin_visib!=null && isset($mye_plugin_visib)) {
 			$mye_plugin_visib = json_decode($mye_plugin_visib, true);
 			if($mye_plugin_visib['isOnPost']){$eff_isOnPost = true;}else{$eff_isOnPost = false;}
 			if($mye_plugin_visib['isOnPage']){$eff_isOnPage = true;}
@@ -519,7 +518,7 @@ function myeffecto_admin() {
 
 		if (is_single() || is_page())
 		{
-
+			echo "<span mye_instal='1' typ='". $cur_post_typ."'></span>";
 			if ($effisPageOrPost) {
 				if ($cur_post_typ==="post" && $eff_isOnPost) {
 					$effisPageOrPost = true;
@@ -570,7 +569,7 @@ function myeffecto_admin() {
 					else{
 						$eff_json=$eff_json."<script id='effectp-code' src='".$pageSpeed_script."' type='text/javascript' async='true'></script>";
 					}
-			}
+				}
 				else{
 					$eff_json=$eff_json."<div id='effecto_bar' V='2.2.1'></div>";
 				}
