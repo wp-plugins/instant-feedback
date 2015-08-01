@@ -353,8 +353,7 @@
 			</div>';
 		?>
 			<script type="text/javascript" >
-			
-			("#eff_visib").click(function() {
+			jQuery("#eff_visib").click(function() {
 					var eff_isPost = jQuery("#posts").is(":checked");
 					var eff_isPage = jQuery("#pages").is(":checked");
 					var eff_isHome = jQuery("#home").is(":checked");
