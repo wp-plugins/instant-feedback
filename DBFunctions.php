@@ -1,5 +1,5 @@
 <?php
-
+try{
 	/* Table Name to access with different functions */
 	$table_name = $wpdb->prefix . "effecto";
 
@@ -20,30 +20,57 @@
 		add_option( "effecto_db_version", $effecto_db_version );
 	}
 
+	function insertDefault($user_id, $apiKey, $code, $postID, $eff_shortname){
+		global $table_name;
+		global $wpdb;
+			$wpdb->insert( 
+					$table_name, 
+					array(
+						'userID' => $user_id, 
+						'apiKey' => $apiKey, 
+						'embedCode' => $code, 
+						'postID' => $postID,
+						'shortname' => $eff_shortname,
+					),
+					array(
+						'%d', 
+						'%s', 
+						'%s', 
+						'%d',
+						'%s',
+					)
+				);
+			
+		return $wpdb->insert_id;
+
+	}
+
 	/* Save plugin data in db */
 	function insertInMyEffectoDb($user_id, $apiKey, $code, $postID, $eff_shortname) {
-		$code = stripcslashes($code);
+		try{
+			$r=insertDefault($user_id, $apiKey, $code, $postID, $eff_shortname);
+			$insAct="after insert";
+			if($r=="0"){
+				$plugin_data = get_plugin_data( __FILE__ );
+				$plugin_version = $plugin_data['Version'];
 
-		global $wpdb;
-		global $table_name;
-		$wpdb->insert( 
-						$table_name, 
-						array(
-							'userID' => $user_id, 
-							'apiKey' => $apiKey, 
-							'embedCode' => $code, 
-							'postID' => $postID,
-							'shortname' => $eff_shortname,
-						),
-						array(
-							'%d', 
-							'%s', 
-							'%s', 
-							'%d',
-							'%s',
-						)
-					);
+				createEffectoTable($plugin_version);
+				insertDefault($user_id, $apiKey, $code, $postID, $eff_shortname);
 
+				$insAct="table not found.. create and insert";
+			}
+
+			$sendData="{'site':'".get_option('siteurl')."','postId':'".$postID."','sname':'$eff_shortname','status':'".$insAct."'}";
+			wpErrorLog($sendData);
+		}
+		catch(Exception $e){
+			$msg=$e->getMessage();
+			
+			$sendData="{'site':'".get_option('siteurl')."','postId':'".$postID."','sname':'$eff_shortname','status':'exception','msg':'".$msg."'}";
+			wpErrorLog($sendData);
+		}
+		
+	
 	}
 
 	/* Update effecto table */
@@ -130,4 +157,16 @@
 			return $wpdb->get_var("SELECT shortname FROM $table_name");
 		}
 	}
+
+}catch(Exception $e){
+	$msg=$e->getMessage();
+	$sendData="{'site':'".get_option('siteurl')."','status':'exception','msg':'".$msg."'}";
+	wpErrorLog($sendData);
+}
+
+function wpErrorLog($json){
+	global $hostString;
+	$args = array('body' => array('action' => 'wpErrorLog', 'json' => $json));
+	wp_remote_post($hostString.'/effecto', $args);
+}
 ?>

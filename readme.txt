@@ -5,8 +5,8 @@ Plugin URL: https://wordpress.org/plugins/instant-feedback/
 Donate link: http://www.myeffecto.com/contact
 Tags: comments,emotion,feedback,feeling,mood,sentiment,widget,traffic,rate,rating,engage,visitors,images,emoticons,recommendation,post,shortcode,SEO
 Requires at least: 3.5
-Tested up to: 4.1.1
-Stable tag: 1.0.46
+Tested up to: 4.2.3
+Stable tag: 2.0
 
 Myeffecto provides an emotion-based widget, which helps to increase the Blog Engagement and Traffic simultaneously.
 
@@ -32,7 +32,7 @@ MyEffecto helps in increasing  engagement and drives traffic of your blogs via a
 	1. **Blog Promotion :**
 	Blog promotion is done on our communities at social networking site based on blog categories we maintain communities on different 
 	verticals like startup,fashion,health,technology,sports and so on. User can also promote the blog post on their own social network 
-	by configuring the setting at [myeffecto.com](http://www.myeffecto.com/login)
+	by configuring the setting at [myefecto.com](http://www.myeffecto.com/login)
 	2. **Hashtag Marketing :**
 	We also do hashtag marketing of your blog post by running an alogrithem and identifying the best hast tag for your blog
 	before posting it into our communities
@@ -204,9 +204,18 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 
 == Changelog ==
+= 2.2
+error on external myeffecto login resolved
+
+= 2.1
+Bug Fixes and small UI changes
+
+= 2.0 =
+Critcal update. Login removed for new myeffecto users.
+
 = 1.0.61 =
-Advance Script non-blocking code, Enables to control the speed of the plugin without hindering other plugins.
-Go to myeffecto setting to set plugin load speed.
+Advance Script non-blocking code, Enables to control the speed of the plugin without hindering other plugins
+Goto myeffecto setting to set plugin load speed
 
 = 1.0.59 =
 Homepage shortcode fixed.
@@ -296,33 +305,7 @@ Place plugin anywhere inside post using [effecto-bar] shortcode
 
 * Plugin load optimized.
 
-= 1.0.20 =
 
-* Bug Fixes done.
-
-= 1.0.19 =
-
-* Recommends contents according to your post category.
-
-= 1.0.18 =
-
-* Removed unnecessary included scripts and styles from posts and other pages.
-
-= 1.0.17 =
-
-* Minor Bug Fixes.
-
-= 1.0.16 =
-
-* Plugin creation for posts with published date before 1st Dec., 2012 is disabled for now.
-
-= 1.0.15 =
-
-* Some minor bug fixes.
-
-= 1.0.14 =
-
-* Some login related issued fixes.
 
 == Upgrade notice ==
 
