@@ -204,6 +204,9 @@ For any unanswered questions, please write to us at support@myeffecto.com
 
 
 == Changelog ==
+= 2.2.3
+bug occurred when plugin table get deleted fixed
+
 = 2.2
 error on external myeffecto login resolved
 

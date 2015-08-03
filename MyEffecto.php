@@ -3,7 +3,7 @@
 Plugin Name: MyEffecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 2.2
+Version: 2.2.3
 Author: MyEffecto
 Author URI: www.myeffecto.com
 */
@@ -547,7 +547,7 @@ function myeffecto_admin() {
 				$p_shortname=getThisPageShortName();
 			if(isset($p_shortname) && !empty($p_shortname)){
 					$myeJson=getEffectoDataJSON();
-					$eff_json="<div id='effecto_bar' V='2.2.2' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>";
+					$eff_json="<div id='effecto_bar' V='2.2.3' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>";
 					if($eff_loadtype=="dom"){
 						$eff_json=$eff_json.'<script type="text/javascript">(function(){
 								var eMeth = window.addEventListener ? "addEventListener" : "attachEvent";
@@ -571,7 +571,7 @@ function myeffecto_admin() {
 					}
 				}
 				else{
-					$eff_json=$eff_json."<div id='effecto_bar' V='2.2.2'></div>";
+					$eff_json=$eff_json."<div id='effecto_bar' V='2.2.3'></div>";
 				}
 
 				return $text.$eff_json;
