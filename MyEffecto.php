@@ -3,11 +3,11 @@
 Plugin Name: MyEffecto
 Plugin URI: www.myeffecto.com
 Description: Getting customized and interactive feedback for your blog.
-Version: 2.2
+Version: 1.0.61
 Author: MyEffecto
 Author URI: www.myeffecto.com
 */
-
+//$eff_trending_url=null;
 require('DBFunctions.php');
 require('PostConfiguration.php');
 
@@ -31,23 +31,6 @@ function ttt_wpmdr_add_action_plugin( $actions, $plugin_file )
 	}	
 	return $actions;
 }
-
-register_activation_hook(__FILE__, 'my_plugin_activate');
-add_action('admin_init', 'my_plugin_redirect');
-
-function my_plugin_activate() {
-    add_option('my_plugin_do_activation_redirect', true);
-}
-
-function my_plugin_redirect() {
-    if (get_option('my_plugin_do_activation_redirect', false)) {
-        delete_option('my_plugin_do_activation_redirect');
-         wp_redirect("options-general.php?page=eff_conf_nav");
-         //wp_redirect() does not exit automatically and should almost always be followed by exit.
-         exit;
-    }
-}
-
 
 /* ------------------------------------------------------------- */
 $hostString="http://www.myeffecto.com";
@@ -98,7 +81,6 @@ function myeffecto_admin() {
 	 $data = null;
 	if (isset($_POST['dataToSend'])) {
 		$data=$_POST['dataToSend'];
-		error_log("message");
 	}
         $eff_trending_url=null;
         if (isset($_POST['url'])) {  //for trending widget
@@ -143,35 +125,29 @@ function myeffecto_admin() {
 
 	<form id="reloadForm" action="" method="post" style="display:none;"><input type='submit'/></form>
 <?php
-
 	if(isset($data) && !empty($data)) {
-		
 		$isCodeExistArray = getMyEffectoPluginDetails($postID);
-		
 		$isCodeExist=null;
 		
 		if (isset($isCodeExistArray)) {
 			foreach($isCodeExistArray as $detail) {
-				$isCodeExist = $detail -> shortname;
+				$isCodeExist = $detail -> embedCode;
 			}
 		}
-
 		if ($isCodeExist == null) {
 			if (!isset($postID) || empty($postID)) {
-		
 					$defaultEdit = null;
 					if (isset($_GET['pluginType'])) {
 						$defaultEdit = $_GET['pluginType'];
 					}
 				    if (isset($defaultEdit) && $defaultEdit == "defaultEdit") {
 						updateMyeffectoEmbedCode($data, 0, $eff_shortname);
-					
-					?><script type="text/javascript">
-						window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
-					</script><?php
-
+					?>
+						<script type="text/javascript">
+								window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
+						</script>
+				<?php
 					} else {
-					
 						insertInMyEffectoDb($user_id, null, $data, null, $eff_shortname);
 						if (isset($postURL) && !empty($postURL)) {
 							?>
@@ -180,39 +156,28 @@ function myeffecto_admin() {
 							   </script>
 							<?php
 						} else {
-							// After Plugin Config
-							exit( wp_redirect( admin_url( 'options-general.php?page=eff_conf_nav')));
+							echo "<h1><center>Your emoticon set has been added on your posts successfully.<br><br>Go to your post to see the effect.</center></h1>";
 						}
 					}
 			} else {
 				insertInMyEffectoDb($user_id, null, $data, $postID, $eff_shortname);
 				?>
 					<script type="text/javascript">
-				  
+				   <!--
 						window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;
-				   
+				   //-->
 				   </script>
 				<?php
 			}
 		} else {
 			$addType = $_GET['pluginType'];
-			if ($addType == "postAdd") {
-					updateMyeffectoEmbedCode(null, $postID, $eff_shortname);
-					?>
-					<script type="text/javascript">
-						window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;</script>
-				<?php
-			}else {
-
-                $isToInsert = $_GET['isToInsert'];
-                error_log(message);
-                if(isset($isToInsert) && $isToInsert=="true")    {
-                    insertInMyEffectoDb($user_id, null, $data, $postID, $eff_shortname);    
-                    ?>
-                    <script type="text/javascript">window.location= <?php echo "'" . $postURL . "&action=edit&plugin=success'"; ?>;</script><?php return;
-                }
-            }
-
+			if ($addType == "postEdit") {
+					
+					updateMyeffectoEmbedCode($data, $postID, $eff_shortname);
+				
+					//refresh code
+				
+			}
 		}
 	 }else if(isset($eff_trending_url) && !empty($eff_trending_url)) {
              update_option("trending_url", $eff_trending_url);
@@ -238,8 +203,9 @@ function myeffecto_admin() {
 	}
 </style>
 
-	<div class="wrap" style="overflow-x : hidden; position : relative;">
-		<?php
+		<div class="wrap" style="overflow-x : hidden; position : relative;">
+			<h2>MyEffecto Configure</h2>
+	<?php
 			global $embedCode;
 			$apiKey=null;
 			$myeffectoArray = array();
@@ -266,7 +232,7 @@ function myeffecto_admin() {
 					$embedCode=$apiEmbedArray;
 
 					if (!isset($embedCode) || empty($embedCode)) {
-						$isFirstUser=false;
+						$isFirstUser=true;
 					} else {
 						$myeffectoArray['userID']=$user_id ;
 						//$myeffectoArray['apiKey']=$apiEmbedArray->apiKey;
@@ -275,21 +241,17 @@ function myeffecto_admin() {
 					}
 				}
 
-				$p_type=$_GET['pluginType'];
-				if ($isFirstUser ||  $p_type=='defaultEdit' || $p_type=='postAdd' ) {
+				if ($isFirstUser) {
 					echoUserScript();
 					return;
 				}
-				else if($p_type=="editExist"){
-					include 'editExisting.php';
-					return;
-				}
-				else{
-					allSetCode($embedCode, null);
-				}
 			}
 
-		
+			if (isset($embedCode) && !empty($embedCode) && (!isset($postURL) || empty($postURL))) {
+				allSetCode($embedCode, null);
+			} else {
+				echoUserScript();
+			}
 	?>
 		</div>
 	<?php
@@ -316,7 +278,6 @@ function myeffecto_admin() {
 				function rcvMyeMsg(event) {
 					if(event.origin==="'.$hostString.'"){
 						var rcvdMsg = event.data;
-					
 						var msg = rcvdMsg.split("#~#");	
 						if(msg[0]==="setHt") {
 							ifrm.style.height=msg[1];
@@ -349,30 +310,32 @@ function myeffecto_admin() {
 					jQuery(\'#submitForm\').submit();
 				}
                                 
-                function postWidgetForm(json)
-                {   jQuery("#url").val(json);
-                    //alert("val"+jQuery("#url").val());
-                    jQuery(\'#submitWidgetForm\').submit();
-                }             
+                                function postWidgetForm(json)
+                                {   jQuery("#url").val(json);
+                                    //alert("val"+jQuery("#url").val());
+                                    jQuery(\'#submitWidgetForm\').submit();
+                                }
+
 				function showButtonCode(shortname) {
-                    jQuery(\'.generate\').remove();
-                    var efrm=jQuery(\'#effectoFrame\');
-                    var init=efrm.attr("w-init")!="1";
-                    if (shortname === "no") {
-                     return;
-                	 }else {
-                	 	if(init){
-                        efrm.before(jQuery(\'<h2 style="float:left;">Myeffecto Configure</h2>\'));
-                        efrm.attr("w-init","1"); 
-                    	}
-                     efrm.before(jQuery(\'<h3 style="float:right;"><input type="button" 2 value="Finish!" style="-font-size: 22px;margin-right: 15px;-margin-top: -15px;padding: 5px 25px;padding-bottom: 33px;" class="button-primary generate" /></h3>\'));
-                       efrm.after(jQuery(\'<h3 style="float:right;"><input type="button" 2 value="Finish!" style="-font-size: 22px;margin-right: 15px;-margin-top: -15px;padding: 5px 25px;padding-bottom: 33px;" class="button-primary generate" /></h3>\'));
-                     jQuery(".generate").click(function(){save(shortname);});
-                    }
-                }
+					jQuery(\'#generate\').remove();
+
+					if (shortname === null) {
+					    shortname="";
+						jQuery(\'#effectoFrame\').after(jQuery(\'<center><h3><input type="button" id="generate"  value="Apply Emotion Set" style="font-size : 22px; padding-top : 7px; padding-bottom : 30px;" class="button-primary" /></h3></center>\'));
+					}
+                                        else if(shortname === "no"){return;}
+                                        else {
+						jQuery(\'#effectoFrame\').after(jQuery(\'<center><h3><input type="button" id="generate" value="Apply Emotion Set" style="font-size : 22px; padding-top : 7px; padding-bottom : 30px;" class="button-primary" /></h3></center>\'));
+					}
+					
+					jQuery("#generate").click(function(){
+							save(shortname);
+						
+					});
+				}
 
 				function afterLoginSuccess() {
-					ifrm.setAttribute("src", "'.$hostString.'/confgEmoji?l='.get_option('siteurl').'outside=true&postTitle=" + postTitle);
+					ifrm.setAttribute("src", "'.$hostString.'/confgEmoji?outside=true&postTitle=" + postTitle);
 				}';
 	}
 
@@ -394,19 +357,19 @@ function myeffecto_admin() {
 		}
 
 		configurationScript($shortname, $globalPostID, $postname);
-		
+		/* src ="'.$hostString.'/register?callback=confgEmoji&outside=true&postTitle="+postTitle */
 		echo '	var ifrm= null;
 				window.onload=function(){
                     var url=location.href;
 					ifrm = document.getElementById("effectoFrame");
                                         if(url.indexOf("true")>0){
-                                            ifrm.setAttribute("src", "'.$hostString.'/auth?action=extAcess&from=wp&callback=config_trend");
+                                            ifrm.setAttribute("src", "'.$hostString.'/register?wp=1&callback=config_trend&outside=true&postTitle="+postTitle);
                                             ifrm.onload=function(){ 
                                             ifrm.contentWindow.postMessage("init_effecto","'.$hostString.'"); 
                                             }
                                         }
                                         else{
-                                            ifrm.setAttribute("src", "'.$hostString.'/auth?action=extAcess&from=wp&sname='.$shortname.'&l='.get_option('siteurl').'&email='.get_option('admin_email').'&uname='.get_option('blogname').'");
+                                            ifrm.setAttribute("src", "'.$hostString.'/register?callback=confgEmoji&outside=true&postTitle="+postTitle);
                                         }
 					window.addEventListener("message", rcvMyeMsg, false);
 				};
@@ -419,27 +382,6 @@ function myeffecto_admin() {
 	  return preg_match("/<[^<]+>/",$string,$m) != 0;
 	}
 
-	$this_page_shortname="";
-	function getThisPageShortName(){
-		global $this_page_shortname;
-		if(empty($this_page_shortname)){
-			$postId = get_the_ID();
-			$apiPluginDetailsArray = getMyEffectoPluginDetails($postId);
-
-			error_log($postId ." ".$apiPluginDetailsArray);
-
-			if ($apiPluginDetailsArray == null) {
-				$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
-			}
-			$p_shortname="";
-			foreach($apiPluginDetailsArray as $detail) {
-				$p_shortname = $detail -> shortname;
-			}
-			$p_shortname=trim($p_shortname);
-			$this_page_shortname=$p_shortname;
-		}
-		return $this_page_shortname;
-	}
 
 	function getEffectoDataJSON(){
 		global $current_user;
@@ -456,8 +398,16 @@ function myeffecto_admin() {
 			if(function_exists('effecto_get_tags')){
 				$eff_tags=effecto_get_tags($postId);
 			}
-			
-			$p_shortname=getThisPageShortName();
+			$apiPluginDetailsArray = getMyEffectoPluginDetails($postId);
+			if ($apiPluginDetailsArray == null) {
+				$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
+			}
+			//$apiEmbedArray="";
+			$p_shortname="";
+			foreach($apiPluginDetailsArray as $detail) {
+				//$apiEmbedArray = $detail -> embedCode;
+				$p_shortname = $detail -> shortname;
+			}
 
 			$effDate_published = get_the_date("l,F d,Y");
 			if (is_preview()) {
@@ -484,8 +434,7 @@ function myeffecto_admin() {
 				$timg = wp_get_attachment_image_src( get_post_thumbnail_id(get_the_ID()));
 				$thumb_img = $timg[0];
 			}
-			
-			$myeJson = '{"t_img":"'.$thumb_img.'","effecto_uniquename":"'.$p_shortname.'","effectoPostId":"'.$postId.'","effectoPreview":"'.$effectoPreview.'","effectoPagetitle":"'.$getPostTitle.'","effectoPageurl":"'.$postUrl.'", "effectoPublDate":"'.$effDate_published.'","effectoAuthorName":"'.$effectoAuthor.'","effectoTag":"'.$eff_tags.'","effectoCategory":"'.$eff_category.'","effUserInfo": {"isLoggedIn": "'.$eff_cur_loggedIn.'","loginAs": "'.$eff_user_role.'","email": "'.$eff_user_email.'","dpName": "'.$eff_user_display.'","fName": "'.$eff_user_fname.'","lName": "'.$eff_user_lname.'"}}';
+			$myeJson = '{"t_img":"'.$thumb_img.'","effecto_uniquename":"'.$p_shortname.'","effectoPostId":"'.$postId.'","effectoPreview": "'.$effectoPreview.'","effectoPagetitle":"'.$getPostTitle.'","effectoPageurl":"'.$postUrl.'", "effectoPublDate":"'.$effDate_published.'","effectoAuthorName":"'.$effectoAuthor.'","effectoTag":"'.$eff_tags.'","effectoCategory":"'.$eff_category.'","effUserInfo": {"isLoggedIn": "'.$eff_cur_loggedIn.'","loginAs": "'.$eff_user_role.'","email": "'.$eff_user_email.'","dpName": "'.$eff_user_display.'","fName": "'.$eff_user_fname.'","lName": "'.$eff_user_lname.'"}}';
 		}
 	
 		return $myeJson;
@@ -504,8 +453,11 @@ function myeffecto_admin() {
 		$eff_isPreview = is_preview();
 		$eff_loadtype = "";
 		$eff_height = "";
+		if ($eff_isPreview) {
+			eff_applyMinHeight();
+		}
 		
-		if ($mye_plugin_visib!=null && isset($mye_plugin_visib)) {
+		if (isset($mye_plugin_visib) && $mye_plugin_visib) {
 			$mye_plugin_visib = json_decode($mye_plugin_visib, true);
 			if($mye_plugin_visib['isOnPost']){$eff_isOnPost = true;}else{$eff_isOnPost = false;}
 			if($mye_plugin_visib['isOnPage']){$eff_isOnPage = true;}
@@ -518,7 +470,7 @@ function myeffecto_admin() {
 
 		if (is_single() || is_page())
 		{
-			echo "<span mye_instal='1' typ='". $cur_post_typ."'></span>";
+
 			if ($effisPageOrPost) {
 				if ($cur_post_typ==="post" && $eff_isOnPost) {
 					$effisPageOrPost = true;
@@ -543,37 +495,31 @@ function myeffecto_admin() {
 				//User Info
 				global $myeCDN;
 				global $myeJSLoc;
-				$pageSpeed_script="//1-ps.googleusercontent.com/xk/L66fZog1l-dbbe1GxD7gjIXP94/s.cdn-files.appspot.com/cdn-files.appspot.com/js/mye-wp.js.pagespeed.jm.7QLAn0uD4Dg9RsZl1qc9.js";
-				$p_shortname=getThisPageShortName();
-			if(isset($p_shortname) && !empty($p_shortname)){
-					$myeJson=getEffectoDataJSON();
-					$eff_json="<div id='effecto_bar' V='2.2.1' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>";
-					if($eff_loadtype=="dom"){
-						$eff_json=$eff_json.'<script type="text/javascript">(function(){
-								var eMeth = window.addEventListener ? "addEventListener" : "attachEvent";
-								var loadEv = eMeth == "attachEvent" ? "onload" : "DOMContentLoaded";
-								window[eMeth](loadEv,function(){ var s=document.createElement("script");s.async = "true";
-								s.type = "text/javascript";';
-						$eff_json=$eff_json."s.src='".$pageSpeed_script."'; s.onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"';";
-						$eff_json=$eff_json.'var a=document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0];
-							a.appendChild(s);
-							},false);
-						})()</script>';
-					}else if($eff_loadtype=="async"){
-						$eff_json=$eff_json."<script type='text/javascript'>window.onload=function(){var s=document.createElement('script');
-						s.type='text/javascript';s.src ='".$pageSpeed_script."';";
-						$eff_json=$eff_json."s.onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"';";
-						$eff_json=$eff_json.'var a=document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0];a.appendChild(s);
-						}</script>';
-					}
-					else{
-						$eff_json=$eff_json."<script id='effectp-code' src='".$pageSpeed_script."' type='text/javascript' async='true'></script>";
-					}
+				$pageSpeed_script="https://1-ps.googleusercontent.com/xk/L66fZog1l-dbbe1GxD7gjIXP94/s.cdn-files.appspot.com/cdn-files.appspot.com/js/mye-wp.js.pagespeed.jm.7QLAn0uD4Dg9RsZl1qc9.js";
+				$myeJson=getEffectoDataJSON();
+				$eff_json="<div id='effecto_bar' V='1.8' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>";
+				if($eff_loadtype=="dom"){
+					$eff_json=$eff_json.'<script type="text/javascript">(function(){
+							var eMeth = window.addEventListener ? "addEventListener" : "attachEvent";
+							var loadEv = eMeth == "attachEvent" ? "onload" : "DOMContentLoaded";
+							window[eMeth](loadEv,function(){ var s=document.createElement("script");s.async = "true";
+							s.type = "text/javascript";';
+					$eff_json=$eff_json."s.src='".$pageSpeed_script."'; s.onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"';";
+					$eff_json=$eff_json.'var a=document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0];
+						a.appendChild(s);
+						},false);
+					})()</script>';
+				}else if($eff_loadtype=="async"){
+					$eff_json=$eff_json."<script type='text/javascript'>window.onload=function(){var s=document.createElement('script');
+					s.type='text/javascript';s.src ='".$pageSpeed_script."';";
+					$eff_json=$eff_json."s.onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"';";
+					$eff_json=$eff_json.'var a=document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0];a.appendChild(s);
+					}</script>';
 				}
 				else{
-					$eff_json=$eff_json."<div id='effecto_bar' V='2.2.1'></div>";
+					$eff_json=$eff_json."<script id='effectp-code' src='".$pageSpeed_script."' type='text/javascript' async='true'></script>";
 				}
-
+				
 				return $text.$eff_json;
 			}
 			else{
@@ -615,6 +561,7 @@ function myeffecto_admin() {
                 $trendyFrame="";
          
                 $trendy=get_option("trending_url");
+				// error_log("trendy ".$trendy);
 				if(isset($trendy) && !empty($trendy)){
 					$trendyFrame="<iframe id='effWidget' src='".$trendy."' style='width:100%;height:300px;border:none;overflow: hidden;' scrolling='no'></iframe>";
                 }
@@ -636,13 +583,14 @@ function myeffecto_admin() {
 
 	function addAlert($pluginStatus) {
 		if (isset($pluginStatus) && !empty($pluginStatus)) {
-?><script type="text/javascript">
+?>
+			<script type="text/javascript">
 				$j = jQuery;
 				$j().ready(function() {
 					$j('.wrap > h2').parent().prev().after('<div class="update-nag"><h3>MYEFFECTO Emotion Set has been added. Check-out <strong>MyEffecto Configuration</strong> panel below.</h3><br/> Note: If you cannot see plugin OR if an error message appears OR number of emoticons are not the same as you saw on your selected set, refresh the page to see the set. </div>');
 				});
-			</script><?php
-		
+			</script>
+<?php
 		}
 	}
 

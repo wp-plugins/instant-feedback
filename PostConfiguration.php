@@ -1,5 +1,4 @@
 <?php
-
 	add_action( 'add_meta_boxes', 'effectoBox' );  
 
 	function effectoBox() {
@@ -7,16 +6,16 @@
 			$mye_plugin_visib = json_decode($mye_plugin_visib, true);
 
 			if($mye_plugin_visib['isOnPost']){
-				add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration', 'showEffectoBox', 'post', 'normal', 'core' );
+				add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration (Open for more options)', 'showEffectoBox', 'post', 'normal', 'core' );
 			} else {
 				$isOnPost="";
 				return;
 			}
 			if($mye_plugin_visib['isOnPage']){
-				add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration', 'showEffectoBox', 'page', 'normal', 'core' ); 
+				add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration (Open for more options)', 'showEffectoBox', 'page', 'normal', 'core' ); 
 			}
 		} else {
-			add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration', 'showEffectoBox', 'post', 'normal', 'core' );
+			add_meta_box( 'effecto_meta_box', 'MyEffecto Configuration (Open for more options)', 'showEffectoBox', 'post', 'normal', 'core' );
 		}
 	}
 	
@@ -45,75 +44,135 @@
 		$effDate_published = get_the_date("l,F d,Y");
 		//$getPostTitle = substr($getPostTitle, 0, 10);
 
+		$postCode = null;
 		$postUrl=$_SERVER['REQUEST_URI'];
 		$postUrl = str_replace('post-new.php','post.php', $postUrl);
-		$p_shortname =null;
+
 		$eff_details = getMyEffectoPluginDetails($getPostID);
 		foreach($eff_details as $detail) {
+			$postCode = $detail -> embedCode;
 			$p_shortname = $detail -> shortname;
 		}
 		/* Check if there is plugin for current post. */
-		if (!isset($p_shortname) || empty($p_shortname)) {
+		if (!isset($postCode) || empty($postCode)) {
 			/* If not found, check for AllPost code. */
 			//$allPostCode = getMyeffectoEmbedCodeByPostID(0);
-			$p_shortname =null;
+
 			$eff_details = getMyEffectoPluginDetails(0);
 			foreach($eff_details as $detail) {
+				$allPostCode = $detail -> embedCode;
 				$p_shortname = $detail -> shortname;
 			}
-			if (isset($p_shortname) && !empty($p_shortname)) {
-				echo '<h3><center>This Post Show Default Emotion-set (Check on Post Preview)</center> </h3>
-					<div >Note : In post-preview most of the plugin functionality are disabled  <br>(click limit, share, recommendation)</div><br>'.$eff_json;
-			
-			} else {
-				echo '<h2>
+			if (isset($allPostCode) && !empty($allPostCode)) {
+				/* allSetCode($allPostCode, $getPostTitle);
+				echo '<h1>
+						<center>OR</center>
+					</h1>'; */
+
+					$getPostID = get_the_ID();
+					$getPostTitle = get_the_title();
+					//$getPostTitle = substr($getPostTitle, 0, 10);
+					if ((!isset($getPostID) || empty($getPostID)) && (!isset($getPostTitle) || empty($getPostTitle))) {
+						$getPostID = 0;
+						$getPostTitle = "preview";
+					}
+
+					$eff_category = effecto_get_category(get_the_ID());
+					$eff_tags = effecto_get_tags(get_the_ID());
+					$effectoAuthor = effecto_get_author();
+
+					/* $allPostCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $allPostCode);
+					$allPostCode = str_replace("var effectoCategory = ''","var effectoCategory='".$eff_category."'", $allPostCode);
+					$allPostCode = str_replace("var effectoPostId=''","var effectoPostId='0'", $allPostCode);
+					$allPostCode = str_replace("var effectoPagetitle =''","var effectoPagetitle='".$getPostTitle."'", $allPostCode);
+					$allPostCode = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$getPostID."'", $allPostCode);
+					$allPostCode = str_replace("var effectoPublDate = ''","var effectoPublDate='".$effDate_published."'", $allPostCode); */
+					
+					$getPostTitle = str_replace("'","\'", $getPostTitle);
+					$eff_category = str_replace("'","\'", $eff_category);
+					$eff_tags = str_replace("'","\'", $eff_tags);
+					
+					$eff_json = "<div id='effecto_bar' 1 style='text-align:center;min-height:175px;'></div>
+						<script>
+							var eff_json = {
+								'ext_path':'".plugins_url( '' , __FILE__ )."',
+								'effecto_uniquename':'".$p_shortname."', 
+								'effectoPostId':'0',  
+								'effectoPreview': 'true', 
+								'effectoPagetitle':'".$getPostTitle."', 
+								'effectoPageurl':'".$wpSite.'?p='.$getPostID."', 
+								'effectoPublDate':'".$effDate_published."', 
+								'effectoAuthorName':'".$effectoAuthor."', 
+								'effectoCategory':'".$eff_category."', 
+								'effectoTags':'".$eff_tags."'
+							};
+						</script><script src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
+					
+
+					echo '<h2>
 						<center>
-							Please configure Myeffecto to view emotion-set below your post
+							Your Default Emotion-Set (Preview Mode)
 						</center>
-					</h2>
-					<a class="button" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$wpSite.'&pluginType=defaultAdd&postURL='.$_SERVER['REQUEST_URI'].'?post_id='.$getPostID.'">Add a default emotion set </a><br><br>
-					';
+					</h2> '.$eff_json;
+			} else {
+				echo '<h1>
+						<center>
+							You don\'t have any emotion sets configured right now.<br />
+						</center>
+					</h1>
+
+					<h2>
+						<center>
+							<a style="cursor:pointer; text-decoration:none;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$wpSite.'&pluginType=defaultAdd&postURL='.$_SERVER['REQUEST_URI'].'?post_id='.$getPostID.'">Add a default emotion set </a> <br /> OR 
+						</center>
+					</h2>';
 			}
-		
-		} else {	
-			echo '<h2><center>Emotion-Set Configured only for this post</center></h2>'.$eff_json;
-		
+			echo '<h2 style="margin-top:-16px;">
+					<center>
+						<a class="effectoConfig" style="cursor:pointer;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postID='.$getPostID.'&postName='.$wpSite.'&shortname='.$p_shortname.'&pluginType=postAdd&postURL='.$postUrl.'?post='.$getPostID.'">You can aslo configure different set for this post.</a>
+					</center>
+				</h2>';
+		} else {
+			$eff_category = effecto_get_category(get_the_ID());
+			$eff_tags = effecto_get_tags(get_the_ID());
+			$effectoAuthor = effecto_get_author();
+
+			/* $postCode = str_replace("var effectoPreview=''","var effectoPreview='true'", $postCode);
+			$postCode = str_replace("var effectoPostId=''","var effectoPostId='".$getPostID."'", $postCode);
+			$postCode = str_replace("var effectoPagetitle =''","var effectoPagetitle='".$getPostTitle."'", $postCode);
+			$postCode = str_replace("var effectoPageurl = ''","var effectoPageurl='".$wpSite."?p=".$getPostID."'", $postCode);
+			$postCode = str_replace("var effectoPublDate = ''","var effectoPublDate='".$effDate_published."'", $postCode); */
+			
+			
+			$getPostTitle = str_replace("'","\'", $getPostTitle);
+			$eff_category = str_replace("'","\'", $eff_category);
+			$eff_tags = str_replace("'","\'", $eff_tags);
+
+				$eff_json = "<div id='effecto_bar' 2 style='text-align:center;min-height:175px;'></div>
+						<script>
+							var eff_json = {
+								'ext_path':'".plugins_url( '' , __FILE__ )."',
+								'effecto_uniquename':'".$p_shortname."', 
+								'effectoPostId':'0',  
+								'effectoPreview': 'true', 
+								'effectoPagetitle':'".$getPostTitle."', 
+								'effectoPageurl':'".$wpSite.'?p='.$getPostID."', 
+								'effectoPublDate':'".$effDate_published."', 
+								'effectoAuthorName':'".$effectoAuthor."', 
+								'effectoCategory':'".$eff_category."', 
+							};
+						</script><script src='//cdn-files.appspot.com/js/mye-wp.js' type='text/javascript' async='true'></script>";
+					
+			echo '<h2><center>Your Default Emotion-Set (Preview Mode)</center></h2>'.$eff_json;
+			echo '<h2>
+					<center>
+						<a class="effectoConfig" style="cursor:pointer;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postID='.$getPostID.'&postName='.$wpSite.'&pluginType=postEdit&postURL='.$_SERVER['REQUEST_URI'].'?post_id='.$getPostID.'&shortname='.$p_shortname.'">Change emotion set of this post</a>
+					<center>
+				</h2>';
 		}
-		echo '<a class="effectoConfig button" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postID='.$getPostID.'&postName='.$wpSite.'&shortname='.$p_shortname.'&pluginType=postAdd&postURL='.urlencode($postUrl).'?post='.$getPostID.'">Confiure New Plugin For this Post</a>';
-			/*echo '<a id="mye_disable"class="button">Disable myeffecto for this post</a> <span style="line-height: 28px;padding: 0px 8px;">or</span>
-				<a class="effectoConfig button" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postID='.$getPostID.'&postName='.$wpSite.'&shortname='.$p_shortname.'&pluginType=postAdd&postURL='.urlencode($postUrl).'?post='.$getPostID.'">Confiure New Plugin For this Post</a>
-				';*/
-		/*	echo "<script>
-				jQuery('#mye_disable').click(function(){
-					alert('clicked');
-					var data = {'action': 'mye_post_disable','post_id':'".$getPostID."'};
-					jQuery.post(ajaxurl, data);
-				});
-				</script>";*/
-		
+		//showEffModal();
 	}
 
-	/*function mye_post_disable_action() {
-		error_log("Post Disabled yo");
-		$postId = $_POST['post_id'];
-		if(isset($postId)){
-			$eff_details = getMyEffectoPluginDetails($postId);
-			foreach($eff_details as $detail) {
-				$post_shortname = $detail -> shortname;
-			}
-			if(isset($post_shortname) && !empty($post_shortname)){
-				error_log("update shortname id : "+$postID);
-				updateMyeffectoEmbedCode(null, $postID, "no");
-			}
-			else{
-				error_log("insert shortname");
-				insertInMyEffectoDb("1", null, null, $postID, "no");
-			}
-		}
-		wp_die(); 
-	}
-	add_action( 'wp_ajax_mye_post_disable', 'mye_post_disable_action' );
-*/
 	function effecto_get_category($postId) {
 		$categories = get_the_category($postId);
 		$eff_category = "";
@@ -190,77 +249,15 @@
 		}
 	}
 
-/*	function createDefaultPlugin(){
-		$apiPluginDetailsArray = getMyEffectoPluginDetails(0);
-			$p_shortname="";
-			foreach($apiPluginDetailsArray as $detail) {
-				$p_shortname = $detail -> shortname;
-			}
-
-		if($p_shortname==null || !isset($p_shortname)){
-
-			global $hostString;
-			$args = array(
-				'body' => array('action' => 'defaultContent', 'email' => get_option( 'admin_email' ), 'site' => get_site_url()),
-			);
-			$resp = wp_remote_post($hostString.'/contentdetails', $args);
-			if ( is_wp_error( $resp ) ) {
-				echo print_r($resp);
-			}
-			else{
-				$eff_shortname= $resp["body"];
-				if(isset($eff_shortname) && !empty($eff_shortname)){
-					$eff_shortname=trim($eff_shortname);
-					insertInMyEffectoDb('1', null, "<div>", null, $eff_shortname);		
-				}		
-			
-			}
-		}
-	}*/
-
 	function allSetCode($allPostCode, $getPostTitle) {
-		global $hostString, $eff_settings_page;
+	    global $hostString, $eff_settings_page;
 
 		$shortname = "";
 		$eff_details = getMyEffectoPluginDetails(0);
 		foreach($eff_details as $detail) {
-			$shortname=$detail -> shortname;
+			$shortname = $detail -> shortname;
 		}
-
-		$ad_email=urlencode (get_option('admin_email'));
-		$b_url=urlencode (get_option('siteurl'));
-
-		$prev_ifrm_url=$hostString."/ep?ty=preview&wadm=1&email=".$ad_email."&l=".$b_url."&s=";
-		if($shortname==null || !isset($shortname)){
-			echo "<script type='text/javascript'>
-			var eMeth=window.addEventListener ? 'addEventListener':'attachEvent';
-			var msgEv = eMeth == 'attachEvent' ? 'onmessage' : 'message';var detect = window[eMeth];
-			 detect(msgEv,mye_logHandle,false);
-			 function mye_logHandle(e){
-			 	 var m = e.data;
-			 	 if(e.origin=='".$hostString."' && m.indexOf('mye_log')>-1){
-			 	 	m=m.split('#');
-			 	 	jQuery('#load').css('display','');
-			 	 	var h=jQuery('#mye_editEmo').attr('href'); 
-			 	 	h=h+m[1]; jQuery('#mye_editEmo').attr('href',h);
-			 	 	var data = {'action': 'mye_sname_store','s':m[1]};
-			 	 	jQuery.post(ajaxurl, data).always(function(){
-			 	 		jQuery('#load').css('display','none');
-			 	 	});
-			 	 }
-			 }
-			</script>";
-	    }
-		
-		
-		$eff_json ="<div id='effecto_bar'style='text-align:center;max-height:175px;position:;'>";
-		
-		$eff_json = $eff_json."<div id='wp_mye_preview'><div id='load'></div><script>function delLoad(){jQuery('#load').css('display','none');}</script>
-				<iframe id='mye_prev_frame' onload='delLoad();' src='".$prev_ifrm_url.$shortname."' width='100%' frameborder='0' scrolling='no' style='min-height:175px;width: 100%; border: 0px; overflow: hidden; clear: both; margin: 0px; background: transparent;'></iframe></div>";	
-		
-		
-		
-		$eff_json = $eff_json."</div>";
+		$eff_json = "<div id='effecto_bar'style='text-align:center;max-height:175px;'><iframe src='http://www.myeffecto.com/ep?s=".$shortname."&amp;ty=preview&amp;p=0' width='100%' id='mye-OIH4MBCB7F-239550' frameborder='0' scrolling='no' style='min-height:175px;width: 100%; border: 0px; overflow: hidden; clear: both; margin: 0px; background: transparent;'></iframe></div>";
 		$mye_plugin_visib = get_option('mye_plugin_visib');
 		$eff_isJsonPresent = false;
 		$eff_isOnPost = "checked";
@@ -314,22 +311,23 @@
 			$eff_custom_post_html .= '<input type="checkbox" c-name="'.$eff_cName.'" '.$checked.' class="eff_customPostList"  />'.$post_type->label.'&nbsp;&nbsp;';
 		}
 		$eff_custom_post_html .= "</span>";
-		/*<span style="font-size:15px;padding:0px 10px;"> | </span>*/
-			
+		
 		echo '<h2><center>Your Default Emotion-Set (Preview Mode)</center></h2>'.$eff_json;
-		echo '<h2><style>.mye_btn{font-weight:bold;padding-top: 5px !important;padding-bottom: 31px !important;}</style>
+		echo '<h2>
 				<center>
-					<a style="margin-bottom:-12px !important; " class="effectoConfig button-primary mye_btn" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Configure New Plugin for your blog">Create New</a>
+					<a class="effectoConfig button-primary" style="cursor:pointer;font-weight:bold;font-size: 20px;margin-bottom: 10px;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'" title="Default emotion set appears on all posts.">Reset</a>
+					
 					<span style="font-size:15px;padding:0px 10px;">OR</span> 
 					
-					<a id="mye_editEmo" class="effectoConfig button mye_btn" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&pluginType=editExist&sname='.$shortname.'" title="Edit/Update existing default Emotion-Set">Edit</a>
+					<a class="effectoConfig button-primary" style="cursor:pointer;font-weight:bold;font-size: 20px;margin-bottom: 10px;" href="'.$hostString.'/login?callback=plugin_editor&sname='.$shortname.'" target="_blank" title="Edit plugin styles">Edit</a>
 					
 					<span style="font-size:15px;padding:0px 10px;"> | </span>
-					<a class="effectoConfig mye_btn" href="'.$hostString.'/dashboard-overview" target="_blank" title="Myeffecto Dashboard">Dashboard</a>
+
+					<a class="effectoConfig button-primary" style="cursor:pointer;font-weight:bold;font-size: 20px;margin-bottom: 10px;" href="'.get_site_url().'/wp-admin/admin.php?page='.$eff_settings_page.'&postName='.$getPostTitle.'&pluginType=defaultEdit&postURL='.$_SERVER['REQUEST_URI'].'&shortname='.$shortname.'&isWidget=true" title="Default emotion set appears on all posts.">Add Trending Widget</a>
 				</center>
 			</h2>
 			<hr style="border-color: #B3B3B3;">
-			<h2 align="center">Advance Settings</h2>
+			<h2 align="center">More Settings</h2>
 				<div style="margin-top:5px;"><style>.m_hp{cursor:pointer;margin-left:5px;} mye_chk{margin-right:8px;} .mye_fset > span{margin-right:35px;} .mye_fset{border: 1px solid #DBDBDB;padding: 15px;} .mye_leg{font-weight:600;width:auto;font-size:15px;}</style>
 					<form>
 						<fieldset class="mye_fset" style="margin-bottom:20px">
@@ -340,22 +338,22 @@
 							<span><input class="mye_chk" type="checkbox" id="custom" name="postType" '.$eff_isCustom.' />Custom Posts</span>
 						</fieldset>
 						<fieldset class="mye_fset">
-							<legend class="mye_leg">Plugin Performance</legend>
-							<span><input class="mye_chk m_lod" type="radio" value="sync" name="p_load" '.$eff_Load.' />Fast<a onclick="alert(\'Note : Loads plugin along with post/page.\nWith minimum delay in page load.\')" class="m_hp">(?)</a></span>
-							<span><input class="mye_chk m_lod" type="radio" value="dom" name="p_load" '.$eff_dom_load.' />Medium<a onclick="alert(\'Note : Loads plugin after HTML content in page has loaded. With partial delay in plugin load.\')" class="m_hp">(?)</a></span>
-							<span><input class="mye_chk m_lod" type="radio" value="async" name="p_load" '.$eff_asyncLoad.' />Slow<a onclick="alert(\'Note : Enabling this option gives priority to page/post load.\ni.e loads plugin after page is loaded\')" class="m_hp">(?)</a></span>
+							<legend class="mye_leg">Plugin Loading</legend>
+							<span><input class="mye_chk m_lod" type="radio" value="sync" name="p_load" '.$eff_Load.' />With Page Load<a onclick="alert(\'Note : Loads plugin along with post/page.\nWith minimum delay in page load.\')" class="m_hp">(?)</a></span>
+							<span><input class="mye_chk m_lod" type="radio" value="dom" name="p_load" '.$eff_dom_load.' />After HTML Load<a onclick="alert(\'Note : Loads plugin after HTML content in page has loaded. With partial delay in plugin load.\')" class="m_hp">(?)</a></span>
+							<span><input class="mye_chk m_lod" type="radio" value="async" name="p_load" '.$eff_asyncLoad.' />After Full Page Load<a onclick="alert(\'Note : Enabling this option gives priority to page/post load.\ni.e loads plugin after page is loaded\')" class="m_hp">(?)</a></span>
 						</fieldset>
 					</form>
 						'.$eff_custom_post_html.'
 					<center>
-					<a href="#eff_msg" style="font-size: 15px;margin-top:10px;cursor:pointer;" class="button-primary" id="eff_visib">Save Settings</a>
+					<button style="font-size: 15px;margin-top:10px;cursor:pointer;" class="button-primary" id="eff_visib">Save Settings</button>
 					<p id="eff_msg" style="display:none;font-size: 14px;"></p>
 					<p id="eff_shCode" style="'.$eff_shCode_style.'">Copy <span style="font-size: 18px;background-color: #fff;padding: 6px;color: rgb(127, 128, 124);">[effecto-bar]</span> shortcode and paste in homepage where required</p>
 					</center>					
 			</div>';
 		?>
 			<script type="text/javascript" >
-			jQuery("#eff_visib").click(function() {
+				jQuery("#eff_visib").click(function() {
 					var eff_isPost = jQuery("#posts").is(":checked");
 					var eff_isPage = jQuery("#pages").is(":checked");
 					var eff_isHome = jQuery("#home").is(":checked");
@@ -402,19 +400,6 @@
 			</script>
 		<?php
 	}
-
-
-	add_action( 'wp_ajax_mye_sname_store', 'mye_sname_store' );
-	function mye_sname_store() {
-		$eff_shortname = $_POST['s'];
-		if(isset($eff_shortname) && !empty($eff_shortname)){
-			$eff_shortname=trim($eff_shortname);
-			insertInMyEffectoDb('1', null, "<div>", null, $eff_shortname);		
-		}
-		wp_die(); // this is required to terminate immediately and return a proper response
-	}
-
-
 	// add_action( 'save_post', 'updateEff_title' );	
 	add_action( 'wp_ajax_mye_update_view', 'mye_visibUpdt_callback' );
 	function mye_visibUpdt_callback() {
@@ -428,6 +413,9 @@
 		$escapers = array("\\");
 		$replacements = array("");
 		$eff_custom_list = str_replace($escapers, $replacements, $eff_custom_list);
+		
+		// error_log($eff_custom_list." and ".$result);
+		
 
 		update_option('mye_plugin_visib', '{"load_on":"'.$load_on.'","isOnPost":'.$eff_isOnPost.', "isOnPage":'.$eff_isOnPage.', "isOnHome":'.$eff_isOnHome.', "isOnCustom":'.$eff_isCustom.', "isOnCustomList":'.$eff_custom_list.'}');
 
