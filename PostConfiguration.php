@@ -299,7 +299,7 @@
 		);
 		
 		$eff_output = 'objects'; // names or objects
-		$eff_custom_post_html_first = "<br /><span id='eff_customPostList' ".$eff_should_be_disabled.">";
+		$eff_custom_post_html_first = "<div id='eff_customPostList' ".$eff_should_be_disabled." style='margin-top: 11px;'><style>.mye_cust_p{padding: 0px 7px;line-height: 28px;border: 1px solid #DEDEDE; margin-right: 6px;display: inline-block;margin: 5px 5px;}</style><hr /><b>Custom Post-Types : </b>";
 		$eff_custom_post_html = $eff_custom_post_html_first;
 		$post_types = get_post_types( $eff_cstm_args, $eff_output );
 
@@ -311,10 +311,13 @@
 				$checked = "checked";
 			}
 			
-			$eff_custom_post_html .= '<input type="checkbox" c-name="'.$eff_cName.'" '.$checked.' class="eff_customPostList"  />'.$post_type->label.'&nbsp;&nbsp;';
+			$eff_custom_post_html .= '<span class="mye_cust_p"><input type="checkbox" c-name="'.$eff_cName.'" '.$checked.' class="eff_customPostList"  />'.$post_type->label.'</span>';
 		}
-		$eff_custom_post_html .= "</span>";
-		/*<span style="font-size:15px;padding:0px 10px;"> | </span>*/
+		$eff_custom_post_html .= "</div>";
+		/*<span style="font-size:15px;padding:0px 10px;"> | </span>
+			<span><input class="mye_chk" type="checkbox" id="home" name="postType" '.$eff_isOnHome.' />Home Page</span>
+							<span><input class="mye_chk" type="checkbox" id="custom" name="postType" '.$eff_isCustom.' />Custom Posts</span>
+		*/
 			
 		echo '<h2><center>Your Default Emotion-Set (Preview Mode)</center></h2>'.$eff_json;
 		echo '<h2><style>.mye_btn{font-weight:bold;padding-top: 5px !important;padding-bottom: 31px !important;}</style>
@@ -336,8 +339,8 @@
 							<legend class="mye_leg">Show plugin on</legend>
 							<span><input class="mye_chk" type="checkbox" id="posts" name="postType" '.$eff_isOnPost.' />Posts</span>
 							<span><input class="mye_chk" type="checkbox" id="pages" name="postType" '.$eff_isOnPage.' />Pages/ Articles</span>
-							<span><input class="mye_chk" type="checkbox" id="home" name="postType" '.$eff_isOnHome.' />Home Page</span>
-							<span><input class="mye_chk" type="checkbox" id="custom" name="postType" '.$eff_isCustom.' />Custom Posts</span>
+							
+							'.$eff_custom_post_html.'
 						</fieldset>
 						<fieldset class="mye_fset">
 							<legend class="mye_leg">Plugin Performance</legend>
@@ -346,7 +349,7 @@
 							<span><input class="mye_chk m_lod" type="radio" value="async" name="p_load" '.$eff_asyncLoad.' />Slow<a onclick="alert(\'Note : Enabling this option gives priority to page/post load.\ni.e loads plugin after page is loaded\')" class="m_hp">(?)</a></span>
 						</fieldset>
 					</form>
-						'.$eff_custom_post_html.'
+						
 					<center>
 					<a href="#eff_msg" style="font-size: 15px;margin-top:10px;cursor:pointer;" class="button-primary" id="eff_visib">Save Settings</a>
 					<p id="eff_msg" style="display:none;font-size: 14px;"></p>

@@ -522,6 +522,8 @@ function myeffecto_admin() {
 	
 		return $myeJson;
 	}
+
+
 	/* Show plugin in posts. */
 	function echoEndUserPlugin($text) {
 		global $hostString;
@@ -549,7 +551,8 @@ function myeffecto_admin() {
 		$effisPageOrPost = $cur_post_typ==="post" || $cur_post_typ==="page";
 
 		if (is_single() || is_page())
-		{
+		{	
+			
 			echo "<span mye_instal='1' typ='". $cur_post_typ."'></span>";
 			if ($effisPageOrPost) {
 				if ($cur_post_typ==="post" && $eff_isOnPost) {
@@ -575,35 +578,15 @@ function myeffecto_admin() {
 				//User Info
 				global $myeCDN;
 				global $myeJSLoc;
-				$pageSpeed_script="//1-ps.googleusercontent.com/xk/L66fZog1l-dbbe1GxD7gjIXP94/s.cdn-files.appspot.com/cdn-files.appspot.com/js/mye-wp.js.pagespeed.jm.7QLAn0uD4Dg9RsZl1qc9.js";
+				
 				$p_shortname=getThisPageShortName();
 			if(isset($p_shortname) && !empty($p_shortname)){
 					$myeJson=getEffectoDataJSON();
-					$eff_json="<div id='effecto_bar' V='2.2.4' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>";
-					if($eff_loadtype=="dom"){
-						$eff_json=$eff_json.'<script type="text/javascript">(function(){
-								var eMeth = window.addEventListener ? "addEventListener" : "attachEvent";
-								var loadEv = eMeth == "attachEvent" ? "onload" : "DOMContentLoaded";
-								window[eMeth](loadEv,function(){ var s=document.createElement("script");s.async = "true";
-								s.type = "text/javascript";';
-						$eff_json=$eff_json."s.src='".$pageSpeed_script."'; s.onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"';";
-						$eff_json=$eff_json.'var a=document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0];
-							a.appendChild(s);
-							},false);
-						})()</script>';
-					}else if($eff_loadtype=="async"){
-						$eff_json=$eff_json."<script type='text/javascript'>window.onload=function(){var s=document.createElement('script');
-						s.type='text/javascript';s.src ='".$pageSpeed_script."';";
-						$eff_json=$eff_json."s.onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"';";
-						$eff_json=$eff_json.'var a=document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0];a.appendChild(s);
-						}</script>';
-					}
-					else{
-						$eff_json=$eff_json."<script id='effectp-code' src='".$pageSpeed_script."' type='text/javascript' async='true'></script>";
-					}
+					$eff_json="<div id='effecto_bar' V='2.2.5' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>";
+					$eff_json=$eff_json.getMyeScript($eff_loadtype);
 				}
 				else{
-					$eff_json=$eff_json."<div id='effecto_bar' V='2.2.4'></div>";
+					$eff_json=$eff_json."<div id='effecto_bar' V='2.2.5'></div>";
 				}
 
 				return $text.$eff_json;
@@ -616,6 +599,34 @@ function myeffecto_admin() {
 		}
 	}
 	
+	function getMyeScript($eff_loadtype){
+		$eff_json="";
+		$pageSpeed_script="//1-ps.googleusercontent.com/xk/L66fZog1l-dbbe1GxD7gjIXP94/s.cdn-files.appspot.com/cdn-files.appspot.com/js/mye-wp.js.pagespeed.jm.7QLAn0uD4Dg9RsZl1qc9.js";
+		if($eff_loadtype=="dom"){
+			$eff_json=$eff_json.'<script type="text/javascript">(function(){
+					var eMeth = window.addEventListener ? "addEventListener" : "attachEvent";
+					var loadEv = eMeth == "attachEvent" ? "onload" : "DOMContentLoaded";
+					window[eMeth](loadEv,function(){ var s=document.createElement("script");s.async = "true";
+					s.type = "text/javascript";';
+			$eff_json=$eff_json."s.src='".$pageSpeed_script."'; s.onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"';";
+			$eff_json=$eff_json.'var a=document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0];
+				a.appendChild(s);
+				},false);
+			})()</script>';
+		}else if($eff_loadtype=="async"){
+			$eff_json=$eff_json."<script type='text/javascript'>window.onload=function(){var s=document.createElement('script');
+			s.type='text/javascript';s.src ='".$pageSpeed_script."';";
+			$eff_json=$eff_json."s.onerror='this.src=\"".$myeCDN."/".$myeJSLoc."/mye-wp.js\"';";
+			$eff_json=$eff_json.'var a=document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0];a.appendChild(s);
+			}</script>';
+		}
+		else{
+			$eff_json=$eff_json."<script id='effecto-code' src='".$pageSpeed_script."' type='text/javascript' async='true'></script>";
+		}
+
+		return $eff_json;
+	}
+
 	function echo_eff_plugin_homepage() {
 		$mye_plugin_visib = get_option('mye_plugin_visib');
 		$isOnHome = false;
@@ -640,7 +651,23 @@ function myeffecto_admin() {
 
 	function getEffectoCustomTag(){
 		$data_val=getEffectoDataJSON();
-		return "<div id='effecto_cust_bar' data-json='".$data_val."' style='text-align:center;'></div>";
+		$mye_plugin_visib = get_option('mye_plugin_visib');
+		$eff_isOnPost=true;
+		$eff_isOnCustom=false;
+		$eff_loadtype="";
+
+		if ($mye_plugin_visib!=null && isset($mye_plugin_visib)) {
+			$mye_plugin_visib = json_decode($mye_plugin_visib, true);
+			if($mye_plugin_visib['isOnPost']){$eff_isOnPost = true;}else{$eff_isOnPost = false;}
+			
+			if($mye_plugin_visib['isOnCustom']){$eff_isOnCustom = true;}
+			if($mye_plugin_visib['load_on']){$eff_loadtype=$mye_plugin_visib['load_on'];}
+		}
+		$p_html="<div id='effecto_cust_bar' data-json='".$data_val."' style='text-align:center;'></div>";
+		if($eff_isOnPost==false || ($eff_isOnPost==false && $eff_isOnCustom==false)){
+			$p_html=$p_html.getMyeScript($eff_loadtype);
+		}
+		return $p_html;
 	}
 	 function getEffectoTrendTag(){
 		//$data_val=getEffectoDataJSON();
