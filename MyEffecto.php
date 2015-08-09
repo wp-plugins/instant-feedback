@@ -473,12 +473,17 @@ function myeffecto_admin() {
 		return $this_page_shortname;
 	}
 
-	function getEffectoDataJSON(){
+	function getEffectoDataJSON($atts){
 		global $current_user;
 		global $myeJson;
-		if(!isset($myeJson)){
-			$postId = get_the_ID();
+		if(!isset($myeJson) || isset($att)){
 			$getPostTitle = get_the_title();
+			if(isset($atts) && $atts['id']!='0'){
+				$postId = $atts['id'];
+			}else{
+				$postId = get_the_ID();	
+			}
+
 			$wpSite = get_site_url();
 			$postUrl = get_permalink($postId);
 			$effectoPreview = "false";
@@ -517,7 +522,7 @@ function myeffecto_admin() {
 				$thumb_img = $timg[0];
 			}
 			
-			$myeJson = '{"t_img":"'.$thumb_img.'","effecto_uniquename":"'.$p_shortname.'","effectoPostId":"'.$postId.'","effectoPreview":"'.$effectoPreview.'","effectoPagetitle":"'.$getPostTitle.'","effectoPageurl":"'.$postUrl.'", "effectoPublDate":"'.$effDate_published.'","effectoAuthorName":"'.$effectoAuthor.'","effectoTag":"'.$eff_tags.'","effectoCategory":"'.$eff_category.'","effUserInfo": {"isLoggedIn": "'.$eff_cur_loggedIn.'","loginAs": "'.$eff_user_role.'","email": "'.$eff_user_email.'","dpName": "'.$eff_user_display.'","fName": "'.$eff_user_fname.'","lName": "'.$eff_user_lname.'"}}';
+			$myeJson = '{"t_img":"'.$thumb_img.'","effecto_uniquename":"'.$p_shortname.'","effectoPostId":"'.$postId.'","effectoPreview":"'.$effectoPreview.'","effectoPagetitle":"'.$getPostTitle.'", "effectoPublDate":"'.$effDate_published.'","effectoAuthorName":"'.$effectoAuthor.'","effectoTag":"'.$eff_tags.'","effectoCategory":"'.$eff_category.'","effUserInfo": {"isLoggedIn": "'.$eff_cur_loggedIn.'","loginAs": "'.$eff_user_role.'","email": "'.$eff_user_email.'","dpName": "'.$eff_user_display.'","fName": "'.$eff_user_fname.'","lName": "'.$eff_user_lname.'"}}';
 		}
 	
 		return $myeJson;
@@ -544,15 +549,13 @@ function myeffecto_admin() {
 			if($mye_plugin_visib['isOnPost']){$eff_isOnPost = true;}else{$eff_isOnPost = false;}
 			if($mye_plugin_visib['isOnPage']){$eff_isOnPage = true;}
 			if($mye_plugin_visib['isOnCustom']){$eff_isOnCustom = true;}
-			if($mye_plugin_visib['load_on']){$eff_loadtype=$mye_plugin_visib['load_on'];}
+			if($mye_plugin_visib['mye_load_on']){$eff_loadtype=$mye_plugin_visib['mye_load_on'];}
 		}
 
 		$cur_post_typ = get_post_type(get_the_ID());
 		$effisPageOrPost = $cur_post_typ==="post" || $cur_post_typ==="page";
-
 		if (is_single() || is_page())
 		{	
-			
 			echo "<span mye_instal='1' typ='". $cur_post_typ."'></span>";
 			if ($effisPageOrPost) {
 				if ($cur_post_typ==="post" && $eff_isOnPost) {
@@ -564,8 +567,14 @@ function myeffecto_admin() {
 				}
 			} else {
 				if ($eff_isOnCustom) {
+					$cust_ptype=$mye_plugin_visib['isOnCustomList'];
 					if (array_key_exists($cur_post_typ, $mye_plugin_visib['isOnCustomList'])) {
-						$effisPageOrPost = true;
+						if($cust_ptype[$cur_post_typ]){
+							$effisPageOrPost = true;	
+						}
+						else{
+							$effisPageOrPost = false;
+						}
 					} else {
 						$effisPageOrPost = false;
 					}
@@ -581,7 +590,7 @@ function myeffecto_admin() {
 				
 				$p_shortname=getThisPageShortName();
 			if(isset($p_shortname) && !empty($p_shortname)){
-					$myeJson=getEffectoDataJSON();
+					$myeJson=getEffectoDataJSON(null);
 					$eff_json="<div id='effecto_bar' V='2.2.5' style='text-align:center;".$eff_height."' data-json='".$myeJson."'></div>";
 					$eff_json=$eff_json.getMyeScript($eff_loadtype);
 				}
@@ -641,16 +650,21 @@ function myeffecto_admin() {
 			foreach($apiPluginDetailsArray as $detail) {
 				$p_shortname = $detail -> shortname;
 			}
-			global $myeCDN;
-			global $myeJSLoc;
-			echo do_shortcode( '[effecto-bar]' );
-			echo "<script>var eff_json={'effecto_uniquename':'".$p_shortname."'};</script>
-			<script id='effectp-code' src='".$myeCDN."/".$myeJSLoc."/mye-wp.js' type='text/javascript' async='true'></script>";
+			echo do_shortcode( '[effecto-bar id="home"]' );
 		}
 	}
 
-	function getEffectoCustomTag(){
-		$data_val=getEffectoDataJSON();
+	function getEffectoCustomTag($atts){
+		$atts = shortcode_atts(array('id' => '0'), $atts, 'effecto-bar' );
+		$fetchScript=false;
+		$div_identify="id='effecto_cust_bar'";
+		$atts['id']=trim($atts['id']);
+		if($atts['id']!='0'){
+			$fetchScript=true;
+			$div_identify="id='effecto_bar'";
+		}
+
+		$data_val=getEffectoDataJSON($atts);
 		$mye_plugin_visib = get_option('mye_plugin_visib');
 		$eff_isOnPost=true;
 		$eff_isOnCustom=false;
@@ -661,10 +675,10 @@ function myeffecto_admin() {
 			if($mye_plugin_visib['isOnPost']){$eff_isOnPost = true;}else{$eff_isOnPost = false;}
 			
 			if($mye_plugin_visib['isOnCustom']){$eff_isOnCustom = true;}
-			if($mye_plugin_visib['load_on']){$eff_loadtype=$mye_plugin_visib['load_on'];}
+			if($mye_plugin_visib['mye_load_on']){$eff_loadtype=$mye_plugin_visib['mye_load_on'];}
 		}
-		$p_html="<div id='effecto_cust_bar' data-json='".$data_val."' style='text-align:center;'></div>";
-		if($eff_isOnPost==false || ($eff_isOnPost==false && $eff_isOnCustom==false)){
+		$p_html="<div ".$div_identify." data-json='".$data_val."' style='text-align:center;' att='".$atts['id']."' ></div>";
+		if($fetchScript || $eff_isOnPost==false || ($eff_isOnPost==false && $eff_isOnCustom==false)){
 			$p_html=$p_html.getMyeScript($eff_loadtype);
 		}
 		return $p_html;
@@ -682,7 +696,7 @@ function myeffecto_admin() {
 	
 	function register_effectoTag(){
 	   add_shortcode('effecto-bar', 'getEffectoCustomTag');
-	   add_shortcode('effecto-trend', 'getEffectoTrendTag');
+	  // add_shortcode('effecto-trend', 'getEffectoTrendTag');
 	}
 	add_action( 'init', 'register_effectoTag');
 
@@ -725,6 +739,7 @@ function myeffecto_admin() {
         $table = $wpdb->prefix."effecto";
 		delete_option("effecto_db_version");
 		delete_option('mye_plugin_visib');
+		delete_option('mye_load_on');
 		$wpdb->query("DROP TABLE IF EXISTS $table");
 	}
 	register_uninstall_hook( __FILE__, 'eff_pluginUninstall' );

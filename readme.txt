@@ -67,6 +67,7 @@ MyEffecto currently support following languages:-
 * **日本人 (Japanese)**
 * **Norwegian**
 
+also users can customize language by using edit option in plugin configure screen
 
 = Support =
 
