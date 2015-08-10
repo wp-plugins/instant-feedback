@@ -243,6 +243,8 @@
 			 	 	jQuery('#load').css('display','');
 			 	 	var h=jQuery('#mye_editEmo').attr('href'); 
 			 	 	h=h+m[1]; jQuery('#mye_editEmo').attr('href',h);
+			 	 	var report=jQuery('#mye_rpt_a').attr('href'); 
+			 	 	report=report+m[1]; jQuery('#mye_rpt_a').attr('href',report);
 			 	 	var data = {'action': 'mye_sname_store','s':m[1]};
 			 	 	jQuery.post(ajaxurl, data).always(function(){
 			 	 		jQuery('#load').css('display','none');
@@ -367,7 +369,9 @@
 					<p id="eff_msg" style="display:none;font-size: 14px;"></p>
 					<p id="eff_shCode" style="display:none;font-weight:bold;font-size:16px;">Plugin has been added to your homepage footer <a href="'.$hostString.'/support?type=shortcode#homeShortCode" target="_blank">(more help)</a></p>
 					</center>					
-			</div>';
+			</div>
+<style>#mye_report{position:fixed;top:45%;z-index:99999999999;transform:rotate(-90deg);-webkit-transform:rotate(-90deg);-moz-transform:rotate(-90deg);-o-transform:rotate(-90deg);filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);right:0;height:0;width:75px}#mye_report a{display:block;background:rgba(195, 90, 79, 0.86);width:60px;padding:10px 16px 8px;color:#fff;font-family:Arial,sans-serif;font-size:17px;font-weight:700;text-decoration:none;letter-spacing:.06em}#mye_report a:hover{background:#06c}</style>
+<div id="mye_report"><a id="mye_rpt_a" target="_blank" href="'.$hostString.'/support_mail?site='.urlencode(get_site_url()).'&sname='.$shortname.'">Report</a></div>';
 		?>
 			<script type="text/javascript" >
 			var onload_eff_isHome = jQuery("#home").is(":checked");
