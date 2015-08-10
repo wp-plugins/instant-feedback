@@ -27,7 +27,7 @@ add_action('admin_menu', 'myeffecto_admin_actions');
 add_filter('the_content', 'echoEndUserPlugin');
 add_action('wp_footer', 'echo_eff_plugin_homepage');
 
-add_filter( 'plugin_action_links', 'ttt_wpmdr_add_action_plugin', 10, 5 );
+add_filter( 'plugin_action_links', 'ttt_wpmdr_add_action_plugin', 5, 10 );
 function ttt_wpmdr_add_action_plugin( $actions, $plugin_file ) 
 {
 	static $plugin;
@@ -35,9 +35,10 @@ function ttt_wpmdr_add_action_plugin( $actions, $plugin_file )
 		$plugin = plugin_basename(__FILE__);
 	if ($plugin == $plugin_file) {
 		$settings = array('settings' => '<a href="'. admin_url( 'options-general.php?page=eff_conf_nav' ).'" >Settings</a>');
-		$site_link = array('support' => '<a href="http://www.myeffecto.com/contact" target="_blank">Support</a>');
-		$actions = array_merge($site_link, $actions);
+		$site_link = array('Report' => '<a href="http://www.myeffecto.com/support_mail?site='.urlencode(get_site_url()).'" target="_blank">Report Issue</a>');
 		$actions = array_merge($settings, $actions);
+		$actions = array_merge($site_link, $actions);
+		
 	}	
 	return $actions;
 }
