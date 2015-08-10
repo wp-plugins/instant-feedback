@@ -2,7 +2,7 @@
 Contributors: MyEffecto
 Author URI: http://www.myeffecto.com
 Plugin URL: https://wordpress.org/plugins/instant-feedback/
-Donate link: http://www.myeffecto.com/contact
+Donate link: http://www.myeffecto.com/support_mail
 Tags: comments,emotion,feedback,feeling,mood,sentiment,widget,traffic,rate,rating,engage,visitors,images,emoticons,recommendation,post,shortcode,SEO
 Requires at least: 3.5
 Tested up to: 4.2.4
